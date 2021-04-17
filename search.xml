@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/04/17/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>原型与原型链</title>
+    <url>/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    <content><![CDATA[<p><strong>显示原型</strong>：prototype</p>
+<ul>
+<li>每个class/函数都有显示原型prototype，它默认指向一个Object空对象（即称为原型对象）</li>
+<li>原型对象中一个属性constructor，它指向函数对象</li>
+</ul>
+<p><strong>隐式原型</strong>：<strong>proto</strong></p>
+<ul>
+<li>每个实例都有隐式原型__proto__</li>
+<li>实例的__proto__指向对应的class/函数的prototype。</li>
+</ul>
+<p><strong>相关概念</strong>：</p>
+<ol>
+<li>Function是所有函数(function)的父亲，所有函数都是它的实例。</li>
+<li>Object也是一个函数，所以Object是Function的实例对象。</li>
+<li>任何对象的原型链顶端最终都指向Object.prototype,Object.prototype再往上已经没有东西了，所以指向null。</li>
+<li>Function比较特殊它的原型指向自己，即Function.<strong>proto</strong> === Function.prototype。</li>
+<li>同时，Function是对象，由(3)可知Function必然有一个地方（即Function.prototype.__proto__）指向Object.prototype。</li>
+</ol>
+<p><strong>先来看一个简化版的原型链图：</strong></p>
+<p><img src="./images/image-20210303222509043.png" alt="image-20210303222509043"></p>
+<p>再来看一个完整版的：</p>
+<p><img src="./images/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.png"></p>
+<p><font color='red'>总之，记住一句话：A是B的实例，则A.__ proto __  === B.prototype；只要A是对象，那么A.prototype.__ proto__ 就指向Object.prototype；prototype中的constructor指向的是自己；</font></p>
+<p><strong>构造函数继承</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Parent(); <span class="comment">//new一个Parent对象用来对比</span></span><br><span class="line">p.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line">c.age <span class="comment">// 12</span></span><br><span class="line">c.name <span class="comment">//&#x27;parent&#x27;</span></span><br><span class="line">c.say(); <span class="comment">//undifined</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">say是Parent原型链上的方法，Parent对象调用方法时，如果自身不存在就回去原型链上寻找，在原型链上找到了say方法，而Child对象没有继承Parent对象的原型链，所以它在向上寻找时就找不到，输出undifined。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p> <strong>原型链继承：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c.name); <span class="comment">//输出parent</span></span><br><span class="line">c.say() <span class="comment">//输出say</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">原型链继承是直接让Child构造函数的prototype直接指向Parent对象，这样Parent的东西Child对象可以直接从它的原型链上找到。缺点就是：当创建多个实例时，如果不同实例可能互相存在影响。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p><strong>构造函数与原型链组合继承</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>); </span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr);<span class="comment">//[1,2,3,4]</span></span><br><span class="line">c1.arr.push(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4,5]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr); <span class="comment">//[1,2,3,4]</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
+<p>（2）ES6的继承</p>
+<p>​        ES6的继承机制完全不同，实质上是先创建父类的实例对象this（所以必须先调用父类的super()方法，才可使用this关键字，否则报错。），然后再用子类的构造函数修改this实现继承。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Parent2.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">age</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child2(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c2.name); <span class="comment">//输出parent</span></span><br><span class="line">c2.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="built_in">console</span>.log(c.constructor); </span><br><span class="line"><span class="comment">//输出function Child(age) &#123;Parent.call(this);this.age = age;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Parent().constructor); </span><br><span class="line"><span class="comment">//输出Parent() &#123;this.name = &#x27;parent&#x27;;this.arr = [1,2,3,4];&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>test</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>test</tag>
+        <tag>前端</tag>
+        <tag>ES</tag>
       </tags>
   </entry>
   <entry>
@@ -324,7 +346,7 @@
 
 ]]></content>
       <categories>
-        <category>Web前端</category>
+        <category>前端</category>
       </categories>
       <tags>
         <tag>前端</tag>
