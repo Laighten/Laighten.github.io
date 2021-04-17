@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/04/16/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>test</category>
+      </categories>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>奇安信面试题</title>
+    <url>/2021/04/16/%E5%A5%87%E5%AE%89%E4%BF%A1%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<h4 id="1、对Js函数式编程的理解？"><a href="#1、对Js函数式编程的理解？" class="headerlink" title="1、对Js函数式编程的理解？"></a>1、对Js函数式编程的理解？</h4><p>​    (1) “函数式编程”是一种 “编程范式” ,它属于<a href="http://en.wikipedia.org/wiki/Structured_programming">“结构化编程”</a>的一种，主要思想是把运算过程尽量写成一系列嵌套的函数调用。</p>
+<p>​    (2) 函数式编程的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！</p>
+<p>​    (3) 通过定义不同功能的函数，可以模块化代码，实现函数功能的复用，降低代码的耦合性，有利于合作开发代码；由于函数式编程大量使用函数，减少代码的重复，因此程序比较短，开发比较快；</p>
+<p> （4）函数式编程不需要考虑”死锁”，因为它不修改变量，所以根本不存在”锁”线程的问题。不必担心一个线程的数据，被另一个线程修改；</p>
+<p>​     <a href="https://www.ruanyifeng.com/blog/2012/04/functional_programming.html">https://www.ruanyifeng.com/blog/2012/04/functional_programming.html</a></p>
+<span id="more"></span>
+
+<h4 id="2、你是怎样使用Vue脚手架搭建前端项目的？"><a href="#2、你是怎样使用Vue脚手架搭建前端项目的？" class="headerlink" title="2、你是怎样使用Vue脚手架搭建前端项目的？"></a>2、你是怎样使用Vue脚手架搭建前端项目的？</h4><p>我说了vue init webpack project_Name,问我为什么不用Vue原生的工具Vue-cli（感觉需要去了解一下）</p>
+<h4 id="3、JS中常见的数据类型有哪些？"><a href="#3、JS中常见的数据类型有哪些？" class="headerlink" title="3、JS中常见的数据类型有哪些？"></a>3、JS中常见的数据类型有哪些？</h4><p><strong>七种基本数据类型：</strong></p>
+<p>​        number、null、undefined、boolean、string、Symbol(ES6)、BigInt</p>
+<p><strong>引用类型有：</strong></p>
+<p>​        对象（Object）、数组（Array）、函数（Function）、Date</p>
+<p>​    1、null：会被转换成0，表示此处没有对象不应该有值</p>
+<p>​            典型用法：如原型链最顶端</p>
+<p>​    2、undefined：转为NAN，此处应该有一个值但是还没有定义。</p>
+<p>​            典型用法：如变量被声明了但是没有赋值</p>
+<p><strong>typeof：</strong></p>
+<ul>
+<li>typeof XXX 返回的都是字符串类型，如 ‘object’;</li>
+<li>typeof可以判断的基本数据类型：</li>
+</ul>
+<p>​            number、undefined、boolean、string、Symbol</p>
+<ul>
+<li>可以识别 function</li>
+<li>能判断是否是引用类型（但不可再细分）：object（注意：typeof null === ‘object’、typeof  array === ‘object’、typeof Object === ‘object’）</li>
+</ul>
+<p><strong>instanceof：</strong></p>
+<p>​    instanceof返回的结果是一个布尔值，true或者false。通常用于用于检测引用类型。如：‘abc’ instanceof String。</p>
+<p><strong>instanceof能识别哪些类型：</strong></p>
+<ul>
+<li>Array</li>
+<li>Function</li>
+<li>Object</li>
+<li>注意：XXX instanceof Object，如果XXX是Array或者Function，则返回的值是true</li>
+</ul>
+<h4 id="4、Vue为什么能够实现URL变化时重新刷新界面，但是不重新从后台获取数据？"><a href="#4、Vue为什么能够实现URL变化时重新刷新界面，但是不重新从后台获取数据？" class="headerlink" title="4、Vue为什么能够实现URL变化时重新刷新界面，但是不重新从后台获取数据？"></a>4、Vue为什么能够实现URL变化时重新刷新界面，但是不重新从后台获取数据？</h4><p>我觉得考的是Vue-Router,所以回答了 hash模式 、history模式这些。</p>
+<p><strong>理解：</strong></p>
+<p>​    前端不同页面的状态管理器，可以不向后台发送请求而直接通过前端技术实现多个页面的切换。</p>
+<p>hash模式：</p>
+<p>​    通过锚点定位原理进行无刷新跳转，触发后会在url后面多加一个#号</p>
+<p>history模式：</p>
+<p>​    使用HTML5中的historyAPI实现客户端路由模式，触发后url中没有#</p>
+<h4 id="5、ES6中有哪些新加的语法？"><a href="#5、ES6中有哪些新加的语法？" class="headerlink" title="5、ES6中有哪些新加的语法？"></a>5、ES6中有哪些新加的语法？</h4><p><strong>1、函数继承上的区别</strong></p>
+<p>（1）ES5的继承</p>
+<p>​        ES5的继承实质上是先创建子类的实例对象，然后再将父类的方法添加到this上（Parent.apply(this)），然后再把原型链继承。</p>
+<p><strong>构造函数继承</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Parent(); <span class="comment">//new一个Parent对象用来对比</span></span><br><span class="line">p.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line">c.age <span class="comment">// 12</span></span><br><span class="line">c.name <span class="comment">//&#x27;parent&#x27;</span></span><br><span class="line">c.say(); <span class="comment">//undifined</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">say是Parent原型链上的方法，Parent对象调用方法时，如果自身不存在就回去原型链上寻找，在原型链上找到了say方法，而Child对象没有继承Parent对象的原型链，所以它在向上寻找时就找不到，输出undifined。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>原型链继承：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c.name); <span class="comment">//输出parent</span></span><br><span class="line">c.say() <span class="comment">//输出say</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">原型链继承是直接让Child构造函数的prototype直接指向Parent对象，这样Parent的东西Child对象可以直接从它的原型链上找到。缺点就是：当创建多个实例时，如果不同实例可能互相存在影响。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>构造函数与原型链组合继承</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>); </span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr);<span class="comment">//[1,2,3,4]</span></span><br><span class="line">c1.arr.push(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4,5]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr); <span class="comment">//[1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+
+<p>（2）ES6的继承</p>
+<p>​        ES6的继承机制完全不同，实质上是先创建父类的实例对象this（所以必须先调用父类的super()方法，才可使用this关键字，否则报错。），然后再用子类的构造函数修改this实现继承。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Parent2.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">age</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child2(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c2.name); <span class="comment">//输出parent</span></span><br><span class="line">c2.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="built_in">console</span>.log(c.constructor); </span><br><span class="line"><span class="comment">//输出function Child(age) &#123;Parent.call(this);this.age = age;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Parent().constructor); </span><br><span class="line"><span class="comment">//输出Parent() &#123;this.name = &#x27;parent&#x27;;this.arr = [1,2,3,4];&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>（3）圣杯模式</p>
+<p>​    圣杯模式的本质在于，中间生成了一个对象，起到了隔离的作用，今后为Son.prototype添加属性时，全部都会加在这个对象里面,所以不会对父级产生影响。而向上查找是沿着__proto__查找，可以顺利查找到父级的属性，实现继承。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Father</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Son</span>(<span class="params"></span>)</span>&#123;&#125;   Father.prototype.lastName=‘Jack‘;</span><br><span class="line">	<span class="comment">//圣杯模式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">Target,Origin</span>)</span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">        F.prototype = Origin.prototype;</span><br><span class="line">        Target.prototype=<span class="keyword">new</span> F();</span><br><span class="line">&#125;</span><br><span class="line">inherit(Son,Father);</span><br><span class="line"><span class="keyword">var</span> son=<span class="keyword">new</span> Son();</span><br><span class="line"><span class="keyword">var</span> father=<span class="keyword">new</span> Father(); </span><br><span class="line">Son.prototype.sex=‘male‘;   </span><br><span class="line"><span class="built_in">console</span>.log(son.lastName);<span class="comment">//Jack</span></span><br><span class="line"><span class="built_in">console</span>.log(son.sex);<span class="comment">//male</span></span><br><span class="line"><span class="built_in">console</span>.log(father.sex);<span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2、作用域的区别</strong></p>
+<p>* ES5中的作用域有—全局作用域、函数作用域</p>
+<p>* ES6中新增了—块级作用域（块级作用域由{}包裹，if语句、for语句中的{}也属于块级作用域）</p>
+<p><strong>var：</strong></p>
+<ol>
+<li>没有块级作用域的概念</li>
+<li>有全局作用域、函数作用域的概念</li>
+<li>不初始化值默认为undefined</li>
+<li>存在变量提升</li>
+<li>全局作用域用var声明的变量会挂载到window对象下</li>
+<li>同一作用域中允许重复声明</li>
+</ol>
+<p><strong>let：</strong></p>
+<ol>
+<li>有块级作用域的概念</li>
+<li>不存在变量提升</li>
+<li>暂时性死区</li>
+</ol>
+<p>在块级作用域中，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。</p>
+<ol>
+<li>不存在全局作用域的概念</li>
+<li>同一块作用域中不允许重复声明</li>
+</ol>
+<p><strong>const:</strong> </p>
+<ol>
+<li>与let特性一样，仅有2个差别</li>
+<li>区别1——必须立即初始化，不能留到以后赋值</li>
+<li>区别2——常量的值不能改变</li>
+</ol>
+<p>参考：<a href="https://www.cnblogs.com/liu-di/p/11889683.html">https://www.cnblogs.com/liu-di/p/11889683.html</a></p>
+<p><strong>3、promise</strong></p>
+<p><strong>4、箭头函数</strong></p>
+<p><strong>5、数组中的展开运算符</strong></p>
+<p><strong>6、set的属性方法</strong></p>
+<p>​    Set对象是值的集合，Set 中的元素是唯一的，Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。</p>
+<p><img src="C:/Users/Administrator/Desktop/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98%E6%80%BB%E7%BB%93/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/img/image-20210303165748813.png" alt="image-20210303165748813"></p>
+<h4 id="6、你对Nodejs了解多少，Nodejs有哪些后台框架？你用过哪些？"><a href="#6、你对Nodejs了解多少，Nodejs有哪些后台框架？你用过哪些？" class="headerlink" title="6、你对Nodejs了解多少，Nodejs有哪些后台框架？你用过哪些？"></a>6、你对Nodejs了解多少，Nodejs有哪些后台框架？你用过哪些？</h4><h4 id="7、JS中的深拷贝和浅拷贝的区别？"><a href="#7、JS中的深拷贝和浅拷贝的区别？" class="headerlink" title="7、JS中的深拷贝和浅拷贝的区别？"></a>7、JS中的深拷贝和浅拷贝的区别？</h4><p>​    浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但是深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。</p>
+<p><strong>浅拷贝的实现方法：</strong></p>
+<p>​    1、简单地赋值语句</p>
+<p>​    2、Object.assign(target,….source)    （是ES6中的新语法，返回目标对象）</p>
+<p>​    3、js中数组和对象自带的拷贝方法，contact、slice、…展开运算符</p>
+<p><strong>深拷贝的实现方法：</strong></p>
+<p>​    1、手动复制：把对象的属性赋值给另一个对象的属性</p>
+<p>​    2、对象只有一层的话可以使用Object.assign({},obj1)</p>
+<p>​    3、使用Object.create()  : var newObj = Object.create(oldObj)</p>
+<p>​    4、jquery中使用$.extend</p>
+<p>​    5、loadsh中使用_.cloneDeep</p>
+<p><strong>递归实现深拷贝：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">obj = &#123;&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> obj !== <span class="string">&#x27;object&#x27;</span> || obj ==<span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> result;</span><br><span class="line">    <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> <span class="built_in">Array</span>)&#123;</span><br><span class="line">        result = [];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        result = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">        <span class="keyword">if</span>(obj.hasOwnProperty(key))&#123;</span><br><span class="line">            result[key] = deepClone(obj[key]); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8、Webpack的常见配置项有哪些？"><a href="#8、Webpack的常见配置项有哪些？" class="headerlink" title="8、Webpack的常见配置项有哪些？"></a>8、Webpack的常见配置项有哪些？</h4><p>​    <strong>1、Entry:</strong></p>
+<p>​        入口(Entry)指示 webpack 以哪个文件为入口起点开始打包，分析构建内部依赖图。</p>
+<p>​    <strong>2、Output:</strong></p>
+<p>​        输出(Output)指示 webpack 打包后的资源 bundles 输出到哪里去，以及如何命名。</p>
+<p>​    <strong>3、Loader:</strong></p>
+<p>​        Loader 让 webpack 能 够 去 处 理 那 些 非 JavaScript 文 件 (webpack 自 身 只 理 解JavaScript)</p>
+<p>​    <strong>4、Plugins：</strong></p>
+<p>​        插件(Plugins)可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量等。</p>
+<p>​    <strong>5、Mode：</strong></p>
+<p>​        模式(Mode)指示 webpack 使用相应模式的配置。在DefinePlugin中的process.env.NODE_ENV中设置</p>
+<p>​        1、development 开发模式</p>
+<p>​                能让代码本地调试</p>
+<p>​        2、production 生产模式</p>
+<p>​                能让代码优化上线</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//webpack.config.js webpack的配置文件</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    作用：指示webpack干哪些活（当你运行webpack指令时，会加载里面的配置）</span></span><br><span class="line"><span class="comment">    所有构建工具都是基于node.js平台运行的~模块化采用commonjs</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>) <span class="comment">//用来拼接绝对路径</span></span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry:<span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename:<span class="string">&#x27;built.js&#x27;</span></span><br><span class="line">        path:<span class="string">&#x27;resolve(__dirname,&#x27;</span>build<span class="string">&#x27;)&#x27;</span><span class="comment">//__dirname 代表当前文件目录的绝对路径</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//loader的配置</span></span><br><span class="line">    <span class="built_in">module</span>:&#123;</span><br><span class="line">        rules:[</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//匹配哪些文件</span></span><br><span class="line">                test:<span class="regexp">/\.css$/</span>,</span><br><span class="line">                <span class="comment">//使用哪些loader进行处理</span></span><br><span class="line">                use:[</span><br><span class="line">                    <span class="comment">//创建style标签，将js中的样式资源插入进行，添加到head中生效</span></span><br><span class="line">                    <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">                    <span class="comment">//将css文件变成commonjs模块加载js中，里面内容是样式字符串</span></span><br><span class="line">                    <span class="string">&#x27;css-loader&#x27;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test:<span class="regexp">/\.less$/</span>,</span><br><span class="line">                use:[</span><br><span class="line">                     <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;less-loader&#x27;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//处理不了html中的img</span></span><br><span class="line">                test:<span class="regexp">/\.(jpg|png|gif)$/</span>,</span><br><span class="line">                loader:<span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">                option:&#123;</span><br><span class="line">                    <span class="comment">//图片大小为8kb,就会被base64处理</span></span><br><span class="line">                    <span class="comment">//优点：减少请求数量（减轻服务器压力）</span></span><br><span class="line">                    <span class="comment">//缺点：图片体积会更大（文件请求更慢）</span></span><br><span class="line">                    limit:<span class="number">8</span>*<span class="number">1024</span>,</span><br><span class="line">                    <span class="comment">//问题：因为url-loader默认使用es6模块解析，而html-loader引入图片是</span></span><br><span class="line">                    <span class="comment">//commonjs,解析时会出问题</span></span><br><span class="line">                    esModule:<span class="literal">false</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test:<span class="regexp">/\.html$/</span>,</span><br><span class="line">                <span class="comment">//处理HTML文件的img图片（负责引入img,从而能被url-loader进行处理）</span></span><br><span class="line">                loader:<span class="string">&#x27;html-loader&#x27;</span>,</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins:[</span><br><span class="line">        <span class="comment">//默认会创建一个空的HTML,引入打包输出的所有资源（JS/CSS）</span></span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">            <span class="comment">//复制‘./src/index.html’文件，并自动引入打包输出的所有资源（JS/CSS）</span></span><br><span class="line">            template:<span class="string">&#x27;./src/index.html&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ],</span><br><span class="line">    mode:<span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">    devServer:&#123; <span class="comment">//开发模式时使用，打包上线就不需要了</span></span><br><span class="line">      port:<span class="number">3000</span>,</span><br><span class="line">      contentBase:path.join(__dirname,<span class="string">&#x27;dist&#x27;</span>)  </span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="9、常见的状态码有哪些？"><a href="#9、常见的状态码有哪些？" class="headerlink" title="9、常见的状态码有哪些？"></a>9、常见的状态码有哪些？</h4><p>​    1.HTTP状态码的职责：</p>
+<p>​        当客户端向服务器端发送HTTP请求后，用于描述服务器端返回的请求结果。</p>
+<p>​    2.HTTP状态码的分类：</p>
+<p>​        （1）1xx 信息性状态码</p>
+<p>​        （2）2xx 成功状态码</p>
+<p>​        （3）3xx 重定向状态码</p>
+<p>​        （4）4xx 客户端错误状态码</p>
+<p>​        （5）5xx 服务器端错误状态码</p>
+<p>​    3.常用的状态码：</p>
+<p>​    （0） 100-199 信息提示状态码，表示正在处理</p>
+<p>​    （1）200 OK 请求响应成功</p>
+<p>​    （2）204 请求响应成功，但没内容返回</p>
+<p>​    （3）206 处理部分请求成功</p>
+<p>​    （4）301 永久性重定向</p>
+<p>​    （5）302 临时性重定向</p>
+<p>​    （6）303 临时性重定向，要求client采用git方法请求资源。</p>
+<p>​    （7）304 Not modified 资源未更新，使用缓存资源</p>
+<p>​    （8）307 临时性重定向，不会将post改成git。</p>
+<p>​    （9）400 Bad Request 客户端请求错误，服务器无法处理请求</p>
+<p>​    （10）401 Unauthorized 客户端请求未认证</p>
+<p>​    （11）403 Forbidden 禁止客户端请求</p>
+<p>​    （12）404 Not Found 资源未找到</p>
+<p>​    （13）500 Internal Server Error 服务器内部错误</p>
+<p>​    （14）501 Not Implemented 服务器不支持请求的功能，无法完成请求</p>
+<p>​    （15）502 Bad Gateway 网关错误</p>
+<p>​    （16）503 Server Unavailable 服务器服务不可用</p>
+<p>​    （17）504 Gateway Time-out    未及时从远端服务器获取请求</p>
+<p>​    （18） 505 HTTP Version not supported 服务器不支持http协议版本，无法完成处理</p>
+<h4 id="10、JS中new一个对象的过程？"><a href="#10、JS中new一个对象的过程？" class="headerlink" title="10、JS中new一个对象的过程？"></a>10、JS中new一个对象的过程？</h4><p>​    1、先创建一个空对象</p>
+<p>​        var obj = new Object();</p>
+<p>​    2、让函数的中的this指向这个对象，并执行函数</p>
+<p>​        var reslut = Person.call(obj)</p>
+<p>​    3、设置原型链，让新建对象的__proto__ 指向函数的Prototype成员对象</p>
+<p>​        obj.<strong>proto</strong> = Person.prototype</p>
+<p>​    4、判断函数的返回类型，如果是值类型就返回obj，如果是引用类型，就返回引用类型的对象</p>
+<h4 id="11、你对http2-0的了解，http1-0和http2-0有什么区别？"><a href="#11、你对http2-0的了解，http1-0和http2-0有什么区别？" class="headerlink" title="11、你对http2.0的了解，http1.0和http2.0有什么区别？"></a>11、你对http2.0的了解，http1.0和http2.0有什么区别？</h4><p>1、影响一个 HTTP 网络请求的因素主要有两个：<strong>带宽和延迟。</strong></p>
+<ul>
+<li><strong>带宽：</strong>如果说我们还停留在拨号上网的阶段，带宽可能会成为一个比较严重影响请求的问题，但是现在网络基础建设已经使得带宽得到极大的提升，我们不再会担心由带宽而影响网速，那么就只剩下延迟了。</li>
+<li><strong>延迟：</strong></li>
+</ul>
+<p>（1）浏览器阻塞（HOL blocking）：浏览器会因为一些原因阻塞请求。浏览器对于同一个域名，同时只能有 4 个连接（这个根据浏览器内核不同可能会有所差异），超过浏览器最大连接数限制，后续请求就会被阻塞。</p>
+<p>（2）DNS 查询（DNS Lookup）：浏览器需要知道目标服务器的 IP 才能建立连接。将域名解析为 IP 的这个系统就是 DNS。这个通常可以利用DNS缓存结果来达到减少这个时间的目的。</p>
+<p>（3）建立连接（Initial connection）：HTTP 是基于 TCP 协议的，浏览器最快也要在第三次握手时才能捎带 HTTP 请求报文，达到真正的建立连接，但是这些连接无法复用会导致每次请求都经历三次握手和慢启动。三次握手在高延迟的场景下影响较明显，慢启动则对文件类大请求影响较大。</p>
+<p>2、http2.0和http1.x相比的新特性</p>
+<p><strong>（1）</strong>http1.x 的解析是基于文本的，格式解析存在缺陷。http2.0的协议解析是基于二进制格式，实现方便且健壮。</p>
+<p><strong>（2）</strong>多路复用（MultiPlexing），即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的 id将request再归属到各自不同的服务端请求里面。</p>
+<p><strong>（3）</strong>header压缩，HTTP1.x的header带有大量信息，而且每次都要重复发送，HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<p><strong>（4）</strong>服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能。</p>
+<p>HTTP1.0：</p>
+<p>（1）请求与响应支持HTTP头，响应含状态行，增加状态码；</p>
+<p>（2）支持HEAD，POST方法</p>
+<p>（3）支持HTML文件以外其他类型的内容</p>
+<p>（4）非持久连接，客户端必须为每一个待请求的对象建立并维护一个新的连接</p>
+<p>HTTP1.1</p>
+<p>（1）支持长连接</p>
+<p>（2）在Http1.0的基础上引入了更多的缓存控制策略；</p>
+<p>（3）引入请求范围设置，优化了带宽；</p>
+<p>  (4)  在错误通知管理中新增了错误状态响应码；</p>
+<p>  (5)  增加了Host头处理，可以传递主机名；</p>
+<p>缺点：传输内容是明文，不够安全；</p>
+<p>HTTP2.0：</p>
+<p>（1）二进制分帧</p>
+<p>（2）多路复用（或连接共享）</p>
+<p>（3）头部压缩</p>
+<p>（4）服务器推送（Sever push）</p>
+<p>HTTP3.0：</p>
+<p>（1）基于UDP实现，可实现切换网络时保持连接</p>
+<p>（2）0 RTT建连</p>
+<p>（3）基于UDP的多路复用，实现无阻塞的多路复用（2.0是会阻塞的）</p>
+<p>（4）加密认证的报文</p>
+<p>（5）向前纠错机制</p>
+<p>RTT(Round Trip Time)：一个连接的往返时间，即数据发送时刻到接收到确认的时刻的差值；</p>
+<p>参考文献：<a href="https://www.cnblogs.com/heluan/p/8620312.html">https://www.cnblogs.com/heluan/p/8620312.html</a></p>
+<p><a href="https://blog.csdn.net/glpghz/article/details/106063833">https://blog.csdn.net/glpghz/article/details/106063833</a></p>
+<h4 id="12、Vue中几种常见的组件间的通信方式？-特地问了我eventBus"><a href="#12、Vue中几种常见的组件间的通信方式？-特地问了我eventBus" class="headerlink" title="12、Vue中几种常见的组件间的通信方式？ (特地问了我eventBus)"></a>12、Vue中几种常见的组件间的通信方式？ (特地问了我eventBus)</h4><p>​    <strong>组件间的通信原则：</strong></p>
+<p>​        （1）不要在子组件中直接修改父组件的状态数据</p>
+<p>​        （2）数据在哪，更新数据的行为（函数）就应该在哪</p>
+<p>​    <strong>组件中的通信方式：</strong></p>
+<p>1、通过标签使用props</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;List :comments=<span class="string">&quot;comments&quot;</span>/&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">	<span class="comment">//声明接收属性：这个属性就会成为组件接收属性。</span></span><br><span class="line">	props:[<span class="string">&#x27;comments&#x27;</span>] <span class="comment">//只指定属性名</span></span><br><span class="line">    props:&#123;<span class="comment">//指定属性名和属性值的类型</span></span><br><span class="line">    	comment:<span class="built_in">Object</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//传过来的属性是函数的情况</span></span><br><span class="line">	props:&#123;</span><br><span class="line">         addComment&#123;<span class="comment">//函数名</span></span><br><span class="line">        	type:<span class="built_in">Function</span>,</span><br><span class="line">        	required:ture</span><br><span class="line">          &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、通过Vue的自定义事件</p>
+<p>​    (1)绑定事件监听</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方式一：通过v-on绑定</span></span><br><span class="line">@delete_todo=<span class="string">&quot;deleteTodo&quot;</span></span><br><span class="line"><span class="comment">//触发自定义事件：addTodo</span></span><br><span class="line"><span class="built_in">this</span>.$emit(<span class="string">&#x27;addTodo&#x27;</span>,todo)</span><br><span class="line">**多用于单层父子之间的传递</span><br><span class="line"></span><br><span class="line"><span class="comment">//方式二：通过$on()</span></span><br><span class="line"><span class="built_in">this</span>.$refs.xxx.$on(<span class="string">&#x27;delete_todo&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">todo</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.deleteTodo(todo)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>​    (2)事件触发</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//触发事件（只能在父组件中接收）</span></span><br><span class="line"><span class="built_in">this</span>.$emit(eventName,data)</span><br></pre></td></tr></table></figure>
+
+<p>3、通过消息的订阅与发布使用PubsubJS库</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">优点：此方式可实现任意关系组件间的通信（数据）</span><br><span class="line"><span class="number">1</span>）绑定事件监听（订阅消息）</span><br><span class="line">  目标：标签元素&lt;button&gt;</span><br><span class="line">  事件名（类型）：click/focus</span><br><span class="line">  回调函数：<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;&#125;</span><br><span class="line"><span class="number">2</span>）触发事件（发布消息）</span><br><span class="line">  DOM事件：用户在浏览器上对应的界面上做对应的操作</span><br><span class="line">  自定义：编码手动触发</span><br><span class="line">实现步骤：</span><br><span class="line">  <span class="number">1</span>、给要绑定的监听的标签赋ref值</span><br><span class="line">	&lt;button ref=<span class="string">&quot;deleteTodo&quot;</span>&gt;&lt;/button&gt;</span><br><span class="line">  <span class="number">2</span>、在mounted:&#123;&#125;里面写异步代码</span><br><span class="line">    <span class="comment">//订阅消息</span></span><br><span class="line">    PubSub.subscribe(<span class="string">&#x27;deleteTodo&#x27;</span>,<span class="function">(<span class="params">msg,data</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.deleteTodo(index)</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="number">3</span>、在另一个组件（子组件）中写发布方法</span><br><span class="line">    PubSub.publish(<span class="string">&#x27;deleteTodo&#x27;</span>,index)</span><br><span class="line">  备注：该步骤是把子组件中的deleteTodo函数中的index传给父组件</span><br></pre></td></tr></table></figure>
+
+<p>4、通过使用插槽slot</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;template&gt; </span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;slot name=<span class="string">&quot;xxx&quot;</span>&gt;不确定的标签结构 <span class="number">1</span>&lt;/slot&gt; </span><br><span class="line">    &lt;div&gt;组件确定的标签结构&lt;/div&gt; </span><br><span class="line">    &lt;slot name=<span class="string">&quot;yyy&quot;</span>&gt;不确定的标签结构 <span class="number">2</span>&lt;/slot&gt; </span><br><span class="line">  &lt;/div&gt; </span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;child&gt;</span><br><span class="line">   &lt;div slot=<span class="string">&quot;xxx&quot;</span>&gt;xxx 对应的标签结构&lt;/div&gt; </span><br><span class="line">  &lt;div slot=<span class="string">&quot;yyy&quot;</span>&gt;yyyy 对应的标签结构&lt;/div&gt; </span><br><span class="line">&lt;/child&gt;</span><br></pre></td></tr></table></figure>
+
+<p>5、使用eventBus</p>
+<p>发送事件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;!-- DecreaseCount.vue --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;button @click=<span class="string">&quot;decrease()&quot;</span>&gt;-&lt;/button&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt; </span><br><span class="line">    <span class="keyword">import</span> &#123; EventBus &#125; <span class="keyword">from</span> <span class="string">&quot;../event-bus.js&quot;</span>;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">        name: <span class="string">&quot;DecreaseCount&quot;</span>,</span><br><span class="line">        <span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                num: <span class="number">1</span>,</span><br><span class="line">                deg:<span class="number">180</span></span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            <span class="function"><span class="title">decrease</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">                EventBus.$emit(<span class="string">&quot;decreased&quot;</span>, &#123;</span><br><span class="line">                    num:<span class="built_in">this</span>.num,</span><br><span class="line">                    deg:<span class="built_in">this</span>.deg</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;; </span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- IncrementCount.vue --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;button @click=<span class="string">&quot;increment()&quot;</span>&gt;+&lt;/button&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt; <span class="keyword">import</span> &#123; EventBus &#125; <span class="keyword">from</span> <span class="string">&quot;../event-bus.js&quot;</span>;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">        name: <span class="string">&quot;IncrementCount&quot;</span>,</span><br><span class="line">        <span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                num: <span class="number">1</span>,</span><br><span class="line">                deg:<span class="number">180</span></span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            <span class="function"><span class="title">increment</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">                EventBus.$emit(<span class="string">&quot;incremented&quot;</span>, &#123;</span><br><span class="line">                    num:<span class="built_in">this</span>.num,</span><br><span class="line">                    deg:<span class="built_in">this</span>.deg</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"> &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接收事件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;!-- App.vue --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div id=<span class="string">&quot;app&quot;</span>&gt;</span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;container&quot;</span> :style=<span class="string">&quot;&#123;transform: &#x27;rotateY(&#x27; + degValue + &#x27;deg)&#x27;&#125;&quot;</span>&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;front&quot;</span>&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;increment&quot;</span>&gt;</span><br><span class="line">                    &lt;IncrementCount /&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;show-front&quot;</span>&gt; &#123;&#123;fontCount&#125;&#125; &lt;/div&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;decrement&quot;</span>&gt;</span><br><span class="line">                    &lt;DecreaseCount /&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;back&quot;</span>&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;increment&quot;</span>&gt;</span><br><span class="line">                    &lt;IncrementCount /&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;show-back&quot;</span>&gt; &#123;&#123;backCount&#125;&#125; &lt;/div&gt;</span><br><span class="line">                &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;decrement&quot;</span>&gt;</span><br><span class="line">                    &lt;DecreaseCount /&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt; </span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">import</span> IncrementCount <span class="keyword">from</span> <span class="string">&quot;./components/IncrementCount&quot;</span>;</span><br><span class="line">    <span class="keyword">import</span> DecreaseCount <span class="keyword">from</span> <span class="string">&quot;./components/DecreaseCount&quot;</span>;</span><br><span class="line">    <span class="keyword">import</span> &#123; EventBus &#125; <span class="keyword">from</span> <span class="string">&quot;./event-bus.js&quot;</span>;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">        name: <span class="string">&quot;App&quot;</span>,</span><br><span class="line">        components: &#123;</span><br><span class="line">            IncrementCount,</span><br><span class="line">            DecreaseCount</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                degValue:<span class="number">0</span>,</span><br><span class="line">                fontCount:<span class="number">0</span>,</span><br><span class="line">                backCount:<span class="number">0</span></span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            EventBus.$on(<span class="string">&quot;incremented&quot;</span>, <span class="function">(<span class="params">&#123;num,deg&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.fontCount += num</span><br><span class="line">                <span class="built_in">this</span>.$nextTick(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">                    <span class="built_in">this</span>.backCount += num</span><br><span class="line">                    <span class="built_in">this</span>.degValue += deg;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;);</span><br><span class="line">            EventBus.$on(<span class="string">&quot;decreased&quot;</span>, <span class="function">(<span class="params">&#123;num,deg&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.fontCount -= num</span><br><span class="line">                <span class="built_in">this</span>.$nextTick(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">                    <span class="built_in">this</span>.backCount -= num</span><br><span class="line">                    <span class="built_in">this</span>.degValue -= deg;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;; </span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>6、使用Vuex</p>
+<h4 id="13、懒加载"><a href="#13、懒加载" class="headerlink" title="13、懒加载"></a>13、懒加载</h4><p>1、懒加载就是在加载内容时按需加载，是一种很好的优化网页或者应用的方法。</p>
+<p>2、原理：先把你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即或即将引用另外一些新的代码。</p>
+<p>3、作用：因为这样做了以后某些代码块可能永远不会被加载，所以加快了应用的初始加载速度，减轻了它的总体体积。</p>
+<p><strong>（1）图片的懒加载</strong></p>
+<p>​    先将img标签的src连接设置为同一张白色图片，然后给img标签设置自定义属性，然后将真正的图片存储在属性中，当js监听到该图片元素进入可视窗口时，将自定义属性中的地址传输到src属性中，达到懒加载的效果。这样做防止页面一次向服务器发送大量请求，导致页面响应慢，页面卡顿。</p>
+<p><strong>（2）懒加载在Vue或Webpack中实现</strong></p>
+<p>​    在单页面应用中，如果没有应用懒加载，运用webpack打包后的文件将会异常的大，造成进入首页时，需要加载的内容过多，延时过长不利于用户体验，而运用懒加载则可以将页面进行划分，需要的时候加载页面，可以有效的分担首页所承担的加载压力，减少首页加载用时。</p>
+<p>1、与webpack配合实现组件懒加载</p>
+<p>​    在Webpack中配置文件中的output路径配置chunkFilename属性，chunkFilename路径将会作为组件懒加载的路径</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">        path: resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">        filename: options.dev ? <span class="string">&#x27;[name].js&#x27;</span> : <span class="string">&#x27;[name].js?[chunkhash]&#x27;</span>,</span><br><span class="line">        chunkFilename: <span class="string">&#x27;chunk[id].js?[chunkhash]&#x27;</span>,</span><br><span class="line">        publicPath: options.dev ? <span class="string">&#x27;/assets/&#x27;</span> : publicPath</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>2、在路由中配置异步组件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">        &#123;</span><br><span class="line">            mode: <span class="string">&#x27;history&#x27;</span>,</span><br><span class="line">            path: <span class="string">&#x27;/my&#x27;</span>,</span><br><span class="line">            name: <span class="string">&#x27;my&#x27;</span>,</span><br><span class="line">            component:  <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">require</span>([<span class="string">&#x27;../page/my/my.vue&#x27;</span>], resolve),<span class="comment">//懒加载</span></span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>3、在实例中配置异步组件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">components: &#123;</span><br><span class="line">        historyTab: </span><br><span class="line">            resolve =&gt; &#123;</span><br><span class="line">                <span class="built_in">require</span>([<span class="string">&#x27;../../component/historyTab/historyTab.vue&#x27;</span>], resolve)</span><br><span class="line">            &#125;,<span class="comment">//懒加载</span></span><br><span class="line">        <span class="comment">//historyTab: () =&gt; import(&#x27;../../component/historyTab/historyTab.vue&#x27;)</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>4、全局注册异步组件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Vue.component(<span class="string">&#x27;mideaHeader&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    System.import(<span class="string">&#x27;./component/header/header.vue&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>（3）懒加载的最终实现方案</strong></p>
+<p>1、路由页面以及路由页面中的组件全部使用懒加载</p>
+<p>​    <strong>优点：</strong></p>
+<p>​        （1）最大化实现随用随载</p>
+<p>​        （2）团队开发不会因为沟通问题造成资源的重复浪费</p>
+<p>​    <strong>缺点：</strong></p>
+<p>​        （1）当一个页面中嵌套多个组件时将发送多次的http请求，可能会造成网页显示过慢且渲染参差不齐的问题。</p>
+<p>2、路由页面使用懒加载，而路由页面中的组件按需进行懒加载，即如果组件不大且使用不太频繁，直接在路由页面中导入组件，如果组件使用较为频繁使用懒加载。</p>
+<p>​    <strong>优点：</strong></p>
+<p>​        （1）能够减少页面中的http请求，页面显示效果好</p>
+<p>​    <strong>缺点：</strong></p>
+<p>​        （2）需要团队事先交流， 在框架中分别建立懒加载组件与非懒加载组件文件夹。</p>
+<p>3、路由页面使用懒加载，在不特别影响首页显示延迟的情况下，根页面合理导入复用组件，再结合方案2</p>
+<p>​    <strong>优点：</strong></p>
+<p>​        （1）合理解决首页延迟显示问题</p>
+<p>​        （2）能够最大化的减少http请求， 且做其他他路由界面的显示效果最佳</p>
+<p>​    <strong>缺点：</strong></p>
+<p>​        （1）还是需要团队交流，建立合理区分各种加载方式的组件文件夹</p>
+<h4 id="14、问题：说在Vue脚手架中你有很多路由，然后路由又有子路由，那么请问你在程序打包的时候要怎么优化它"><a href="#14、问题：说在Vue脚手架中你有很多路由，然后路由又有子路由，那么请问你在程序打包的时候要怎么优化它" class="headerlink" title="14、问题：说在Vue脚手架中你有很多路由，然后路由又有子路由，那么请问你在程序打包的时候要怎么优化它"></a>14、问题：说在Vue脚手架中你有很多路由，然后路由又有子路由，那么请问你在程序打包的时候要怎么优化它</h4><p>​        我感觉就是在问懒加载在vue路由中的作用。</p>
+<h4 id="15、如何改变this的指向，有多少种方法。"><a href="#15、如何改变this的指向，有多少种方法。" class="headerlink" title="15、如何改变this的指向，有多少种方法。"></a>15、如何改变this的指向，有多少种方法。</h4><p><strong>1、call()和apply()</strong></p>
+<p>​    **call():**第一个参数表示要把this指向的新目标，第二个之后的参数其实相当于传参，参数以逗号隔开（性能较apply略好）。</p>
+<p>​    用法：a.call(b,1,2)；表示要把a函数的this指向修改为b的this指向，并运行a函数，传入参数是（1,2）</p>
+<p>​    <strong>apply()：</strong>第一个参数同上，第二个参数接收一个数组，里面也是传参，只是以数组的方式，相当于arguments</p>
+<p>用法：a.apply(b,[1,2])；表示要把a函数的this指向修改为b的this指向，并运行a函数，传进去的参数是(1,2);</p>
+<p>*<strong>注意：即使只有一个参数的话，也要是数组的形式</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//call 的传参和apply的传参</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">arg1,arg2</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.name,arg1,arg2);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name : <span class="string">&#x27;tom&#x27;</span>,</span><br><span class="line">  say : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">say.call(obj,<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>);<span class="comment">//tom one two</span></span><br><span class="line">say.spply(obj,[<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>]);<span class="comment">//tom one two  效果一样</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2、bind()</strong></p>
+<p>​    作用：bind()方法会创建一个新的函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入bind()方法的第一个参数作为this，传入bind()的第二个及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。</p>
+<p>​    用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    bar : <span class="number">1</span>,</span><br><span class="line">    eventBind: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="string">&#x27;.someClass&#x27;</span>).on(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">            <span class="comment">/* Act on the event */</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.bar);      <span class="comment">//1</span></span><br><span class="line">        &#125;.bind(<span class="built_in">this</span>));<span class="comment">//这里的this是eventBind的this，即指向的是foo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。</p>
+<p><strong>3、new</strong></p>
+<p>new的运行原理：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Animal(<span class="string">&#x27;cat&#x27;</span>) = &#123;<span class="comment">//类似这样</span></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;<span class="comment">//先定义一个空对象</span></span><br><span class="line">    obj.__proto__ = Animal.prototype;</span><br><span class="line">    <span class="comment">//把 obj 的__proto__ 指向构造函数 Animal 的原型对象 prototype，</span></span><br><span class="line">    <span class="comment">//此时便建立了 obj 对象的原型链：</span></span><br><span class="line">    <span class="comment">//obj-&gt;Animal.prototype-&gt;Object.prototype-&gt;null</span></span><br><span class="line">    <span class="keyword">var</span> result = Animal.call(obj,<span class="string">&quot;cat&quot;</span>);<span class="comment">//改变this指向，从Animal改变到obj上</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> result === <span class="string">&#x27;object&#x27;</span>? result : obj; <span class="comment">//返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&quot;追梦子&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Fn();<span class="comment">//this指向a</span></span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//追梦子</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>4、return</strong></p>
+<p>​    在构造函数的时候，使用return进行返回一个Object的时候，当去new一个实例对象的时候，会将this指向改变为return的Object；</p>
+<p>​     用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&#x27;追梦子&#x27;</span>;  </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;user&quot;</span> : <span class="string">&quot;111&quot;</span></span><br><span class="line">    &#125;;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//111</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>面试题总结</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+</search>
