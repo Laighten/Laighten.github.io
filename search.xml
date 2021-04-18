@@ -412,7 +412,15 @@
   <entry>
     <title>this的指向问题</title>
     <url>/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h4 id="如何判断this的指向"><a href="#如何判断this的指向" class="headerlink" title="如何判断this的指向"></a>如何判断this的指向</h4><p>在使用 this 时，为了避坑，你要谨记以下四点：</p>
+    <content><![CDATA[<h4 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h4><ol>
+<li>如何判断this的指向</li>
+<li>改变this指向的方法</li>
+<li>调用函数时使用fn.apply(this,arr)和fn(…arr)的区别</li>
+<li>面试真题</li>
+</ol>
+<span id="more"></span>
+
+<h4 id="如何判断this的指向"><a href="#如何判断this的指向" class="headerlink" title="如何判断this的指向"></a>如何判断this的指向</h4><p>在使用 this 时，为了避坑，你要谨记以下四点：</p>
 <ol>
 <li>当函数作为对象的方法调用时，函数中的 this 就是该对象；</li>
 <li>当函数被正常调用时，<strong>在严格模式下，this 值是 undefined</strong>，非严格模式下 this 指向的是全局对象 window；</li>
