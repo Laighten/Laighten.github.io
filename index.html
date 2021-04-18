@@ -136,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">4</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-04-18 13:01:28 / 修改时间：13:08:10" itemprop="dateCreated datePublished" datetime="2021-04-18T13:01:28+08:00">2021-04-18</time>
+              <time title="创建时间：2021-04-18 13:01:28 / 修改时间：13:14:12" itemprop="dateCreated datePublished" datetime="2021-04-18T13:01:28+08:00">2021-04-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,12 +246,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h4><ol>
-<li>如何判断this的指向</li>
-<li>改变this指向的方法</li>
-<li>调用函数时使用fn.apply(this,arr)和fn(…arr)的区别</li>
-<li>面试真题</li>
-</ol>
+          <p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/#more" rel="contents">
@@ -301,10 +296,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-04-17 20:17:20 / 修改时间：21:35:58" itemprop="dateCreated datePublished" datetime="2021-04-17T20:17:20+08:00">2021-04-17</time>
+              <time title="创建时间：2021-04-17 20:17:20" itemprop="dateCreated datePublished" datetime="2021-04-17T20:17:20+08:00">2021-04-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-18 13:20:36" itemprop="dateModified" datetime="2021-04-18T13:20:36+08:00">2021-04-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -326,10 +327,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p> JavaScript、Java、Python 等语言，<strong>产生的垃圾数据是由垃圾回收器来释放的</strong>，并不需要手动通过代码来释放。</p>
-<h4 id="1、调用栈中的数据如何回收"><a href="#1、调用栈中的数据如何回收" class="headerlink" title="1、调用栈中的数据如何回收"></a>1、调用栈中的数据如何回收</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> b = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客邦 &quot;</span>&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">showName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> c = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">      <span class="keyword">var</span> d = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客时间 &quot;</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    showName()</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
-
-<p>​    执行到 showName 函数时，那么 JavaScript 引擎会创建 showName 函数的执行上下文，并将 showName 函数的执行上下文压入到调用栈中，最终执行到 showName 函数时，其调用栈就如下图所示。与此同时，还有一个<strong>记录当前执行状态的指针（称为 ESP）</strong>，指向调用栈中 showName 函数的执行上下文，表示当前正在执行 showName 函数。</p>
+          <p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/#more" rel="contents">
@@ -379,99 +377,15 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-04-17 19:35:54 / 修改时间：20:56:56" itemprop="dateCreated datePublished" datetime="2021-04-17T19:35:54+08:00">2021-04-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>显示原型</strong>：prototype</p>
-<ul>
-<li>每个class/函数都有显示原型prototype，它默认指向一个Object空对象（即称为原型对象）</li>
-<li>原型对象中一个属性constructor，它指向函数对象</li>
-</ul>
-<p><strong>隐式原型</strong>：<strong>proto</strong></p>
-<ul>
-<li>每个实例都有隐式原型__proto__</li>
-<li>实例的__proto__指向对应的class/函数的prototype。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/16/%E5%A5%87%E5%AE%89%E4%BF%A1%E9%9D%A2%E8%AF%95%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.jpg">
-      <meta itemprop="name" content="Laighten">
-      <meta itemprop="description" content="数据可视化 & 前端 & 迁移学习">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Laighten's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/16/%E5%A5%87%E5%AE%89%E4%BF%A1%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">奇安信面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-16 22:56:27" itemprop="dateCreated datePublished" datetime="2021-04-16T22:56:27+08:00">2021-04-16</time>
+              <time title="创建时间：2021-04-17 19:35:54" itemprop="dateCreated datePublished" datetime="2021-04-17T19:35:54+08:00">2021-04-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-17 20:56:09" itemprop="dateModified" datetime="2021-04-17T20:56:09+08:00">2021-04-17</time>
+                <time title="修改时间：2021-04-18 13:19:49" itemprop="dateModified" datetime="2021-04-18T13:19:49+08:00">2021-04-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -494,14 +408,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="1、对Js函数式编程的理解？"><a href="#1、对Js函数式编程的理解？" class="headerlink" title="1、对Js函数式编程的理解？"></a>1、对Js函数式编程的理解？</h4><p>​    (1) “函数式编程”是一种 “编程范式” ,它属于<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Structured_programming">“结构化编程”</a>的一种，主要思想是把运算过程尽量写成一系列嵌套的函数调用。</p>
-<p>​    (2) 函数式编程的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！</p>
-<p>​    (3) 通过定义不同功能的函数，可以模块化代码，实现函数功能的复用，降低代码的耦合性，有利于合作开发代码；由于函数式编程大量使用函数，减少代码的重复，因此程序比较短，开发比较快；</p>
-<p> （4）函数式编程不需要考虑”死锁”，因为它不修改变量，所以根本不存在”锁”线程的问题。不必担心一个线程的数据，被另一个线程修改；</p>
-<p>​     <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2012/04/functional_programming.html">https://www.ruanyifeng.com/blog/2012/04/functional_programming.html</a></p>
+          <p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/04/16/%E5%A5%87%E5%AE%89%E4%BF%A1%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -589,7 +499,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
