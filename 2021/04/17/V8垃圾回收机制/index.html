@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="[TOC]">
+  <meta name="description" content="目录：    1、调用栈中的数据如何回收   2、堆中的数据是如何回收的   3、副垃圾回收器   4、主垃圾回收器   5、全停顿">
 <meta property="og:type" content="article">
 <meta property="og:title" content="V8垃圾回收机制">
 <meta property="og:url" content="http://example.com/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="Laighten&#39;s blog">
-<meta property="og:description" content="[TOC]">
+<meta property="og:description" content="目录：    1、调用栈中的数据如何回收   2、堆中的数据是如何回收的   3、副垃圾回收器   4、主垃圾回收器   5、全停顿">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304112315040.png">
 <meta property="og:image" content="http://example.com/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304114240567.png">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115856708.png">
 <meta property="og:image" content="http://example.com/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304120112556.png">
 <meta property="article:published_time" content="2021-04-17T12:17:20.000Z">
-<meta property="article:modified_time" content="2021-04-18T05:20:36.919Z">
+<meta property="article:modified_time" content="2021-04-18T05:24:46.062Z">
 <meta property="article:author" content="Laighten">
 <meta property="article:tag" content="浏览器工作原理">
 <meta property="article:tag" content="前端">
@@ -238,7 +238,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-18 13:20:36" itemprop="dateModified" datetime="2021-04-18T13:20:36+08:00">2021-04-18</time>
+                <time title="修改时间：2021-04-18 13:24:46" itemprop="dateModified" datetime="2021-04-18T13:24:46+08:00">2021-04-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +261,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>[TOC]</p>
+        <table>
+<thead>
+<tr>
+<th>目录：</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1、调用栈中的数据如何回收</td>
+</tr>
+<tr>
+<td>2、堆中的数据是如何回收的</td>
+</tr>
+<tr>
+<td>3、副垃圾回收器</td>
+</tr>
+<tr>
+<td>4、主垃圾回收器</td>
+</tr>
+<tr>
+<td>5、全停顿</td>
+</tr>
+</tbody></table>
 <span id="more"></span>
 
 <p>JavaScript、Java、Python 等语言，<strong>产生的垃圾数据是由垃圾回收器来释放的</strong>，并不需要手动通过代码来释放。</p>
