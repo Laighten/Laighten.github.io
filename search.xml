@@ -475,7 +475,7 @@
 <li><p>对比虚拟dom，渲染到真实dom（Mounted之前）</p>
 </li>
 <li><p>组件内部data发生变化，组件和子组件引用data作为props重新调用render函数，生成虚拟dom, 返回到步骤3。（Mounted阶段）</p>
-<p><img data-src="13119812-5890a846b6efa045.png" alt="13119812-5890a846b6efa045"></p>
+<p><img data-src="VueLife.png" alt="VueLife"></p>
 </li>
 </ol>
 <h4 id="vue中请求数据的方式"><a href="#vue中请求数据的方式" class="headerlink" title="vue中请求数据的方式"></a>vue中请求数据的方式</h4><ol>
