@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-03T15:04:43.503Z</updated>
+  <updated>2021-05-04T04:02:26.641Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,134 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>可视化学术期刊汇总</title>
+    <link href="http://example.com/2021/05/04/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AD%A6%E6%9C%AF%E6%9C%9F%E5%88%8A%E6%B1%87%E6%80%BB/"/>
+    <id>http://example.com/2021/05/04/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AD%A6%E6%9C%AF%E6%9C%9F%E5%88%8A%E6%B1%87%E6%80%BB/</id>
+    <published>2021-05-04T03:58:48.000Z</published>
+    <updated>2021-05-04T04:02:26.641Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Academic-journals-学术期刊"><a href="#Academic-journals-学术期刊" class="headerlink" title="Academic journals(学术期刊)"></a>Academic journals(学术期刊)</h2><ol><li><p><strong>A类</strong></p><table><thead><tr><th align="center">序号</th><th align="center">刊物简称</th><th align="center">刊物名称</th><th align="center">出版社</th><th align="center">网址</th></tr></thead><tbody><tr><td align="center">1</td><td align="center">TVCG</td><td align="center">IEEE Transactions on Visualization and Computer Graphics</td><td align="center">IEEE</td><td align="center"><a href="http://dblp.uni-trier.de/db/journals/tvcg/">http://dblp.uni-trier.de/db/journals/tvcg/</a></td></tr><tr><td align="center">2</td><td align="center">SIGGRAPH</td><td align="center">ACM SIGGRAPH Annual Conference</td><td align="center">ACM</td><td align="center"><a href="http://dblp.uni-trier.de/db/conf/siggraph/index.html">http://dblp.uni-trier.de/db/conf/siggraph/index.html</a></td></tr><tr><td align="center">3</td><td align="center">IEEE VIS</td><td align="center">IEEE Visualization Conference</td><td align="center">IEEE</td><td align="center"><a href="http://dblp.uni-trier.de/db/conf/visualization/index.html">http://dblp.uni-trier.de/db/conf/visualization/index.html</a></td></tr><tr><td align="center">4</td><td align="center">TOCHI</td><td align="center">ACM Transactions on Computer-Human Interaction</td><td align="center">ACM</td><td align="center"><a href="http://dblp.uni-trier.de/db/journals/tochi/">http://dblp.uni-trier.de/db/journals/tochi/</a></td></tr><tr><td align="center">5</td><td align="center">HCI</td><td align="center">Human Computer Interaction</td><td align="center">Taylor &amp; Francis</td><td align="center"><a href="http://dblp.uni-trier.de/db/journals/hhci/">http://dblp.uni-trier.de/db/journals/hhci/</a></td></tr><tr><td align="center">6</td><td align="center">CHI</td><td align="center">ACM Conference on Human Factors in Computing Systems</td><td align="center">ACM</td><td align="center"><a href="http://dblp.uni-trier.de/db/conf/chi">http://dblp.uni-trier.de/db/conf/chi</a></td></tr></tbody></table><span id="more"></span></li><li><p><strong>B类</strong></p><table><thead><tr><th align="center">序号</th><th align="center">刊物简称</th><th align="center">刊物名称</th><th align="center">出版社</th><th align="center">网址</th></tr></thead><tbody><tr><td align="center">1</td><td align="center">EuroVis</td><td align="center">Eurographics Conference on Visualization</td><td align="center">ACM</td><td align="center"><a href="http://dblp.uni-trier.de/db/conf/vissym/">http://dblp.uni-trier.de/db/conf/vissym/</a></td></tr></tbody></table></li><li><p><strong>C类</strong></p><table><thead><tr><th align="center">序号</th><th align="center">刊物简称</th><th align="center">刊物名称</th><th align="center">出版社</th><th align="center">网址</th></tr></thead><tbody><tr><td align="center">1</td><td align="center">JVCIR</td><td align="center">Journal of Visual Communication and Image Representation</td><td align="center">Elsevier</td><td align="center"><a href="http://dblp.uni-trier.de/db/journals/jvcir/">http://dblp.uni-trier.de/db/journals/jvcir/</a></td></tr><tr><td align="center">2</td><td align="center">PacificVis</td><td align="center">IEEE Pacific Visualization Symposium</td><td align="center">IEEE</td><td align="center"><a href="http://dblp.uni-trier.de/db/conf/apvis/">http://dblp.uni-trier.de/db/conf/apvis/</a></td></tr></tbody></table></li><li><p><strong>其他</strong></p><ul><li>ChinaVIS<ul><li>中文《计算机辅助设计与图形学学报》</li><li>英文《Journal of Visualization》</li></ul></li></ul></li></ol><p><strong>参考文献</strong>：中国计算机学会推荐国际学术会议和期刊目录(2019 年)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;Academic-journals-学术期刊&quot;&gt;&lt;a href=&quot;#Academic-journals-学术期刊&quot; class=&quot;headerlink&quot; title=&quot;Academic journals(学术期刊)&quot;&gt;&lt;/a&gt;Academic journals(学术期刊)&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;A类&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;序号&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;刊物简称&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;刊物名称&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;出版社&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;网址&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;1&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;TVCG&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;IEEE Transactions on Visualization and Computer Graphics&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;IEEE&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/journals/tvcg/&quot;&gt;http://dblp.uni-trier.de/db/journals/tvcg/&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;2&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;SIGGRAPH&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM SIGGRAPH Annual Conference&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/conf/siggraph/index.html&quot;&gt;http://dblp.uni-trier.de/db/conf/siggraph/index.html&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;3&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;IEEE VIS&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;IEEE Visualization Conference&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;IEEE&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/conf/visualization/index.html&quot;&gt;http://dblp.uni-trier.de/db/conf/visualization/index.html&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;4&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;TOCHI&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM Transactions on Computer-Human Interaction&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/journals/tochi/&quot;&gt;http://dblp.uni-trier.de/db/journals/tochi/&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;5&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;HCI&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Human Computer Interaction&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Taylor &amp;amp; Francis&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/journals/hhci/&quot;&gt;http://dblp.uni-trier.de/db/journals/hhci/&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;6&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;CHI&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM Conference on Human Factors in Computing Systems&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;ACM&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;http://dblp.uni-trier.de/db/conf/chi&quot;&gt;http://dblp.uni-trier.de/db/conf/chi&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;&lt;/li&gt;&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="可视化" scheme="http://example.com/categories/%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    
+    
+    <category term="可视化" scheme="http://example.com/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    
+    <category term="论文" scheme="http://example.com/tags/%E8%AE%BA%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>论文概览</title>
+    <link href="http://example.com/2021/05/04/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/"/>
+    <id>http://example.com/2021/05/04/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/</id>
+    <published>2021-05-04T03:56:53.000Z</published>
+    <updated>2021-05-04T04:06:48.658Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="可视化论文"><a href="#可视化论文" class="headerlink" title="可视化论文"></a>可视化论文</h4><ul><li><p>2021.10.07 【Journal of Visualization】Jin Z , Chen N , Y Shi, et al. <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=167n0gf0y90y0610033y0ce0aw359840&site=xueshu_se&hitarticle=1">TrammelGraph: visual graph abstraction for comparison</a></p><ul><li>…….</li></ul></li><li><p>2020.11.25 刘世霞、夏志佳  <a href="http://www.shixialiu.com/publications/survey-cvm/paper.pdf">A Survey of Visual Analytics Techniques for Machine Learning</a></p><ul><li>该综述归纳整理了2010-2020年的可视化相关论文及2010年以前的少数可视化相关论文，共259篇；</li><li>论文范围包括：InfoVis，VAST，Vis（后来的SciVis）,EuroVis，PacificVis，IEEE TVCG，CGF和CG&A;</li></ul></li><li><p>2020.09.15 【TVCG】 <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=16670240bn0c0xe0wy6f04r08j753432&site=xueshu_se&hitarticle=1">A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning</a></p><ul><li>用于解释和诊断迁移学习过程的可视化分析框架</li></ul></li><li><p>2019.08.01 【TVCG】 Cashman D , Perer A , Chang R , et al. <a href="https://ieeexplore.ieee.org/document/8827593">Ablate, Variate, and Contemplate: Visual Analytics for Discovering Neural Architectures.</a></p><ul><li>提出了快速探索模型结构和参数，或重新映射的一个可视化的分析工具，使模型建设者能够发现一个深入的学习模型，通过ablations, variations, or handcrafted templates创建新模型。</li></ul></li><li><p>2018.12.05 【TVCG】 Huang Z , Lu Y , Mack E , et al. <a href="https://ieeexplore.ieee.org/document/8611178">Exploring the Sensitivity of Choropleths under Attribute Uncertainty</a></p><ul><li>提出了一个可视化分析系统，提高了我们对属性不确定性对数据可视化和统计分析的影响的理解。</li><li>通过系统设计的三种可视化视图及案列，来说明地理分析中属性不确定性的影响。</li></ul><span id="more"></span></li><li><p>2018.04.01 【IEEE】 Nie S , Healey C , Padia K , et al. <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=5c50030c63a9a4718e4923d4aa552d7e&site=xueshu_se&hitarticle=1">Visualizing Deep Neural Networks for Text Analytics</a></p></li><li><p>2017 【TVCG】 Liu M , Shi J , Zhen L , et al. <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=4740f0caa77d0d2302eef4020fe2d3de&site=xueshu_se">Towards Better Analysis of Deep Convolutional Neural Networks</a></p></li><li><p>2015.10.25 【TVCG】 Eric Alexander and Michael Gleicher. <a href="https://ieeexplore.ieee.org/document/7194832">Task-Driven Comparison of Topic Models</a></p><ul><li>主题建模是一种从大量文本中统计提取主题内容的方法，用于文本分析中的各种任务。</li><li>本文探讨了以任务为中心的主题模型比较。主要分为理解主题、理解相似性和理解变化，并提供了一些可视化的技术来促进这些任务，如（buddy plots）。它结合了颜色和位置编码，允许分析人员随时查看文档相似性的变化。</li></ul></li><li><p>2014.11.09 【TVCG】 Krause J , Perer A , Bertini E . <a href="https://ieeexplore.ieee.org/document/6876047/references#references">INFUSE: Interactive Feature Selection for Predictive Modeling of High Dimensional Data</a></p><ul><li>许多特征选择算法决定使用哪一个时，算法输出通常不适合用户解释。</li><li>旨在帮助分析人员<strong>了解</strong>预测特征在特征选择算法、交叉验证折叠和分类器中的排名。</li></ul></li><li><p>2011.10.14 【TVCG】 Cao N , Gotz D , Sun J , et al. <a href="https://ieeexplore.ieee.org/document/6065026/">DICON: Interactive Visual Analysis of Multidimensional Clusters</a></p><ul><li>DICON是一种基于动态图标的可视化技术，可以帮助用户理解、评估和调整复杂的多维聚类。它提供了描述簇的质量及其多个属性的视觉线索，并且可以嵌入到多种可视化中，如地图、散点图和图形。</li><li>用于复杂的多维聚类分析。</li></ul></li></ul><h4 id="可视化论文集"><a href="#可视化论文集" class="headerlink" title="可视化论文集"></a>可视化论文集</h4><ul><li>2020.11.01 ChinaVis2020 <a href="http://www.chinavis.org/2020/paper.html">论文集</a></li><li>2019.07.01 ChinaVis2019 论文集</li><li>2016 PasificVis 论文集<ul><li>SepMe: 2002 New Visual Separation Measures</li><li>Interactive Exploration of Atomic Trajectories Through Relative-Angle Distribution and Associated Uncertainties</li><li>Comparative Visualization of Multiple Time Surfaces by Planar Surface Reformation</li><li>Comparative Visualization of Multiple Time Surfaces by Planar Surface Reformation – additional material</li><li>Geo Word Clouds</li><li>Topology-Inspired Galilean Invariant Vector Field Analysis</li><li>A Crowdsourcing System for Integrated and Reproducible Evaluation in Scientifific Visualization</li><li>A Crowdsourcing System for Integrated and Reproducible Evaluation in Scientifific Visualization Appendix: Application Cases</li><li>MovementSlicer: Better Gantt Charts for Visualizing Behaviors and Meetings in Movement Data</li><li>Mathematical Foundations of Arc Length-Based Aspect Ratio Selection</li><li>Spot-Tracking Lens: A Zoomable User Interface for Animated Bubble Charts</li><li>Accelerated Visualization of Transparent Molecular Surfaces in Molecular Dynamics</li><li>TravelDiff: Visual Comparison Analytics for Massive Movement Patterns Derived from Twitter</li><li>Comparative Visualization of Vector Field Ensembles Based on Longest Common Subsequence</li><li>Rethinking Sensitivity Analysis of Nuclear Simulations with Topology</li><li>An Integrated Geometric and Topological Approach to Connecting Cavities in Biomolecules</li><li>Visual Monitoring of Process Runs: An Application Study for Stored Procedures</li><li>An Integrated Visualization System for Interactive Analysis of Large,Heterogeneous Cosmology Data</li><li>EnsembleGraph: Interactive Visual Analysis of Spatiotemporal Behaviors in Ensemble Simulation Data</li><li>Finite-Time Lyapunov Exponents and Lagrangian Coherent Structures in Uncertain Unsteady Flows</li><li>Visual Analysis of Cloud Computing Performance Using Behavioral Lines</li><li>Adaptive Disentanglement Based on Local Clustering in Small-World Network Visualization</li><li>Minimizing the Number of Edges via Edge Concentration in Dense Layered Graphs</li><li>Critical Point Cancellation in 3D Vector Fields: Robustness and Discussion</li><li>PieceStack: Toward Better Understanding of Stacked Graphs</li><li>ICLIC: Interactive Categorization of Large Image Collections</li><li>Interactive Visual Co-Cluster Analysis of Bipartite Graphs</li><li>Visualizing Knots and Braids with Touchable 3D Manipulatives</li><li>Effificient Unsteady Flow Visualization with High-Order Access Dependencies</li><li>A Visual Analytics Approach to High-Dimensional Logistic Regression Modeling and its Application to an Environmental Health Study</li><li>Dimension Reconstruction for Visual Exploration of Subspace Clusters in High-dimensional Data</li></ul></li></ul><h4 id="迁移学习与可视化"><a href="#迁移学习与可视化" class="headerlink" title="迁移学习与可视化"></a>迁移学习与可视化</h4><ul><li>2020.08 【ICML】 <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=1b320cs0q47c08u04y1m0m408x148126&site=xueshu_se&hitarticle=1">LEEP: A New Measure to Evaluate Transferability of Learned Representations</a><ul><li>一种用于评估可迁移性的新方法；</li><li>该方法可以预测迁移学习方法的性能和收敛速度;</li><li>是第一个开发元迁移学习的可迁移性测量的工作；</li><li>对于小数据或不平衡数据也同样适用；</li></ul></li><li>2019.01 【IEEE】 ICIP <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=1r6y0ty0bf4p0jy0np2e0cp058458877&site=xueshu_se&hitarticle=1">An information-theoretic approach to transferability in task transfer learning</a><ul><li>一种用于评估机器模型可迁移性的方法；</li><li>提出一种基于统计和信息理论的特征迁移能力度量标准——H-score；</li><li>使用该方法可以直接通过预训练模型和目标任务训练数据进行计算，无须在目标任务上训练模型；</li><li>适用于迁移学习中预训练模型选择问题；</li></ul></li><li>2018.08 【ICANN】 <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=a41fa8702b71de237b12337fec157b8d&site=xueshu_se&hitarticle=1">A Survey on Deep Transfer Learning</a><ul><li>给出了深度迁移学习的定义</li><li>通过收集整理近几年相关文献，将深度迁移学习分为四类，并具体对每一类进展进行了描述</li><li>适用于对深度迁移学习进一步了解</li></ul></li><li>2014.11 【NIPS】 <a href="https://xueshu.baidu.com/usercenter/paper/show?paperid=16510470du540gn0n15q0820xw060270&site=xueshu_se&hitarticle=1">How transferable are features in deep neural networks?</a><ul><li>论文深度神经网络中奇怪现象入手————前面几层都学习到的是通用的特征（general feature），随着网络的加深，后面的网络更偏重于学习特定的特征（specific feature），通篇以实验为主，提出并解决了在深度神经网络特征迁移中一些问题</li><li>深度神经网络特征迁移的程度如何受到高层特定化特征(specialization of higher layer features)和层之间的相互适应性(co-adapted layers)的影响</li><li>说明特征可转移性与任务间相关性正相关</li><li>指出通过可转移特征初始化网络能有效提高泛化性能并且由于随机权重</li><li>此篇论文对理解神经网络以及深度迁移学习都有着非常重要的意义，推荐阅读</li></ul></li><li>…….</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h4 id=&quot;可视化论文&quot;&gt;&lt;a href=&quot;#可视化论文&quot; class=&quot;headerlink&quot; title=&quot;可视化论文&quot;&gt;&lt;/a&gt;可视化论文&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;2021.10.07 【Journal of Visualization】Jin Z , Chen N , Y Shi, et al. &lt;a href=&quot;https://xueshu.baidu.com/usercenter/paper/show?paperid=167n0gf0y90y0610033y0ce0aw359840&amp;site=xueshu_se&amp;hitarticle=1&quot;&gt;TrammelGraph: visual graph abstraction for comparison&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;…….&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2020.11.25 刘世霞、夏志佳  &lt;a href=&quot;http://www.shixialiu.com/publications/survey-cvm/paper.pdf&quot;&gt;A Survey of Visual Analytics Techniques for Machine Learning&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;该综述归纳整理了2010-2020年的可视化相关论文及2010年以前的少数可视化相关论文，共259篇；&lt;/li&gt;
+&lt;li&gt;论文范围包括：InfoVis，VAST，Vis（后来的SciVis）,EuroVis，PacificVis，IEEE TVCG，CGF和CG&amp;A;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2020.09.15 【TVCG】 &lt;a href=&quot;https://xueshu.baidu.com/usercenter/paper/show?paperid=16670240bn0c0xe0wy6f04r08j753432&amp;site=xueshu_se&amp;hitarticle=1&quot;&gt;A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用于解释和诊断迁移学习过程的可视化分析框架&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2019.08.01 【TVCG】 Cashman D , Perer A , Chang R , et al. &lt;a href=&quot;https://ieeexplore.ieee.org/document/8827593&quot;&gt;Ablate, Variate, and Contemplate: Visual Analytics for Discovering Neural Architectures.&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;提出了快速探索模型结构和参数，或重新映射的一个可视化的分析工具，使模型建设者能够发现一个深入的学习模型，通过ablations, variations, or handcrafted templates创建新模型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2018.12.05 【TVCG】 Huang Z , Lu Y , Mack E , et al. &lt;a href=&quot;https://ieeexplore.ieee.org/document/8611178&quot;&gt;Exploring the Sensitivity of Choropleths under Attribute Uncertainty&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;提出了一个可视化分析系统，提高了我们对属性不确定性对数据可视化和统计分析的影响的理解。&lt;/li&gt;
+&lt;li&gt;通过系统设计的三种可视化视图及案列，来说明地理分析中属性不确定性的影响。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="论文概览" scheme="http://example.com/categories/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/"/>
+    
+    
+    <category term="可视化" scheme="http://example.com/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    
+    <category term="论文" scheme="http://example.com/tags/%E8%AE%BA%E6%96%87/"/>
+    
+    <category term="迁移学习" scheme="http://example.com/tags/%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>高维数据可视化</title>
@@ -96,7 +224,7 @@
     <link href="http://example.com/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"/>
     <id>http://example.com/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/</id>
     <published>2021-04-22T13:54:30.000Z</published>
-    <updated>2021-04-22T13:59:18.447Z</updated>
+    <updated>2021-05-04T03:16:27.312Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>目录：</p><ol><li>交互式可视化工具</li><li>配置式可视化工具</li><li>编程式可视化工具</li></ol></blockquote><span id="more"></span><p>​    可视化使用工具根据其使用的可拓展性（即灵活性）可分为三类：交互式可视化工具、配置式可视化工具、编程式可视化工具。其中他们的可拓展性依次递增，编程式可视化工具可拓展性最好，但同时由于：交互式可视化工具可能仅需要用户掌握软件使用方法；配置式可视化工具需要使用人员具有一定基础编程能力；编程式可视化工具更是需要使用者熟练掌握相应的编程语言。故这三类可视化工具的使用难度也依次递增。其详细信息如下：</p><p><img data-src="image-20210406100636328.png" alt="image-20210406100636328"></p><h4 id="交互式可视化工具"><a href="#交互式可视化工具" class="headerlink" title="交互式可视化工具"></a>交互式可视化工具</h4><p>以Power BI &amp; Tableau为例，一般为商业性软件，可方便的绘制图表</p><p><img data-src="image-20210406100808525.png" alt="image-20210406100808525"></p><p>  tableau:商业智能软件，适用于商业报表、数据分析等场景。可以提供简单的图表的创建。</p><p>  将分析和构建可视化图表的过程分为了以下五步:</p><p>  连接数据源——&gt;构建可视化视图———&gt;创建工作表——–&gt;构建仪表盘——–&gt;数据故事</p><p>   一般交互式可视化工具它适用于如用户缺少编程基础、数据是简单的数据、任务需求比较简单和直接，只需要对数据集进行一个简单的了解这类应用场景，以下是一些适用于不同场景的交互式可视化工具：</p><p><img data-src="image-20210406101035688.png" alt="image-20210406101035688"></p><h4 id="配置式可视化工具"><a href="#配置式可视化工具" class="headerlink" title="配置式可视化工具"></a>配置式可视化工具</h4><p>​      例如：Vega Lite、Echarts、Plotly,一般是通过用户传入特定的配置选项来完成既定的可视化形式。其中配置式一般是指用json对象来完成可视化的配置。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Vega-Lite：在2016年的Infovis上，华盛顿大学的交互实验室在发表的一篇文章中定义了一种交互式的可视化语法Vega Lite。</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;data&quot;</span>:&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;data/cars.json&quot;</span>&#125;,</span><br><span class="line">    <span class="string">&quot;mark&quot;</span>:<span class="string">&quot;circle&quot;</span>,</span><br><span class="line">    <span class="string">&quot;select&quot;</span>：&#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>:&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;point&quot;</span>,<span class="string">&quot;on&quot;</span>:<span class="string">&quot;mouseover&quot;</span>&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;encoding&quot;</span>:&#123;</span><br><span class="line">         <span class="string">&quot;x&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;horsepower&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;y&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;Miles_per_Gallon&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;color&quot;</span>:[</span><br><span class="line">                &#123;<span class="string">&quot;if&quot;</span>:<span class="string">&quot;id&quot;</span>,<span class="string">&quot;value&quot;</span>:<span class="string">&quot;orange&quot;</span>&#125;</span><br><span class="line">                &#123;<span class="string">&quot;value&quot;</span>:<span class="string">&quot;steeblue&quot;</span>&#125;</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure><p>​    到目前为止，Vega-Lite已支持条形图、散点图、河流图、折线图、地图等多种图形，网址：<a href="https://vega.github.io/vega-lite/">https://vega.github.io/vega-lite/</a>.</p><p>echarts :由百度开发的基于js的图表库，可解决一些简单的可是分析需求。（详情请查询echarts官网配置项手册）</p><p>与Vega-Lite的不同之处在于，除了一般的二维平面可视化，他还提供了三维的可视化版本称为Echarts GL。</p><p>总结：相比于交互式可视化工具，配置式可视化工具适用于稍加复杂的场景，一般要求：</p><ol><li>用户：对编程有所了解。</li><li>数据：简单。 </li><li>任务/需求：中等复杂度，交互任务较多。往往可结合编程可视化工具来完成更加复杂的任务。</li></ol><p>除上述配置式可视化工具，现有的配置式可视化工具还有：由蚂蚁金服推出的国产可视化工具ANTV；由Uber官方推出的DECK.GL主要是面向城市数据、地理空间数据、三维可视化；PLOT.LY类似于echarts也是利用配置项来配制出具有交互的可视化图表，主要提供了面向python和R语言的可视化相关组件库，所以受众十分广；P4专门用于高性能可视化的一款工具，利用GPU的硬件进行加速，所以他能进行大规模的数据可视化，可以适用不同复杂的可视化场景。</p><h4 id="编程式可视化工具"><a href="#编程式可视化工具" class="headerlink" title="编程式可视化工具"></a>编程式可视化工具</h4><p>Processing：特性：</p><ol><li>基于Java和JVM，跨平台。</li><li>语言简单易上手，配套开发工具。</li><li>集成了OpenGL,利用硬件加速。</li><li>用户社区的卓越贡献。2001年诞生于麻省理工的媒体实验室，诞生之初的主要目的是通过激励性的可视化反馈来帮助非程序员的入门编程的学习。在其社区的推动下逐渐演变成了一个媒体媒体表达的一个语言 。</li></ol><p>D3：在2011年斯坦福大学发表的论文中提出的Data-Driven Documents，是目前使用率较高的编程式可视化工具。相对于Processing，D3更贴近于可视化的编程，在D3他们的工作里面提出了一种数据驱动的文档的理念。它把数据和可视化元素绑定起来。当有新的元素进入的时候/有旧的元素退出的时候可视化元素就会进行相应的更新来保持数据和展现的一致。</p><p> 编程式可视化工具总结:适用于更加复杂的可视化场景，其要求：</p><ol><li>用户：编程能力强。</li><li>任务/需求：难度高，复杂。</li><li>数据：复杂。其他适用于不同场景编程式可视化工具：p5*JS、VTK基于OpenGL、PixiJS、Tulip。</li></ol><h4 id="参考资料：浙江大学2020年暑期可视化课程"><a href="#参考资料：浙江大学2020年暑期可视化课程" class="headerlink" title="参考资料：浙江大学2020年暑期可视化课程"></a><strong>参考资料：</strong>浙江大学2020年暑期可视化课程</h4>]]></content>
     
@@ -117,7 +245,7 @@
     
     <category term="可视化" scheme="http://example.com/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
     
-    <category term="笔记" scheme="http://example.com/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记 - 浙大可视化暑期班2020" scheme="http://example.com/tags/%E7%AC%94%E8%AE%B0-%E6%B5%99%E5%A4%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E6%9A%91%E6%9C%9F%E7%8F%AD2020/"/>
     
   </entry>
   
