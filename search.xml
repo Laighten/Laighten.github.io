@@ -97,17 +97,7 @@
   <entry>
     <title>LEEP_一种评价学习表征可迁移性的新方法</title>
     <url>/2021/04/23/LEEP-%E4%B8%80%E7%A7%8D%E8%AF%84%E4%BB%B7%E5%AD%A6%E4%B9%A0%E8%A1%A8%E5%BE%81%E5%8F%AF%E8%BF%81%E7%A7%BB%E6%80%A7%E7%9A%84%E6%96%B0%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<blockquote>
-<p>目录：</p>
-<ol>
-<li>论文及作者</li>
-<li>基本概念</li>
-<li>本文工作</li>
-<li>案列分析</li>
-<li>文中提到的其他相关方法(可做后续阅读)</li>
-<li>总结</li>
-</ol>
-</blockquote>
+    <content><![CDATA[<p>​    良好的可迁移性估计有助于理解任务之间的关系，从而选择可迁移性强的任务进行训练，或者为给定的目标任务选择良好的源模型。迁移学习何时有效，何时无效？要进行迁移学习，应该用什么样的任务进行预训练？LEEP是一种用于评价学习表征可迁移性的新方法，可帮助我们解决以上遇到的问题。</p>
 <span id="more"></span>
 
 <h4 id="论文及作者"><a href="#论文及作者" class="headerlink" title="论文及作者"></a>论文及作者</h4><ul>
