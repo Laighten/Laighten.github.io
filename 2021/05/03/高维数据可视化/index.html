@@ -1,54 +1,124 @@
-extends base
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="数据可视化 &amp; 前端 &amp; 迁移学习"><title>高维数据可视化 | Laighten's blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">高维数据可视化</h1><a id="logo" href="/.">Laighten's blog</a><p class="description">Focus on interest</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">高维数据可视化</h1><div class="post-meta">2021-05-03<span> | </span><span class="category"><a href="/categories/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></span></div><div class="post-content"><blockquote>
+<p>目录：</p>
+<ol>
+<li>数据维度简介<ul>
+<li>一维(1-D)</li>
+<li>二维(2-D)</li>
+<li>三维(3-D)</li>
+<li>高维(High Dimension)</li>
+</ul>
+</li>
+<li>高维数据可视化方法总结<ul>
+<li>数据的变换</li>
+<li>数据的呈现</li>
+<li>数据的交互</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<span id="more"></span>
 
-block title
-  title= page.title + ' | ' + config.title
-
-block content
-  .post
-    h1.post-title= page.title
-    .post-meta= page.date.format(config.date_format)
-      if page.categories.length > 0
-        span= ' | '
-        span.category
-          for category in page.categories.toArray()
-            a(href=url_for(category.path))= category.name
-      if theme.busuanzi == true
-        script(src='https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', async)
-        span#busuanzi_container_page_pv= ' | '
-          span#busuanzi_value_page_pv
-          span= ' ' + __('Hits')
-      if theme.wordcount == true
-        include _partial/wordcount.pug
-    if theme.disqus.enable == true
-      a.disqus-comment-count(data-disqus-identifier=page.path, href=url_for(page.path) + '#disqus_thread')
-    if theme.changyan
-      a.ds-thread-count(href=url_for(page.path) + '#SOHUCS')
-        span#changyan_count_unit(style='font-size: 15px; color: #6E7173;') 0
-        span= ' ' + __('Comment')
-      script(src='https://assets.changyan.sohu.com/upload/plugins/plugins.count.js', async)
-    if theme.valine.enable
-      a.disqus-comment-count( href=url_for(page.path) + '#vcomment')
-        span.valine-comment-count(data-xid=url_for(page.path))
-        span= ' ' + __('Comment')
-    if page.toc
-      div(class='clear')
-        div(id='toc' class='toc-article')
-          div(class='toc-title')= __('contents')
-          != toc(page.content, {list_number: theme.toc_number})
-    .post-content
-      != page.content
-    if theme.donate.enable == true && page.donate != false
-      include _widget/donate.pug
-
-    if theme.post_copyright.enable == true && page.copyright != false
-      include _widget/copyright.pug
-
-    if theme.shareto == true
-      script(type='text/javascript', src=url_for(theme.js) + '/share.js' + '?v=' + theme.version, async)
-      a.article-share-link(data-url=page.permalink, data-id=page._id, data-qrcode=qrcode(page.permalink))= __('shareto')
-
-    include _partial/tag.pug
-    include _partial/post_nav.pug
-
-    if page.comments
-      include _partial/comments.pug
+<h3 id="数据维度-Data-Dimension"><a href="#数据维度-Data-Dimension" class="headerlink" title="数据维度(Data Dimension)"></a>数据维度(Data Dimension)</h3><h4 id="一维-1-D"><a href="#一维-1-D" class="headerlink" title="一维(1-D)"></a>一维(1-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053725112.png" alt="1620053725112"></p>
+<h4 id="二维-2-D"><a href="#二维-2-D" class="headerlink" title="二维(2-D)"></a>二维(2-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053817171.png" alt="1620053817171"></p>
+<h4 id="三维-3-D"><a href="#三维-3-D" class="headerlink" title="三维(3-D)"></a>三维(3-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053851999.png" alt="1620053851999"></p>
+<p>对于这种可视化的方法，它并不是一种非常好或者非常妥当的一种方法，作为可视化的专业人员会非常反对使用这种三维的数据可视化。在实际的使用或应用中，会极少的使用这种三维的散点图。因为它让我们用户去认识、感知和读出它的数据的效率是极低的。它会给人们带来非常大的偏差甚至误导， 主要有两点原因：</p>
+<ol>
+<li>由于它是一个三维的空间，所以我们从不同的视角上看过去，能够观察到这种数据的分布或模式是非常的不同的，这就给做数据分析带了极大的不可预测性和不确定性。</li>
+<li>由于在三维的空间，所以不可避免的有数据的遮挡的问题。</li>
+</ol>
+<p>所以，如无必要尽量避免使用这种三维的可视化，除非数据本身是具有这种三维属性的。如飞机的起降数据、基于流场的可视化数据等。</p>
+<h4 id="高维-High-Dimension"><a href="#高维-High-Dimension" class="headerlink" title="高维(High Dimension)"></a>高维(High Dimension)</h4><ul>
+<li><p>对于高维数据如何实现可视化？</p>
+<ol>
+<li><p>通过增加视觉通道，如样式、颜色、大小等，以表达更多的属性信息</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053883695.png" alt="1620053883695"></p>
+</li>
+<li><p>多视图协调关联的方法(Multiple coordinated view:present some attributes of objects in a view)</p>
+<p>​    这种方法主要是通过在每一个视图上，分别展现相同数据集的某几个数据的维度，我们可以通过增加视图的方法来支持呈现更多的属性的可视化。下图是一个多视图协调关联的例子：</p>
+</li>
+</ol>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053909829.png" alt="1620053909829"></p>
+<p>   存在的问题：有关研究/心里学表明：太多的视图很容易会造成视觉的混淆，降低分析的效率。所以在进行多视图关联时，我们在视图之间关联的选择上也是要经过慎重的考虑的。因为不同的视图之间有可能会产生相互的干扰，设置不和谐不同意。</p>
+<p>以上两种方法是最常见的两种处理高维数据可视化的方法，在接下来的一小节中进行重点介绍。</p>
+</li>
+</ul>
+<h3 id="高维数据可视化-High-Dimensional-Data-Visualization"><a href="#高维数据可视化-High-Dimensional-Data-Visualization" class="headerlink" title="高维数据可视化(High-Dimensional Data Visualization)"></a>高维数据可视化(High-Dimensional Data Visualization)</h3><p>下面介绍的是几类比较经典的高维数据可视化的方法，以下高维数据可视化的方法可简单分为三大类型：数据的变换、数据的呈现、数据的交互。</p>
+<h4 id="数据的变换"><a href="#数据的变换" class="headerlink" title="数据的变换"></a>数据的变换</h4><ul>
+<li><p>降维(Dimensionality Reduction)</p>
+<p>使用各种线性的或者非线性的变换，把高维的数据通过降维或者投影的方式，从高维的空间变换到低维的空间，从而降低数据的复杂度。原因是由于高维的数据中很有可能会存在大量的冗余，这种大量的冗余很有可能隐藏了重要关系的相关性，隐藏了重要的数据规律。所以通过降维不仅仅可以消除数据的冗余，减少被处理数据的数量，而且可以方便的在低维空间上将数据呈现。因此，该方法广泛的应用于数据可视化、数据挖掘和模式识别等领域。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053940127.png" alt="1620053940127"></p>
+<ol>
+<li><p>线性的方法</p>
+<ul>
+<li><p>Principal Comonent Analysis (PCA)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053965131.png" alt="1620053965131"></p>
+<ol>
+<li><p>如上图所示，对于具有两个属性的数据（一行代表一个属性），首先将每个数据减去它的一个均值。</p>
+</li>
+<li><p>将变化后的数据放到一个坐标系上。</p>
+</li>
+<li><p>在二维的平面当中去选择一个方向，将这五个点都投影到这个方向所在的直线上，用投影后的值来表示原始的记录。</p>
+<p>如何去选择这个方向？我们希望降维后的值要尽可能的分散，而不是聚在一起</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053994363.png" alt="1620053994363"></p>
+<p>选择一个方向，这个方向使得投影后的方差值最大。但是当维度多了之后就会出现维度的相关性，所以我们通过两个字段的协方差来表示相关性。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054023121.png" alt="1620054023121"></p>
+</li>
+</ol>
+</li>
+<li><p>Multidimensional Scaling (MDS) 多尺度投影</p>
+<p>通过输入一个原始数据集的矩阵，这个数据集是两两数据之间的相似程度。</p>
+</li>
+</ul>
+</li>
+<li><p>非线性的方法</p>
+<ul>
+<li>ISOMAP</li>
+<li>Local Linear Embedding(LLE)</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="数据的呈现"><a href="#数据的呈现" class="headerlink" title="数据的呈现"></a>数据的呈现</h4><p>通过一些巧妙的数据可视化的布局方法，忠实、直观、生动的展现高维数据。</p>
+<ul>
+<li><p>散点图矩阵(Scatter-plot Matrix)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054048474.png" alt="1620054048474"></p>
+<p>存在的问题：当我们有很多的维度的时候，仅仅用肉眼去发现其中的规律或者模式往往比较困难，为了解决这种问题，有人就使用了一些智能的算法去自动的发现在散点图里面，哪一些散点图是更有意义的。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054081364.png" alt="1620054081364"></p>
+</li>
+<li><p>平行坐标轴(Parallel Coordinates)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054111193.png" alt="1620054111193"></p>
+<p>存在的问题：当我们的数据很多时，往往会形成以下图案，我们从中发现不了它里面有什么关联（如左图），我们可以给每一个折线加一个透明度（如右图）。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054137614.png" alt="1620054137614"></p>
+</li>
+<li><p>基于图标的方式(Glyph-based Methods)</p>
+<ol>
+<li><p>Star Plots(雷达图) </p>
+<blockquote>
+<p>可看做平行坐标轴的一个变种</p>
+</blockquote>
+</li>
+<li><p>Chernoff Faces(脸谱图）</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054163274.png" alt="1620054163274"></p>
+</li>
+<li><p>Text+Glyph(将图标嵌入文本之中)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054188553.png" alt="1620054188553"></p>
+</li>
+</ol>
+</li>
+<li><p>Small Multiples(小图标法)</p>
+<p>用一系列的排列非常整齐的图表来做多维数据的可视化，从而方便我们进行对比，其案例主要如下：</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054214467.png" alt="1620054214467"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054242206.png" alt="1620054242206"></p>
+</li>
+</ul>
+<h4 id="数据的交互"><a href="#数据的交互" class="headerlink" title="数据的交互"></a>数据的交互</h4><p>通过有效的人机交互的技术，帮助人们交互式的探索和分析高维的数据。</p>
+<ul>
+<li>Iteraction:”Dust &amp; Magnet”<ul>
+<li>使用一个个类似于灰尘的点来代表数据点（Dust-Data points）</li>
+<li>用磁铁来代表数据属性的过滤器（Magnet-Attribute Filters）</li>
+<li>通过不断的抖动磁铁，就会把与这个磁铁相关的属性的灰尘往该磁铁的方向吸引</li>
+</ul>
+</li>
+</ul>
+</div><div class="tags"><a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/"><i class="fa fa-tag"></i>可视化</a><a href="/tags/%E7%AC%94%E8%AE%B0/"><i class="fa fa-tag"></i>笔记</a><a href="/tags/%E6%B5%99%E5%A4%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E6%9A%91%E6%9C%9F%E7%8F%AD2020/"><i class="fa fa-tag"></i>浙大可视化暑期班2020</a></div><div class="post-nav"><a class="pre" href="/2021/05/04/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/">论文概览</a><a class="next" href="/2021/04/23/LEEP-%E4%B8%80%E7%A7%8D%E8%AF%84%E4%BB%B7%E5%AD%A6%E4%B9%A0%E8%A1%A8%E5%BE%81%E5%8F%AF%E8%BF%81%E7%A7%BB%E6%80%A7%E7%9A%84%E6%96%B0%E6%96%B9%E6%B3%95/">LEEP_一种评价学习表征可迁移性的新方法</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87/">论文</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/">论文概览</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 15px;">可视化</a> <a href="/tags/ChinaVIS/" style="font-size: 15px;">ChinaVIS</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 15px;">论文</a> <a href="/tags/%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">迁移学习</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" style="font-size: 15px;">浏览器工作原理</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15px;">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15px;">-前端</a> <a href="/tags/ES/" style="font-size: 15px;">ES</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 15px;">笔记</a> <a href="/tags/%E6%B5%99%E5%A4%A7%E5%8F%AF%E8%A7%86%E5%8C%96%E6%9A%91%E6%9C%9F%E7%8F%AD2020/" style="font-size: 15px;">浙大可视化暑期班2020</a> <a href="/tags/Vue/" style="font-size: 15px;">Vue</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/07/12/test/">test</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/04/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AD%A6%E6%9C%AF%E6%9C%9F%E5%88%8A%E6%B1%87%E6%80%BB/">可视化学术期刊汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/04/%E8%AE%BA%E6%96%87%E6%A6%82%E8%A7%88/">论文概览</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">高维数据可视化</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/23/LEEP-%E4%B8%80%E7%A7%8D%E8%AF%84%E4%BB%B7%E5%AD%A6%E4%B9%A0%E8%A1%A8%E5%BE%81%E5%8F%AF%E8%BF%81%E7%A7%BB%E6%80%A7%E7%9A%84%E6%96%B0%E6%96%B9%E6%B3%95/">LEEP_一种评价学习表征可迁移性的新方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/">可视化使用工具总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/22/Vue%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">Vue常用知识点总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/">V8引擎编译器和解析器</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/">this的指向问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">V8垃圾回收机制</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">Laighten's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
