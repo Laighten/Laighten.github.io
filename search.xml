@@ -632,7 +632,9 @@
   <entry>
     <title>论文阅读-2021-07-13</title>
     <url>/2021/07/13/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-13/</url>
-    <content><![CDATA[<p>​    SUMMIT: Scaling Deep Learning Interpretability by Visualizing Activation and Attribution Summarizations.</p>
+    <content><![CDATA[<blockquote>
+<p>SUMMIT: Scaling Deep Learning Interpretability by Visualizing Activation and Attribution Summarizations.</p>
+</blockquote>
 <p>​    SUMMIT是一种较为新颖的用于总结和解释深度神经网络的方案。该方案主要通过聚合深度学习模型中的“ 重要神经元” 和 “神经元影响” 来创建归因图，进而通过可视化探索揭示深度学习模型中的关键神经元之间的关联和子结构。该方案将大型复杂的神经网络模型提炼成紧凑的交互式可视化系统，对大型数据模型也具有效性。本文还开源的他们可视化系统以及神经网络模型的训练代码，其网站如下：Visualization: <a href="https://github.com/fredhohman/summit.%EF%BC%9BCode">https://github.com/fredhohman/summit.；Code</a>: <a href="https://github.com/fredhohman/summit-notebooks">https://github.com/fredhohman/summit-notebooks</a>. ；Data: <a href="https://github.com/fredhohman/summit-data">https://github.com/fredhohman/summit-data</a>. </p>
 <span id="more"></span>
 
@@ -685,7 +687,9 @@
   <entry>
     <title>论文阅读-2021-04-23</title>
     <url>/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/</url>
-    <content><![CDATA[<p>​     LEEP: A New Measure to Evaluate Transferability of Learned Representations</p>
+    <content><![CDATA[<blockquote>
+<p>LEEP: A New Measure to Evaluate Transferability of Learned Representations</p>
+</blockquote>
 <p>​    良好的可迁移性估计有助于理解任务之间的关系，从而选择可迁移性强的任务进行训练，或者为给定的目标任务选择良好的源模型。迁移学习何时有效，何时无效？要进行迁移学习，应该用什么样的任务进行预训练？这些问题对了解和改善迁移学习十分重要。LEEP是一种用于评价学习表征可迁移性的新方法，可帮助我们解决以上遇到的问题。</p>
 <span id="more"></span>
 
