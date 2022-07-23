@@ -12,73 +12,73 @@
 <p>3）没有针对挑战赛给出的问题有针对性的设计和作答：刚开始我们就是在从整体的角度去设计这个系统要做成怎么怎么样，怎样才能吸引专家眼球之类的，然后就是从别人历年发表过的可视化文章中去找我们可能能用到的可视化图形，但却忽略了问题本身。这样做，到最后写答卷时导致的结果就是，你会发现其实你每个问题感觉都有所涉及，但又每个问题你都没有解决。就比如在我们系统中的“场馆时间安排图”——能够勉强说明场馆的开会的时间段，但别人问题问的是让你找出每个场馆的时间安排，这包括大致的开会时间和会议名称；再比如“人员的分类”——勉强能把不同类型的人员聚类（精不精确先不说），但却不能说明每一类都是什么人。当然从做可视化的角度来说这样做无可厚非，但是我们是在比赛啊。我认为一开始就应该针对每个问题去寻找可以有效解决问题的方法不管是通过后端数据处理得到还是前端可视化图形得到，这样才能既节约时间由能有效的解答问题。</p>
 <p>4）应该在答卷中尽可能多的写出自己分析的结果：在写答卷时，因为比较匆忙，所以只把自己觉得正确的地方写上去了很多之前分析出的一些较小或则与答案有关的结果并没有写上，且做出的场馆拥堵情况热力图和人员脸谱图因为没有实现联动而在没有在答卷中出现。最后在参会听老师公布答案时发现，我们分析出的很多小细节都与答案有关，我想如果把这些都写上我们的名次应该可以再上一个档次。</p>
 <p>5）图与图之间的搭配问题：某些用于解决某问题的图搭配起来实际不能真正的解决该问题，这也是我们在设计之初考虑不周的结果，由此导致花费了时间在制作可视化的图形上，所以在设计之初我们应该想好了设计出的图形搭配起来是否能真正解决问题而不要盲目的开始制作图形。</p>
-<p>以上就是我总结出的在本次比赛中的不足之处，下面附上我们团队做出的系统中的部分系统截图：<br><img src="/.com//1620055143400.png" alt="1620055143400"></p>
+<p>以上就是我总结出的在本次比赛中的不足之处，下面附上我们团队做出的系统中的部分系统截图：<br><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055143400.png" alt="1620055143400"></p>
 <p>点击每个会场房间可单独显示每个房间的人数变化的折线图，用于详细探索某个会场或某个格子在此时间段的人员数量变化情况。同时选择多个会场，可同时在同一坐标下显示多个房间人数变化情况，以便我们对每个会场做对比分析。</p>
-<p><img src="/.com//1620055210105.png" alt="1620055210105"></p>
-<p>该视图着重观察主会场以及四个分会场随时间的人数变化以及稳定度变化（出度人数除以入度人数），借此来判断该会场是否存在人数庞大的时间段或者人员流动比较频繁的时间段，推测此会场是否在举行会议或者比赛等活动。其中，黄色颜色越深代表着会场人员变动频率越高说明属于休会时段，颜色越前表示会场人员走动越低说明处于开会时间段。<br><img src="/.com//1620055253742.png" alt="1620055253742"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055210105.png" alt="1620055210105"></p>
+<p>该视图着重观察主会场以及四个分会场随时间的人数变化以及稳定度变化（出度人数除以入度人数），借此来判断该会场是否存在人数庞大的时间段或者人员流动比较频繁的时间段，推测此会场是否在举行会议或者比赛等活动。其中，黄色颜色越深代表着会场人员变动频率越高说明属于休会时段，颜色越前表示会场人员走动越低说明处于开会时间段。<br><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055253742.png" alt="1620055253742"></p>
 <p>  对上面经过t-sne聚类后的人员进行圈选可以查看该类人员的轨迹。点击每个聚类好的小团会在场地图中弹出该类人员的行走路线，且在折线图中显示该类人员中去过各房间的差异，从而帮助分析人员类别。</p>
 <h3 id="挑战赛部分答案记录"><a href="#挑战赛部分答案记录" class="headerlink" title="挑战赛部分答案记录"></a>挑战赛部分答案记录</h3><p>  由于赛方已将答案以及切入点以表格的形式完整的在PPT上展示了，在此我就不过多赘述，有需要的请观看我在现场拍摄答案图片。</p>
-<p><img src="/.com//1620055313214.png" alt="1620055313214"></p>
-<p><img src="/.com//1620055338129.png" alt="1620055338129"></p>
-<p><img src="/.com//1620055375251.png" alt="1620055375251"></p>
-<p><img src="/.com//1620055406202.png" alt="1620055406202"></p>
-<p><img src="/.com//1620055432077.png" alt="1620055432077"></p>
-<p><img src="/.com//1620055461131.png" alt="1620055461131"></p>
-<p><img src="/.com//1620055486695.png" alt="1620055486695"></p>
-<p><img src="/.com//1620055518177.png" alt="1620055518177"></p>
-<p><img src="/.com//1620055542386.png" alt="1620055542386"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055313214.png" alt="1620055313214"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055338129.png" alt="1620055338129"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055375251.png" alt="1620055375251"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055406202.png" alt="1620055406202"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055432077.png" alt="1620055432077"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055461131.png" alt="1620055461131"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055486695.png" alt="1620055486695"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055518177.png" alt="1620055518177"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055542386.png" alt="1620055542386"></p>
 <p><strong>备注：</strong>会场的安排包括会场的会议时间和会议名称，我只拍到了时间安排没有拍到每个房间不同时间段对应的会议名称，所以需要详细资料的可以等一段时间去官网下载详细答案。</p>
 <h3 id="挑战1获奖作品记录及感想"><a href="#挑战1获奖作品记录及感想" class="headerlink" title="挑战1获奖作品记录及感想"></a>挑战1获奖作品记录及感想</h3><ol>
 <li><p>一等奖，成都理工大学-李浙川</p>
 <p>所用开发工具：Echarts，D3.js，Tableau，Layui，Python，Excel</p>
 <p>成都理工大学队的作品被挑战赛评议委员会认为是本次赛事中分析结果最全、结果与答案最为接近的作品。在作品中并未涉及到什么算法和高大上的可视化技术却利用现有的工具将设计出的图形相互搭配完美的解决了挑战1的各问题。以下是他们设计的部分可视化界面以及简要说明。</p>
-<p><img src="/.com//1620056315442.png" alt="1620056315442"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056315442.png" alt="1620056315442"></p>
 <p>左图 ：A 部分为会场实时人数、人员密度统计条形 图；B 部分为实时会场动态展示图；C 部分为会场异常情况通报栏；D 部分</p>
 <p>为该异常事件具体情况展示栏；E 部分为会场人数情况热力图</p>
 <p>右图：AB 两部分为该 id 的一二楼该天停留情况热力图；CD 两部分为该 id 一二楼重要地点的具体停留时间和弦图；E 图为该</p>
 <p>id 三天具体移动轨迹展示图</p>
-<p><img src="/.com//1620056333975.png" alt="1620056333975"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056333975.png" alt="1620056333975"></p>
 <p>左图：在折线图中梯度下降和梯度上升的情况判断出各会场会议的起止时间，其中以会场人数跃进式上升为会议的开始标志，会场人数断崖式下降为会议的结束标志，进而得出每个会场的会议安排表</p>
 <p>右图：工作人员流动情况气泡图(其中蓝色代表服务台，灰色代表签到处，绿色代表展厅)            </p>
 <p>盗用胸牌16632：通过发现在某一时刻同时出现两个编号相同的胸牌</p>
 </li>
 <li><p>一等奖，重庆大学</p>
 <p>处理数据前对数据进行了补全再做处理</p>
-<p>   <img src="/.com//1620056239274.png" alt="1620056239274"></p>
-<p><img src="/.com//1620056212426.png" alt="1620056212426"></p>
+<p>   <img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056239274.png" alt="1620056239274"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056212426.png" alt="1620056212426"></p>
 <p>   记者越权：切入点，先分析出可进VIP房间的人不用签到但该人进入VIP房间签到 </p>
-<p><img src="/.com//1620056170204.png" alt="1620056170204"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056170204.png" alt="1620056170204"></p>
 <p>   当然作为一等奖的获得者他们也分析出了盗用胸牌者，不过他们找到该盗用ID是：发现使用该ID的人员瞬移并跳格，然后深入分析发现原因不是瞬移跳格，而是有人复制胸牌导致很短的时间内有同样ID的人在不同的两个地方出现。（顺便说一句，当时我们团队也发现了这个人，且发现他的原因也是他出现瞬移的情况，但我们没有进行深入分析，而只是把他当做传感器故障时间处理了，哎。。。可能这就是一等奖和优秀之间的差距吧）。</p>
 </li>
 <li><p>二等奖，东北师范大学</p>
-<p><img src="/.com//1620056134636.png" alt="1620056134636"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056134636.png" alt="1620056134636"></p>
 <p>人员分类：t-sne+圈选平行坐标图</p>
 <p>先分类-&gt;预设-&gt;t-sne降维算法</p>
-<p><img src="/.com//1620056086896.png" alt="1620056086896"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056086896.png" alt="1620056086896"></p>
 <p>冒用：同时两条轨迹 </p>
 <p>传感器出错：由一人异常-&gt;深入察看-&gt;某段某时，传感器失灵</p>
-<p><img src="/.com//1620056065367.png" alt="1620056065367"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056065367.png" alt="1620056065367"></p>
 </li>
 <li><p>二等奖，山东大学</p>
-<p><img src="/.com//1620056023159.png" alt="1620056023159"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620056023159.png" alt="1620056023159"></p>
 <p>用到的技术 ：D3.js    AntVG2   Vega   Echarts</p>
 <p>右图右侧决定树：用于展示全场分类</p>
 </li>
 <li><p>二等奖，信息工程大学</p>
 <p>虚幻引擎（咱也不知道啥是虚幻引擎，只知道主持人赵颖老师说这是本次比赛中用到最牛技术的获奖作品o(╥﹏╥)o）不懂所以我就不敢乱逼逼，有兴趣的可以看以下我拍摄的演讲人的报告PPT，以及该作品作者的联系方式。</p>
-<p><img src="/.com//1620055946850.png" alt="1620055946850"></p>
-<p><img src="/.com//1620055918993.png" alt="1620055918993"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055946850.png" alt="1620055946850"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055918993.png" alt="1620055918993"></p>
 </li>
 <li><p>二等奖，燕山大学</p>
-<p><img src="/.com//1620055892483.png" alt="1620055892483"></p>
-<p><img src="/.com//1620055864640.png" alt="1620055864640"></p>
-<p><img src="/.com//1620055834713.png" alt="1620055834713"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055892483.png" alt="1620055892483"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055864640.png" alt="1620055864640"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055834713.png" alt="1620055834713"></p>
 <p>冒领ID：出入口检测不匹配</p>
-<p><img src="/.com//1620055794604.png" alt="1620055794604"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055794604.png" alt="1620055794604"></p>
 </li>
 <li><p>单项奖，中国铁道科学研究院集团有限公司-戚小玉（三维场景设计奖）</p>
-<p><img src="/.com//1620055772247.png" alt="1620055772247"></p>
-<p><img src="/.com//1620055713344.png" alt="1620055713344"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055772247.png" alt="1620055772247"></p>
+<p><img src="/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/1620055713344.png" alt="1620055713344"></p>
 </li>
 </ol>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
@@ -95,6 +95,53 @@
       </tags>
   </entry>
   <entry>
+    <title>V8引擎编译器和解析器</title>
+    <url>/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/</url>
+    <content><![CDATA[<p>​    通过阅读李兵老师的《浏览器的原理与实践》感觉对自己学习和理解前端知识大有启发，结合自己的理解对V8引擎的编译器和解释器做了以下归纳和总结。已备自己忘记时查看。</p>
+<span id="more"></span>
+
+<h4 id="编译器和解释器"><a href="#编译器和解释器" class="headerlink" title="编译器和解释器"></a>编译器和解释器</h4><p>​    <strong>编译型语言在程序执行之前，需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行程序时，都可以直接运行该二进制文件，而不需要再次重新编译了。</strong>比如 C/C++、GO 等都是编译型语言。</p>
+<p>​    <strong>解释型语言编写的程序，在每次运行时都需要通过解释器对程序进行动态解释和执行</strong>。比如 Python、JavaScript 等都属于解释型语言。</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105157354.png" alt="image-20210306105157354"></p>
+<p><strong>（1）编译型语言的执行流程：</strong>编译器首先会依次对源代码进行词法分析、语法分析，生成抽象语法树（AST），然后是优化代码，最后再生成处理器能够理解的机器码。如果编译成功，将会生成一个可执行的文件。但如果编译过程发生了语法或者其他的错误，那么编译器就会抛出异常，最后的二进制文件也不会生成成功。</p>
+<p><strong>（2）解释型语言的执行流程：</strong>解释器也会对源代码进行词法分析、语法分析，并生成抽象语法树（AST），不过它会再基于抽象语法树生成字节码，最后再根据字节码来执行程序、输出结果。</p>
+<h4 id="V8-是如何执行一段-JavaScript-代码的"><a href="#V8-是如何执行一段-JavaScript-代码的" class="headerlink" title="V8 是如何执行一段 JavaScript 代码的"></a>V8 是如何执行一段 JavaScript 代码的</h4><p>​    V8 在执行过程中既有<strong>解释器 Ignition</strong>，又有<strong>编译器 TurboFan</strong>。其全局执行流程如下所示：</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105718810.png" alt="image-20210306105718810"></p>
+<h5 id="生成抽象语法树（AST）和执行上下文"><a href="#生成抽象语法树（AST）和执行上下文" class="headerlink" title="生成抽象语法树（AST）和执行上下文"></a>生成抽象语法树（AST）和执行上下文</h5><p>​    首先，将源代码转换成<strong>抽象语法树（AST）</strong>和<strong>执行上下文</strong>。高级语言是开发者可以理解的语言，而对于编译器和解释器来说他们可以理解的就是抽象语法树（AST）。这和渲染引擎将HTML格式的文件转换为自己可以理解的DOM树类似。</p>
+<p>​    AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。<strong>Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。</strong></p>
+<p>​    除了 Babel 外，还有 ESLint 也使用 AST。ESLint 是一个用来检查 JavaScript 编写规范的插件，其检测流程也是需要将源码转换为 AST，然后再利用 AST 来检查代码规范化的问题。</p>
+<p><strong>生成AST的两个阶段：</strong></p>
+<p><strong>第一阶段是分词（tokenize），又称为词法分析</strong>，其作用是将一行行的源码拆解成一个个 token。所谓<strong>token</strong>，指的是语法上不可能再分的、最小的单个字符或字符串。</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111037818.png" alt="image-20210306111037818"></p>
+<p>​    从图中可以看出，通过<code>var myName = “极客时间”</code>简单地定义了一个变量，其中关键字“var”、标识符“myName” 、赋值运算符“=”、字符串“极客时间”四个都是 token，而且它们代表的属性还不一样。</p>
+<p><strong>第二阶段是解析（parse），又称为语法分析</strong>，其作用是将上一步生成的 token 数据，根据语法规则转为 AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个“语法错误”。</p>
+<p><strong>有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文。</strong></p>
+<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><p>​    有了 AST 和执行上下文后，那接下来的第二步，解释器 Ignition 就登场了，它会根据 AST 生成字节码，并解释执行字节码。</p>
+<p><strong>字节码就是介于 AST 和机器码之间的一种代码。但是与特定类型的机器码无关，字节码需要通过解释器将其转换为机器码后才能执行。</strong></p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111747379.png" alt="image-20210306111747379"></p>
+<p>​    从图中可以看出，机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用。</p>
+<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><p>​    通常，如果有一段第一次执行的字节码，解释器 Ignition 会逐条解释执行。在执行字节码的过程中，如果发现有热点代码(HotSpot)，比如一段代码被重复执行多次，这种就称为<strong>热点代码</strong>，那么后台的编译器(TurboFan) 就会把该段热点的字节码编译为高效的机器码，然后当再次执行这段被优化的代码时，只需要执行编译后的机器码就可以了，这样就大大提升了代码的执行效率。</p>
+<p>​    其实字节码配合解释器和编译器是最近一段时间很火的技术，比如 Java 和 Python 的虚拟机也都是基于这种技术实现的，我们把这种技术称为<strong>即时编译（JIT）</strong>。</p>
+<h4 id="JavaScript的性能优化"><a href="#JavaScript的性能优化" class="headerlink" title="JavaScript的性能优化"></a>JavaScript的性能优化</h4><p>主要关注以下三点：</p>
+<ol>
+<li>提升单次脚本的执行速度，避免 JavaScript 的长任务霸占主线程，这样可以使得页面快速响应交互；</li>
+<li>避免大的内联脚本，因为在解析 HTML 的过程中，解析和编译也会占用主线程；</li>
+<li>减少 JavaScript 文件的容量，因为更小的文件会提升下载速度，并且占用更低的内存。</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​    （1）解释器和编译器在执行代码时都会先将代码通过词法分析、语法分析生成抽象语法树（AST），不同的是解释型语言会通过解释器将AST转换为字节码并直接逐条执行；而编译器会在AST的基础上先优化代码然后生成机器码进而编译生成二进制文件，执行时直接执行这个二进制文件。</p>
+<p>​    （2）JavaScript的编译流程是：先通过词法分析和语法分析生成AST和可执行上下文，然后通过解释器将AST转换为字节码，并逐条执行。在生成AST时主要分为两步：第一步先通过词法分析生成token，第二步通过语法分析将token转换为AST。</p>
+<p>​    （3）V8在代码的编译过程中采用的JIT（即时编译）技术来实现的。就是在生成字节码后，先使用解释器逐条解释并执行代码，如果遇到热点代码（被多次重复执行的代码），就会把这段字节码通过编译器编译为机器码，当再次遇到改代码是就可以直接执行。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>浏览器工作原理</tag>
+        <tag>前端</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>V8垃圾回收机制</title>
     <url>/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>​    JavaScript、Java、Python 等语言，产生的垃圾数据是由垃圾回收器来释放的，并不需要手动通过代码来释放。搞清楚内存中的垃圾是如何回收的对理解内存机制和写出高性能的代码具有巨大的帮助。下面将主要介绍V8引擎的垃圾回收机制。</p>
@@ -105,7 +152,7 @@
 
 <p>​    执行到 showName 函数时，那么 JavaScript 引擎会创建 showName 函数的执行上下文，并将 showName 函数的执行上下文压入到调用栈中，最终执行到 showName 函数时，其调用栈就如下图所示。与此同时，还有一个<strong>记录当前执行状态的指针（称为 ESP）</strong>，指向调用栈中 showName 函数的执行上下文，表示当前正在执行 showName 函数。</p>
 <p>​    接着，当 showName 函数执行完成之后，函数执行流程就进入了 foo 函数，那这时就需要销毁 showName 函数的执行上下文了。ESP 这时候就帮上忙了，JavaScript 会将 ESP 下移到 foo 函数的执行上下文，<strong>这个下移操作就是销毁 showName 函数执行上下文的过程</strong>。</p>
-<p><img src="/.com//image-20210304112315040.png" alt="image-20210304112315040"></p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304112315040.png" alt="image-20210304112315040"></p>
 <p>所以说，当一个函数执行结束之后，<strong>JavaScript 引擎会通过向下移动 ESP 来销毁该函数保存在栈中的执行上下文</strong>。</p>
 <h4 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h4><p><strong>代际假说（The Generational Hypothesis）</strong>：</p>
 <ul>
@@ -124,7 +171,7 @@
 <p>​    2、<strong>回收非活动对象所占据的内存</strong>。其实就是在所有的标记完成之后，统一清理内存中所有被标记为可回收的对象。</p>
 <p>​    3、<strong>内存整理</strong>。频繁回收对象后，内存中就会存在大量不连续空间，我们把这些不连续的内存空间称为<strong>内存碎片</strong>。当出现量不连续的内存碎片后，我们再想分配一个较大的连续空间就会出现内存不足的情况。</p>
 <h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><p>​    副垃圾回收器主要负责新生区的垃圾回收，用<strong>Scavenge 算法</strong>来处理。其原理就是：把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域，新加入的对象都会存放到对象区域，<strong>当对象区域快被写满时</strong>，就需要执行一次垃圾清理操作。</p>
-<p><img src="/.com//image-20210304114240567.png" alt="image-20210304114240567"></p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304114240567.png" alt="image-20210304114240567"></p>
 <p>其回收过程如下：</p>
 <p>​    1、对对象区域中的垃圾做标记，活动对象和非活动会对象；</p>
 <p>​    2、标记完成之后，就进入垃圾清理阶段，副垃圾回收器会把这些<strong>仍然存活的对象</strong>复制到空闲区域中，<strong>同时它还会把这些对象有序地排列起来，所以这个复制过程</strong>，也就相当于完成了内存整理操作，复制后空闲区域就没有内存碎片了。</p>
@@ -134,12 +181,12 @@
 <p>​    主垃圾回收器是采用<strong>标记 - 清除（Mark-Sweep）</strong>的算法进行垃圾回收的。</p>
 <p>1、<strong>对垃圾数据做标记</strong>。当调用栈中的ESP指向下一个执行上下文后，上一个执行上下文中引用对象在堆中的数据就会被当做垃圾数据被<strong>标为红色</strong>，而当前正被ESP指向的指向上下文中指针指向的栈中数据会被标为<strong>活动数据</strong>。</p>
 <p>2、<strong>垃圾数据的清除</strong>。使用<strong>Mark-Sweep</strong>算法清除掉被标记为红色的垃圾数据。</p>
-<p><img src="/.com//image-20210304115832389.png" alt="image-20210304115832389.png"></p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115832389.png" alt="image-20210304115832389.png"></p>
 <p>3、<strong>内存整理</strong>。使用<strong>标记 - 整理（Mark-Compact）</strong>对内存碎片进行整理。</p>
-<p><img src="/.com//image-20210304115856708.png" alt="image-20210304115856708"></p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115856708.png" alt="image-20210304115856708"></p>
 <h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><p>​    于 JavaScript 是运行在主线程之上的，一旦执行垃圾回收算法，都需要将正在执行的 JavaScript 脚本暂停下来，待垃圾回收完毕后再恢复脚本执行。我们把这种行为叫做<strong>全停顿（Stop-The-World）</strong>。</p>
 <p>​    为了降低老生代的垃圾回收而造成的卡顿，V8 将标记过程分为一个个的子标记过程，同时让垃圾回收标记和 JavaScript 应用逻辑交替进行，直到标记阶段完成，我们把这个算法称为<strong>增量标记（Incremental Marking）算法</strong>。如下图所示：</p>
-<p><img src="/.com//image-20210304120112556.png" alt="image-20210304120112556"></p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304120112556.png" alt="image-20210304120112556"></p>
 <p>​    使用增量标记算法，可以把一个完整的垃圾回收任务拆分为很多小的任务，这些小的任务执行时间比较短，可以穿插在其他的 JavaScript 任务中间执行，这样当执行上述动画效果时，就不会让用户因为垃圾回收任务而感受到页面的卡顿了。</p>
 ]]></content>
       <categories>
@@ -337,9 +384,9 @@
 <li><p>对比虚拟dom，渲染到真实dom（Mounted之前）</p>
 </li>
 <li><p>组件内部data发生变化，组件和子组件引用data作为props重新调用render函数，生成虚拟dom, 返回到步骤3。（Mounted阶段）</p>
-<p><img src="/.com//Snipaste_2021-04-22_21-43-20.png" alt="Snipaste_2021-04-22_21-43-20"></p>
-<p><img src="/.com//Snipaste_2021-04-22_21-44-17.png" alt="Snipaste_2021-04-22_21-44-17"></p>
-<p><img src="/.com//Snipaste_2021-04-22_21-45-00.png" alt="Snipaste_2021-04-22_21-45-00"></p>
+<p><img src="/2021/04/22/Vue%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/Snipaste_2021-04-22_21-43-20.png" alt="Snipaste_2021-04-22_21-43-20"></p>
+<p><img src="/2021/04/22/Vue%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/Snipaste_2021-04-22_21-44-17.png" alt="Snipaste_2021-04-22_21-44-17"></p>
+<p><img src="/2021/04/22/Vue%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/Snipaste_2021-04-22_21-45-00.png" alt="Snipaste_2021-04-22_21-45-00"></p>
 </li>
 </ol>
 <h4 id="vue中请求数据的方式"><a href="#vue中请求数据的方式" class="headerlink" title="vue中请求数据的方式"></a>vue中请求数据的方式</h4><ol>
@@ -458,53 +505,6 @@
       </tags>
   </entry>
   <entry>
-    <title>V8引擎编译器和解析器</title>
-    <url>/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/</url>
-    <content><![CDATA[<p>​    通过阅读李兵老师的《浏览器的原理与实践》感觉对自己学习和理解前端知识大有启发，结合自己的理解对V8引擎的编译器和解释器做了以下归纳和总结。已备自己忘记时查看。</p>
-<span id="more"></span>
-
-<h4 id="编译器和解释器"><a href="#编译器和解释器" class="headerlink" title="编译器和解释器"></a>编译器和解释器</h4><p>​    <strong>编译型语言在程序执行之前，需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行程序时，都可以直接运行该二进制文件，而不需要再次重新编译了。</strong>比如 C/C++、GO 等都是编译型语言。</p>
-<p>​    <strong>解释型语言编写的程序，在每次运行时都需要通过解释器对程序进行动态解释和执行</strong>。比如 Python、JavaScript 等都属于解释型语言。</p>
-<p><img src="/.com//image-20210306105157354.png" alt="image-20210306105157354"></p>
-<p><strong>（1）编译型语言的执行流程：</strong>编译器首先会依次对源代码进行词法分析、语法分析，生成抽象语法树（AST），然后是优化代码，最后再生成处理器能够理解的机器码。如果编译成功，将会生成一个可执行的文件。但如果编译过程发生了语法或者其他的错误，那么编译器就会抛出异常，最后的二进制文件也不会生成成功。</p>
-<p><strong>（2）解释型语言的执行流程：</strong>解释器也会对源代码进行词法分析、语法分析，并生成抽象语法树（AST），不过它会再基于抽象语法树生成字节码，最后再根据字节码来执行程序、输出结果。</p>
-<h4 id="V8-是如何执行一段-JavaScript-代码的"><a href="#V8-是如何执行一段-JavaScript-代码的" class="headerlink" title="V8 是如何执行一段 JavaScript 代码的"></a>V8 是如何执行一段 JavaScript 代码的</h4><p>​    V8 在执行过程中既有<strong>解释器 Ignition</strong>，又有<strong>编译器 TurboFan</strong>。其全局执行流程如下所示：</p>
-<p><img src="/.com//image-20210306105718810.png" alt="image-20210306105718810"></p>
-<h5 id="生成抽象语法树（AST）和执行上下文"><a href="#生成抽象语法树（AST）和执行上下文" class="headerlink" title="生成抽象语法树（AST）和执行上下文"></a>生成抽象语法树（AST）和执行上下文</h5><p>​    首先，将源代码转换成<strong>抽象语法树（AST）</strong>和<strong>执行上下文</strong>。高级语言是开发者可以理解的语言，而对于编译器和解释器来说他们可以理解的就是抽象语法树（AST）。这和渲染引擎将HTML格式的文件转换为自己可以理解的DOM树类似。</p>
-<p>​    AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。<strong>Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。</strong></p>
-<p>​    除了 Babel 外，还有 ESLint 也使用 AST。ESLint 是一个用来检查 JavaScript 编写规范的插件，其检测流程也是需要将源码转换为 AST，然后再利用 AST 来检查代码规范化的问题。</p>
-<p><strong>生成AST的两个阶段：</strong></p>
-<p><strong>第一阶段是分词（tokenize），又称为词法分析</strong>，其作用是将一行行的源码拆解成一个个 token。所谓<strong>token</strong>，指的是语法上不可能再分的、最小的单个字符或字符串。</p>
-<p><img src="/.com//image-20210306111037818.png" alt="image-20210306111037818"></p>
-<p>​    从图中可以看出，通过<code>var myName = “极客时间”</code>简单地定义了一个变量，其中关键字“var”、标识符“myName” 、赋值运算符“=”、字符串“极客时间”四个都是 token，而且它们代表的属性还不一样。</p>
-<p><strong>第二阶段是解析（parse），又称为语法分析</strong>，其作用是将上一步生成的 token 数据，根据语法规则转为 AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个“语法错误”。</p>
-<p><strong>有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文。</strong></p>
-<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><p>​    有了 AST 和执行上下文后，那接下来的第二步，解释器 Ignition 就登场了，它会根据 AST 生成字节码，并解释执行字节码。</p>
-<p><strong>字节码就是介于 AST 和机器码之间的一种代码。但是与特定类型的机器码无关，字节码需要通过解释器将其转换为机器码后才能执行。</strong></p>
-<p><img src="/.com//image-20210306111747379.png" alt="image-20210306111747379"></p>
-<p>​    从图中可以看出，机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用。</p>
-<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><p>​    通常，如果有一段第一次执行的字节码，解释器 Ignition 会逐条解释执行。在执行字节码的过程中，如果发现有热点代码(HotSpot)，比如一段代码被重复执行多次，这种就称为<strong>热点代码</strong>，那么后台的编译器(TurboFan) 就会把该段热点的字节码编译为高效的机器码，然后当再次执行这段被优化的代码时，只需要执行编译后的机器码就可以了，这样就大大提升了代码的执行效率。</p>
-<p>​    其实字节码配合解释器和编译器是最近一段时间很火的技术，比如 Java 和 Python 的虚拟机也都是基于这种技术实现的，我们把这种技术称为<strong>即时编译（JIT）</strong>。</p>
-<h4 id="JavaScript的性能优化"><a href="#JavaScript的性能优化" class="headerlink" title="JavaScript的性能优化"></a>JavaScript的性能优化</h4><p>主要关注以下三点：</p>
-<ol>
-<li>提升单次脚本的执行速度，避免 JavaScript 的长任务霸占主线程，这样可以使得页面快速响应交互；</li>
-<li>避免大的内联脚本，因为在解析 HTML 的过程中，解析和编译也会占用主线程；</li>
-<li>减少 JavaScript 文件的容量，因为更小的文件会提升下载速度，并且占用更低的内存。</li>
-</ol>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​    （1）解释器和编译器在执行代码时都会先将代码通过词法分析、语法分析生成抽象语法树（AST），不同的是解释型语言会通过解释器将AST转换为字节码并直接逐条执行；而编译器会在AST的基础上先优化代码然后生成机器码进而编译生成二进制文件，执行时直接执行这个二进制文件。</p>
-<p>​    （2）JavaScript的编译流程是：先通过词法分析和语法分析生成AST和可执行上下文，然后通过解释器将AST转换为字节码，并逐条执行。在生成AST时主要分为两步：第一步先通过词法分析生成token，第二步通过语法分析将token转换为AST。</p>
-<p>​    （3）V8在代码的编译过程中采用的JIT（即时编译）技术来实现的。就是在生成字节码后，先使用解释器逐条解释并执行代码，如果遇到热点代码（被多次重复执行的代码），就会把这段字节码通过编译器编译为机器码，当再次遇到改代码是就可以直接执行。</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>浏览器工作原理</tag>
-        <tag>前端</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分层和合成机制</title>
     <url>/2021/09/06/%E5%88%86%E5%B1%82%E5%92%8C%E5%90%88%E6%88%90%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>​    每个显示器都有固定的刷新频率，通常是60HZ（即每秒刷新60次），更新的图片都来自于显卡中<strong>前缓冲区</strong>。显卡会合成新的图像，并将其保存到<strong>后缓冲区</strong>，一旦新合成的图像写到后缓冲区，系统就会让<strong>后缓冲区</strong>和<strong>前缓冲区</strong>交换，以此保证显示器读取到新合成的图像。在浏览器中，渲染引擎会通过渲染流水线生成新的图片，并发送到显卡的后缓冲区。由于大多数屏幕的更新频率都是60次/秒，这就意味着<strong>渲染引擎</strong>每秒需要更新60张图片到显卡的后缓存区，一旦渲染引擎生成某些帧（一张图片就是一帧）的时间过久，用户就会感到卡顿。Chrome浏览器引入了<strong>分层</strong>和<strong>合成</strong>机制，以此来解决卡顿或每帧生成时间过久的问题。</p>
@@ -562,9 +562,9 @@
 <li>同时，Function是对象，由(3)可知Function必然有一个地方（即Function.prototype.__proto__）指向Object.prototype。</li>
 </ol>
 <p><strong>先来看一个简化版的原型链图：</strong></p>
-<p><img src="/.com//image-20210303222509043.png" alt="image-20210303222509043"></p>
+<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/image-20210303222509043.png" alt="image-20210303222509043"></p>
 <p>再来看一个完整版的：</p>
-<p><img src="/.com//%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型与原型链"></p>
+<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型与原型链"></p>
 <p><font color="red">总之，记住一句话：A是B的实例，则A.__ proto __  === B.prototype；只要A是对象，那么A.prototype.__ proto__ 就指向Object.prototype；prototype中的constructor指向的是自己；</font></p>
 <h4 id="原型链与函数的继承"><a href="#原型链与函数的继承" class="headerlink" title="原型链与函数的继承"></a>原型链与函数的继承</h4><ol>
 <li><p>ES5中的继承</p>
@@ -596,14 +596,14 @@
     <content><![CDATA[<p>​    可视化使用工具根据其使用的可拓展性（即灵活性）可分为三类：交互式可视化工具、配置式可视化工具、编程式可视化工具。其中他们的可拓展性依次递增，编程式可视化工具可拓展性最好，但同时由于：交互式可视化工具可能仅需要用户掌握软件使用方法；配置式可视化工具需要使用人员具有一定基础编程能力；编程式可视化工具更是需要使用者熟练掌握相应的编程语言。故这三类可视化工具的使用难度也依次递增。其详细信息如下：</p>
 <span id="more"></span>
 
-<p><img src="/.com//image-20210406100636328.png" alt="image-20210406100636328"></p>
+<p><img src="/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/image-20210406100636328.png" alt="image-20210406100636328"></p>
 <h4 id="交互式可视化工具"><a href="#交互式可视化工具" class="headerlink" title="交互式可视化工具"></a>交互式可视化工具</h4><p>以Power BI &amp; Tableau为例，一般为商业性软件，可方便的绘制图表</p>
-<p><img src="/.com//image-20210406100808525.png" alt="image-20210406100808525"></p>
+<p><img src="/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/image-20210406100808525.png" alt="image-20210406100808525"></p>
 <p>  tableau:商业智能软件，适用于商业报表、数据分析等场景。可以提供简单的图表的创建。</p>
 <p>  将分析和构建可视化图表的过程分为了以下五步:</p>
 <p>  连接数据源——&gt;构建可视化视图———&gt;创建工作表——–&gt;构建仪表盘——–&gt;数据故事</p>
 <p>   一般交互式可视化工具它适用于如用户缺少编程基础、数据是简单的数据、任务需求比较简单和直接，只需要对数据集进行一个简单的了解这类应用场景，以下是一些适用于不同场景的交互式可视化工具：</p>
-<p><img src="/.com//image-20210406101035688.png" alt="image-20210406101035688"></p>
+<p><img src="/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/image-20210406101035688.png" alt="image-20210406101035688"></p>
 <h4 id="配置式可视化工具"><a href="#配置式可视化工具" class="headerlink" title="配置式可视化工具"></a>配置式可视化工具</h4><p>​      例如：Vega Lite、Echarts、Plotly,一般是通过用户传入特定的配置选项来完成既定的可视化形式。其中配置式一般是指用json对象来完成可视化的配置。</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  Vega-Lite：在2016年的Infovis上，华盛顿大学的交互实验室在发表的一篇文章中定义了一种交互式的可视化语法Vega Lite。</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;data&quot;</span>:&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;data/cars.json&quot;</span>&#125;,</span><br><span class="line">    <span class="string">&quot;mark&quot;</span>:<span class="string">&quot;circle&quot;</span>,</span><br><span class="line">    <span class="string">&quot;select&quot;</span>：&#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>:&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;point&quot;</span>,<span class="string">&quot;on&quot;</span>:<span class="string">&quot;mouseover&quot;</span>&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;encoding&quot;</span>:&#123;</span><br><span class="line">         <span class="string">&quot;x&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;horsepower&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;y&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;Miles_per_Gallon&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;color&quot;</span>:[</span><br><span class="line">                &#123;<span class="string">&quot;if&quot;</span>:<span class="string">&quot;id&quot;</span>,<span class="string">&quot;value&quot;</span>:<span class="string">&quot;orange&quot;</span>&#125;</span><br><span class="line">                &#123;<span class="string">&quot;value&quot;</span>:<span class="string">&quot;steeblue&quot;</span>&#125;</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
 
@@ -967,88 +967,8 @@
     <content><![CDATA[<blockquote>
 <p>A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning Processes.</p>
 </blockquote>
-<p>整理中.</p>
+<p>整理中….</p>
 <span id="more"></span>]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>迁移学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文阅读-2021-07-14</title>
-    <url>/2021/07/14/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-14/</url>
-    <content><![CDATA[<blockquote>
-<p>Activis: Visual exploration of industry-scale deep neural network models.</p>
-</blockquote>
-<p>虽然深度学习模型已经在许多预测任务中达到了最先进的精度，但理解这些模型仍然是一个挑战。开发可视化工具来帮助用户解释深度学习模型是目前比较热门的一个研究方向。但由于在工业中部署的模型的复杂性和种类繁多，以及他们使用的大规模数据集等原因，导致现有的可视化工具无法充分解决这些问题和挑战。Minsuk等人开发的Activis是一个可用于解释大规模深度学习模型和结果的交互式可视化系统。</p>
-<p>整理中…..</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文阅读-2021-07-13</title>
-    <url>/2021/07/13/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-13/</url>
-    <content><![CDATA[<blockquote>
-<p>SUMMIT: Scaling Deep Learning Interpretability by Visualizing Activation and Attribution Summarizations.</p>
-</blockquote>
-<p>​    SUMMIT是一种较为新颖的用于总结和解释深度神经网络的方案。该方案主要通过聚合深度学习模型中的“ 重要神经元” 和 “神经元影响” 来创建归因图，进而通过可视化探索揭示深度学习模型中的关键神经元之间的关联和子结构。该方案将大型复杂的神经网络模型提炼成紧凑的交互式可视化系统，对大型数据模型也具有效性。本文还开源的他们可视化系统以及神经网络模型的训练代码，其网站如下：Visualization: <a href="https://github.com/fredhohman/summit">https://github.com/fredhohman/summit</a>. ；Code: <a href="https://github.com/fredhohman/summit-notebooks">https://github.com/fredhohman/summit-notebooks</a>. ；Data: <a href="https://github.com/fredhohman/summit-data">https://github.com/fredhohman/summit-data</a>. </p>
-<p>整理中…..</p>
-<span id="more"></span>
-
-<p><img src="/.com//1626225700820.png" alt="1626225700820"></p>
-<h3 id="论文及作者"><a href="#论文及作者" class="headerlink" title="论文及作者"></a>论文及作者</h3><p>​    该论文来源于2019年TVCG作者是Fred Hohman, Haekyu Park,等人。乔治亚理工大学、麻省理工、加州理工美国并列的三大理工大学。</p>
-<h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ol>
-<li>通过聚合激活来发现重要神经元；</li>
-<li>通过聚合神经元影响来识神经元之间的关系；</li>
-<li>Attribution graph：用于显示那些对模型有贡献的神经元关系和子结构；</li>
-</ol>
-<h3 id="聚合激活"><a href="#聚合激活" class="headerlink" title="聚合激活"></a>聚合激活</h3><h3 id="聚合影响"><a href="#聚合影响" class="headerlink" title="聚合影响"></a>聚合影响</h3><h3 id="生成归因图"><a href="#生成归因图" class="headerlink" title="生成归因图"></a>生成归因图</h3><h3 id="可视化探索"><a href="#可视化探索" class="headerlink" title="可视化探索"></a>可视化探索</h3><h3 id="引用论文"><a href="#引用论文" class="headerlink" title="引用论文"></a>引用论文</h3><ol>
-<li><p>现有用于解释图像神经网络预测的工作通常集中于解释单个图像或神经元的预测，如论文[40，41，49，53]。</p>
-</li>
-<li><p>使用交互式可视化来解释现代机器学习技术的复杂内部工作，论文[25，39，52]。</p>
-</li>
-<li><p>当模型表现不佳时，开发人员需要去了解他们的原因来修复他们。论文[24]、[46]介绍了此类方法或途径。</p>
-<ul>
-<li><p>[24] M. Kahng, P. Y. Andrews, A. Kalro, and D. H. P. Chau. <strong>Activis: Visual exploration of industry-scale deep neural network models</strong>. IEEE Transactions on Visualization and Computer Graphics, 24(1):88–97, 2018.</p>
-</li>
-<li><p>[46] Ribeiro M T ,  Singh S ,  Guestrin C . <strong>“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</strong>[J]. ACM, 2016.</p>
-</li>
-</ul>
-</li>
-<li><p>了解整个类在模型中是如何表示的，这对于信任模型的预测和解读模型所学到的知识非常重要。因为这些表示被用于不同的任务，如迁移学习[43，59]。</p>
-<ul>
-<li>[59] A. R. Zamir, A. Sax, W. Shen, L. J. Guibas, J. Malik, and S. Savarese. <strong>Taskonomy: Disentangling task transfer learning.</strong> In <em>Proceedings of the</em> IEEE Conference on Computer Vision and Pattern Recognition, pp. 3712–3722, 2018.</li>
-</ul>
-</li>
-<li><p>一种称为特征可视化的技术不是只考虑激活的大小，而是通过算法生成合成图像，最大化特定神经元 。论文包括[7, 11, 37, 38, 40, 50]。这些特征可视化针对单个神经元进行了优化，因此用户可以开始破译单个神经元可能学到的特征。</p>
-</li>
-<li><p>视觉分析系统 Blocks 显示类混淆模式遵循类的层次结构 [5]。Activation Atlases，大规模降维，显示许多平均激活 [7]。两种可视化都揭示了神经网络的有趣特性。</p>
-</li>
-<li><p>早期的可视化分析方法之一 CNNVis 为模型诊断和细化导出神经元连接，但没有扩展到具有许多类的大型数据集 [32]。</p>
-</li>
-<li><p>在对抗性机器学习的背景下，AEVis 使用反向传播来识别网络中良性和受攻击实例的数据路径发散的位置 [31]。</p>
-</li>
-<li><p>Building Blocks，建议使用矩阵分解将一层内的神经元集组合在一起，并跨层派生出“兼容”的神经元组[41]。</p>
-</li>
-<li><p>帮助不同的用户群体使用各种交互式和可视化技术来解释模型 [22]。</p>
-</li>
-<li><p>预测可视化分析通过可视化预测实例的分布、计算特征重要性以及直接检查模型和实例错误以支持调试，支持专家对机器学习模型进行性能分析 [2, 21, 34, 45, 58]。 </p>
-</li>
-<li><p>由于现代社会机器学习的普遍性和公众的普遍兴趣，使用直接操作向非专家解释模型的交互式可视化也受到关注 [19, 25, 52]。</p>
-</li>
-</ol>
-]]></content>
       <categories>
         <category>论文</category>
       </categories>
@@ -1136,16 +1056,16 @@
 <p>​    使用源域模型θ去对目标数据集D上的每个xi进行预测，得到源任务的标签集Z的预测分布。把这个分布定义为 θ(xi)，称为：Z上的范畴分布。注意：这个θ(xi)是源域任务标签上的虚拟分布，因为这些标签可能是没有意义的对于用例xi。</p>
 </li>
 <li><p>计算在给定源标签z下的目标标签y的经验条件分布</p>
-<p><img src="/.com//image-20210423160144643.png" alt="image-20210423160144643"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160144643.png" alt="image-20210423160144643"></p>
 <ol>
 <li><p>首先计算所有标签对(y, z) ∈ Y × Z的经验联合分布</p>
-<p><img src="/.com//image-20210423160251645.png" alt="image-20210423160251645"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160251645.png" alt="image-20210423160251645"></p>
 </li>
 <li><p>计算经验边际分布</p>
-<p><img src="/.com//image-20210423160322501.png" alt="image-20210423160322501"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160322501.png" alt="image-20210423160322501"></p>
 </li>
 <li><p>计算经验条件分布</p>
-<p><img src="/.com//image-20210423160359291.png" alt="image-20210423160359291"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160359291.png" alt="image-20210423160359291"></p>
 </li>
 </ol>
 </li>
@@ -1157,15 +1077,15 @@
 <h4 id="案列分析"><a href="#案列分析" class="headerlink" title="案列分析"></a>案列分析</h4><ol>
 <li><p>实验1</p>
 <p>使用ResNet18在ImageNet上进行了预训练，使用ResNet20在CIFAR10上进行了预训练，目标任务的训练集和测试集来自CIFAR100数据集中的100类数据的子集。总共构造了200个不同的目标任务。采用两种常用的迁移学习方法进行实验。</p>
-<p><img src="/.com//image-20210423160709198.png" alt="image-20210423160709198"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160709198.png" alt="image-20210423160709198"></p>
 </li>
 <li><p>实验2</p>
 <p>使用FashionMNIST数据集构建目标数据集，目标数据集是从中从中抽取的四个随机类，每个类包含30个随<br>机示例。为了在评估小目标数据集上的LEEP分数时排除噪声，考虑将分数范围划分为五个相等的单元，并平均每个单元中任务的测试精度。</p>
-<p><img src="/.com//image-20210423160809846.png" alt="image-20210423160809846"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160809846.png" alt="image-20210423160809846"></p>
 <p>LEEP分数可以很好的评估可迁移性，即使在小数据也表现良好</p>
 </li>
 <li><p>实验3</p>
-<p><img src="/.com//image-20210423160853357.png" alt="image-20210423160853357"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423160853357.png" alt="image-20210423160853357"></p>
 <p>LEEP分数可以很好的评估可迁移性即使对于不平衡的目标数据集也表现良好。</p>
 </li>
 <li><p>实验4</p>
@@ -1173,7 +1093,7 @@
 <li><p>使用ImageNet预训练ResNet18,并使用元数据集训练自适应网络。</p>
 </li>
 <li><p>目标数据集来自CIFAR100，每个目标数据集包含5个随机标签、每个类有50个样例。</p>
-<p><img src="/.com//image-20210423161002157.png" alt="image-20210423161002157"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423161002157.png" alt="image-20210423161002157"></p>
 </li>
 <li><p>从LEEP分数预测CNAPs在五个可迁移水平上的平均测试准确率。</p>
 </li>
@@ -1184,7 +1104,7 @@
 <li><p>实验5</p>
 <ul>
 <li><p>为每个目标任务训练一个参考模型</p>
-<p><img src="/.com//image-20210423161532916.png" alt="image-20210423161532916"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423161532916.png" alt="image-20210423161532916"></p>
 </li>
 <li><p>证明了LEEP分数可以预测fine-tune的收敛</p>
 </li>
@@ -1201,7 +1121,7 @@
 <p>LEEP如何指导源模型的选择</p>
 </li>
 </ol>
-<p><img src="/.com//image-20210423161228179.png" alt="image-20210423161228179"></p>
+<p><img src="/2021/04/23/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-04-23/image-20210423161228179.png" alt="image-20210423161228179"></p>
 <h4 id="文中提到的其他相关方法-可做后续阅读"><a href="#文中提到的其他相关方法-可做后续阅读" class="headerlink" title="文中提到的其他相关方法(可做后续阅读)"></a>文中提到的其他相关方法(可做后续阅读)</h4><ol>
 <li>Tran等人（2019）提出的NCE度量</li>
 <li>Bao等人（2019）提出的H得分</li>
@@ -1228,14 +1148,76 @@
       </tags>
   </entry>
   <entry>
+    <title>论文阅读-2021-07-13</title>
+    <url>/2021/07/13/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-13/</url>
+    <content><![CDATA[<blockquote>
+<p>SUMMIT: Scaling Deep Learning Interpretability by Visualizing Activation and Attribution Summarizations.</p>
+</blockquote>
+<p>​    SUMMIT是一种较为新颖的用于总结和解释深度神经网络的方案。该方案主要通过聚合深度学习模型中的“ 重要神经元” 和 “神经元影响” 来创建归因图，进而通过可视化探索揭示深度学习模型中的关键神经元之间的关联和子结构。该方案将大型复杂的神经网络模型提炼成紧凑的交互式可视化系统，对大型数据模型也具有效性。本文还开源的他们可视化系统以及神经网络模型的训练代码，其网站如下：Visualization: <a href="https://github.com/fredhohman/summit">https://github.com/fredhohman/summit</a>. ；Code: <a href="https://github.com/fredhohman/summit-notebooks">https://github.com/fredhohman/summit-notebooks</a>. ；Data: <a href="https://github.com/fredhohman/summit-data">https://github.com/fredhohman/summit-data</a>. </p>
+<p>整理中…..</p>
+<span id="more"></span>
+
+<p><img src="/2021/07/13/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-13/1626225700820.png" alt="1626225700820"></p>
+<h3 id="论文及作者"><a href="#论文及作者" class="headerlink" title="论文及作者"></a>论文及作者</h3><p>​    该论文来源于2019年TVCG作者是Fred Hohman, Haekyu Park,等人。乔治亚理工大学、麻省理工、加州理工美国并列的三大理工大学。</p>
+<h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ol>
+<li>通过聚合激活来发现重要神经元；</li>
+<li>通过聚合神经元影响来识神经元之间的关系；</li>
+<li>Attribution graph：用于显示那些对模型有贡献的神经元关系和子结构；</li>
+</ol>
+<h3 id="聚合激活"><a href="#聚合激活" class="headerlink" title="聚合激活"></a>聚合激活</h3><h3 id="聚合影响"><a href="#聚合影响" class="headerlink" title="聚合影响"></a>聚合影响</h3><h3 id="生成归因图"><a href="#生成归因图" class="headerlink" title="生成归因图"></a>生成归因图</h3><h3 id="可视化探索"><a href="#可视化探索" class="headerlink" title="可视化探索"></a>可视化探索</h3><h3 id="引用论文"><a href="#引用论文" class="headerlink" title="引用论文"></a>引用论文</h3><ol>
+<li><p>现有用于解释图像神经网络预测的工作通常集中于解释单个图像或神经元的预测，如论文[40，41，49，53]。</p>
+</li>
+<li><p>使用交互式可视化来解释现代机器学习技术的复杂内部工作，论文[25，39，52]。</p>
+</li>
+<li><p>当模型表现不佳时，开发人员需要去了解他们的原因来修复他们。论文[24]、[46]介绍了此类方法或途径。</p>
+<ul>
+<li><p>[24] M. Kahng, P. Y. Andrews, A. Kalro, and D. H. P. Chau. <strong>Activis: Visual exploration of industry-scale deep neural network models</strong>. IEEE Transactions on Visualization and Computer Graphics, 24(1):88–97, 2018.</p>
+</li>
+<li><p>[46] Ribeiro M T ,  Singh S ,  Guestrin C . <strong>“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</strong>[J]. ACM, 2016.</p>
+</li>
+</ul>
+</li>
+<li><p>了解整个类在模型中是如何表示的，这对于信任模型的预测和解读模型所学到的知识非常重要。因为这些表示被用于不同的任务，如迁移学习[43，59]。</p>
+<ul>
+<li>[59] A. R. Zamir, A. Sax, W. Shen, L. J. Guibas, J. Malik, and S. Savarese. <strong>Taskonomy: Disentangling task transfer learning.</strong> In <em>Proceedings of the</em> IEEE Conference on Computer Vision and Pattern Recognition, pp. 3712–3722, 2018.</li>
+</ul>
+</li>
+<li><p>一种称为特征可视化的技术不是只考虑激活的大小，而是通过算法生成合成图像，最大化特定神经元 。论文包括[7, 11, 37, 38, 40, 50]。这些特征可视化针对单个神经元进行了优化，因此用户可以开始破译单个神经元可能学到的特征。</p>
+</li>
+<li><p>视觉分析系统 Blocks 显示类混淆模式遵循类的层次结构 [5]。Activation Atlases，大规模降维，显示许多平均激活 [7]。两种可视化都揭示了神经网络的有趣特性。</p>
+</li>
+<li><p>早期的可视化分析方法之一 CNNVis 为模型诊断和细化导出神经元连接，但没有扩展到具有许多类的大型数据集 [32]。</p>
+</li>
+<li><p>在对抗性机器学习的背景下，AEVis 使用反向传播来识别网络中良性和受攻击实例的数据路径发散的位置 [31]。</p>
+</li>
+<li><p>Building Blocks，建议使用矩阵分解将一层内的神经元集组合在一起，并跨层派生出“兼容”的神经元组[41]。</p>
+</li>
+<li><p>帮助不同的用户群体使用各种交互式和可视化技术来解释模型 [22]。</p>
+</li>
+<li><p>预测可视化分析通过可视化预测实例的分布、计算特征重要性以及直接检查模型和实例错误以支持调试，支持专家对机器学习模型进行性能分析 [2, 21, 34, 45, 58]。 </p>
+</li>
+<li><p>由于现代社会机器学习的普遍性和公众的普遍兴趣，使用直接操作向非专家解释模型的交互式可视化也受到关注 [19, 25, 52]。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文</category>
+      </categories>
+      <tags>
+        <tag>可视化</tag>
+        <tag>论文</tag>
+        <tag>迁移学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>高维数据可视化</title>
     <url>/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</url>
     <content><![CDATA[<p>​    高维数据可视化记录了学习《2020浙大可视化暑期班》的相关笔记。主要内容包括对数据维度的介绍、高维数据可视化的方法等。</p>
 <span id="more"></span>
 
-<h3 id="数据维度-Data-Dimension"><a href="#数据维度-Data-Dimension" class="headerlink" title="数据维度(Data Dimension)"></a>数据维度(Data Dimension)</h3><h4 id="一维-1-D"><a href="#一维-1-D" class="headerlink" title="一维(1-D)"></a>一维(1-D)</h4><p><img src="/.com//1620053725112.png" alt="1620053725112"></p>
-<h4 id="二维-2-D"><a href="#二维-2-D" class="headerlink" title="二维(2-D)"></a>二维(2-D)</h4><p><img src="/.com//1620053817171.png" alt="1620053817171"></p>
-<h4 id="三维-3-D"><a href="#三维-3-D" class="headerlink" title="三维(3-D)"></a>三维(3-D)</h4><p><img src="/.com//1620053851999.png" alt="1620053851999"></p>
+<h3 id="数据维度-Data-Dimension"><a href="#数据维度-Data-Dimension" class="headerlink" title="数据维度(Data Dimension)"></a>数据维度(Data Dimension)</h3><h4 id="一维-1-D"><a href="#一维-1-D" class="headerlink" title="一维(1-D)"></a>一维(1-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053725112.png" alt="1620053725112"></p>
+<h4 id="二维-2-D"><a href="#二维-2-D" class="headerlink" title="二维(2-D)"></a>二维(2-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053817171.png" alt="1620053817171"></p>
+<h4 id="三维-3-D"><a href="#三维-3-D" class="headerlink" title="三维(3-D)"></a>三维(3-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053851999.png" alt="1620053851999"></p>
 <p>对于这种可视化的方法，它并不是一种非常好或者非常妥当的一种方法，作为可视化的专业人员会非常反对使用这种三维的数据可视化。在实际的使用或应用中，会极少的使用这种三维的散点图。因为它让我们用户去认识、感知和读出它的数据的效率是极低的。它会给人们带来非常大的偏差甚至误导， 主要有两点原因：</p>
 <ol>
 <li>由于它是一个三维的空间，所以我们从不同的视角上看过去，能够观察到这种数据的分布或模式是非常的不同的，这就给做数据分析带了极大的不可预测性和不确定性。</li>
@@ -1246,13 +1228,13 @@
 <li><p>对于高维数据如何实现可视化？</p>
 <ol>
 <li><p>通过增加视觉通道，如样式、颜色、大小等，以表达更多的属性信息</p>
-<p><img src="/.com//1620053883695.png" alt="1620053883695"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053883695.png" alt="1620053883695"></p>
 </li>
 <li><p>多视图协调关联的方法(Multiple coordinated view:present some attributes of objects in a view)</p>
 <p>​    这种方法主要是通过在每一个视图上，分别展现相同数据集的某几个数据的维度，我们可以通过增加视图的方法来支持呈现更多的属性的可视化。下图是一个多视图协调关联的例子：</p>
 </li>
 </ol>
-<p><img src="/.com//1620053909829.png" alt="1620053909829"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053909829.png" alt="1620053909829"></p>
 <p>   存在的问题：有关研究/心里学表明：太多的视图很容易会造成视觉的混淆，降低分析的效率。所以在进行多视图关联时，我们在视图之间关联的选择上也是要经过慎重的考虑的。因为不同的视图之间有可能会产生相互的干扰，设置不和谐不同意。</p>
 <p>以上两种方法是最常见的两种处理高维数据可视化的方法，在接下来的一小节中进行重点介绍。</p>
 </li>
@@ -1261,12 +1243,12 @@
 <h4 id="数据的变换"><a href="#数据的变换" class="headerlink" title="数据的变换"></a>数据的变换</h4><ul>
 <li><p>降维(Dimensionality Reduction)</p>
 <p>使用各种线性的或者非线性的变换，把高维的数据通过降维或者投影的方式，从高维的空间变换到低维的空间，从而降低数据的复杂度。原因是由于高维的数据中很有可能会存在大量的冗余，这种大量的冗余很有可能隐藏了重要关系的相关性，隐藏了重要的数据规律。所以通过降维不仅仅可以消除数据的冗余，减少被处理数据的数量，而且可以方便的在低维空间上将数据呈现。因此，该方法广泛的应用于数据可视化、数据挖掘和模式识别等领域。</p>
-<p><img src="/.com//1620053940127.png" alt="1620053940127"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053940127.png" alt="1620053940127"></p>
 <ol>
 <li><p>线性的方法</p>
 <ul>
 <li><p>Principal Comonent Analysis (PCA)</p>
-<p><img src="/.com//1620053965131.png" alt="1620053965131"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053965131.png" alt="1620053965131"></p>
 <ol>
 <li><p>如上图所示，对于具有两个属性的数据（一行代表一个属性），首先将每个数据减去它的一个均值。</p>
 </li>
@@ -1274,9 +1256,9 @@
 </li>
 <li><p>在二维的平面当中去选择一个方向，将这五个点都投影到这个方向所在的直线上，用投影后的值来表示原始的记录。</p>
 <p>如何去选择这个方向？我们希望降维后的值要尽可能的分散，而不是聚在一起</p>
-<p><img src="/.com//1620053994363.png" alt="1620053994363"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053994363.png" alt="1620053994363"></p>
 <p>选择一个方向，这个方向使得投影后的方差值最大。但是当维度多了之后就会出现维度的相关性，所以我们通过两个字段的协方差来表示相关性。</p>
-<p><img src="/.com//1620054023121.png" alt="1620054023121"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054023121.png" alt="1620054023121"></p>
 </li>
 </ol>
 </li>
@@ -1297,14 +1279,14 @@
 <h4 id="数据的呈现"><a href="#数据的呈现" class="headerlink" title="数据的呈现"></a>数据的呈现</h4><p>通过一些巧妙的数据可视化的布局方法，忠实、直观、生动的展现高维数据。</p>
 <ul>
 <li><p>散点图矩阵(Scatter-plot Matrix)</p>
-<p><img src="/.com//1620054048474.png" alt="1620054048474"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054048474.png" alt="1620054048474"></p>
 <p>存在的问题：当我们有很多的维度的时候，仅仅用肉眼去发现其中的规律或者模式往往比较困难，为了解决这种问题，有人就使用了一些智能的算法去自动的发现在散点图里面，哪一些散点图是更有意义的。</p>
-<p><img src="/.com//1620054081364.png" alt="1620054081364"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054081364.png" alt="1620054081364"></p>
 </li>
 <li><p>平行坐标轴(Parallel Coordinates)</p>
-<p><img src="/.com//1620054111193.png" alt="1620054111193"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054111193.png" alt="1620054111193"></p>
 <p>存在的问题：当我们的数据很多时，往往会形成以下图案，我们从中发现不了它里面有什么关联（如左图），我们可以给每一个折线加一个透明度（如右图）。</p>
-<p><img src="/.com//1620054137614.png" alt="1620054137614"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054137614.png" alt="1620054137614"></p>
 </li>
 <li><p>基于图标的方式(Glyph-based Methods)</p>
 <ol>
@@ -1314,17 +1296,17 @@
 </blockquote>
 </li>
 <li><p>Chernoff Faces(脸谱图）</p>
-<p><img src="/.com//1620054163274.png" alt="1620054163274"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054163274.png" alt="1620054163274"></p>
 </li>
 <li><p>Text+Glyph(将图标嵌入文本之中)</p>
-<p><img src="/.com//1620054188553.png" alt="1620054188553"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054188553.png" alt="1620054188553"></p>
 </li>
 </ol>
 </li>
 <li><p>Small Multiples(小图标法)</p>
 <p>用一系列的排列非常整齐的图表来做多维数据的可视化，从而方便我们进行对比，其案例主要如下：</p>
-<p><img src="/.com//1620054214467.png" alt="1620054214467"></p>
-<p><img src="/.com//1620054242206.png" alt="1620054242206"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054214467.png" alt="1620054214467"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054242206.png" alt="1620054242206"></p>
 </li>
 </ul>
 <h4 id="数据的交互"><a href="#数据的交互" class="headerlink" title="数据的交互"></a>数据的交互</h4><p>通过有效的人机交互的技术，帮助人们交互式的探索和分析高维的数据。</p>
@@ -1344,23 +1326,6 @@
         <tag>可视化</tag>
         <tag>笔记</tag>
         <tag>浙大可视化暑期班2020</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文阅读-2021-07-16</title>
-    <url>/2021/07/14/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2021-07-16/</url>
-    <content><![CDATA[<blockquote>
-<p> “Why Should I Trust You?”: Explaining the Predictions of Any Classifier</p>
-</blockquote>
-<p>整理中…..</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>深度学习</tag>
       </tags>
   </entry>
 </search>
