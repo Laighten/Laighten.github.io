@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>铭杨</title>
+  <title>Lai Teng&#39;s Blog</title>
   
   <subtitle>数据可视化 &amp; 前端 &amp; 迁移学习</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://example.com/</id>
   
   <author>
-    <name>铭杨</name>
+    <name>laiteng</name>
     
   </author>
   
