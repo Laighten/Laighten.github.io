@@ -1,161 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>V8垃圾回收机制</title>
-    <url>/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<p>​    JavaScript、Java、Python 等语言，产生的垃圾数据是由垃圾回收器来释放的，并不需要手动通过代码来释放。搞清楚内存中的垃圾是如何回收的对理解内存机制和写出高性能的代码具有巨大的帮助。下面将主要介绍V8引擎的垃圾回收机制。</p>
-<span id="more"></span>
-
-<p>JavaScript、Java、Python 等语言，<strong>产生的垃圾数据是由垃圾回收器来释放的</strong>，并不需要手动通过代码来释放。</p>
-<h4 id="调用栈中的数据如何回收"><a href="#调用栈中的数据如何回收" class="headerlink" title="调用栈中的数据如何回收"></a>调用栈中的数据如何回收</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> b = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客邦 &quot;</span>&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">showName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> c = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">      <span class="keyword">var</span> d = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客时间 &quot;</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    showName()</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
-
-<p>​    执行到 showName 函数时，那么 JavaScript 引擎会创建 showName 函数的执行上下文，并将 showName 函数的执行上下文压入到调用栈中，最终执行到 showName 函数时，其调用栈就如下图所示。与此同时，还有一个<strong>记录当前执行状态的指针（称为 ESP）</strong>，指向调用栈中 showName 函数的执行上下文，表示当前正在执行 showName 函数。</p>
-<p>​    接着，当 showName 函数执行完成之后，函数执行流程就进入了 foo 函数，那这时就需要销毁 showName 函数的执行上下文了。ESP 这时候就帮上忙了，JavaScript 会将 ESP 下移到 foo 函数的执行上下文，<strong>这个下移操作就是销毁 showName 函数执行上下文的过程</strong>。</p>
-<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304112315040.png" alt="image-20210304112315040"></p>
-<p>所以说，当一个函数执行结束之后，<strong>JavaScript 引擎会通过向下移动 ESP 来销毁该函数保存在栈中的执行上下文</strong>。</p>
-<h4 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h4><p><strong>代际假说（The Generational Hypothesis）</strong>：</p>
-<ul>
-<li>第一个是大部分对象在内存中存在的时间很短，简单来说，就是很多对象一经分配内存，很快就变得不可访问；</li>
-<li>第二个是不死的对象，会活得更久。</li>
-</ul>
-<p><strong>分代收集</strong>：</p>
-<p>​    在 V8 中会把堆分为<strong>新生代</strong>和<strong>老生代</strong>两个区域，<strong>新生代中存放的是生存时间短的对象，老生代中存放的生存时间久的对象</strong>。新生区通常只支持 1～8M 的容量，而老生区支持的容量就大很多了。对于这两块区域，V8 分别使用两个不同的垃圾回收器，以便更高效地实施垃圾回收。</p>
-<ul>
-<li><strong>副垃圾回收器，主要负责新生代的垃圾回收。</strong></li>
-<li><strong>主垃圾回收器，主要负责老生代的垃圾回收。</strong></li>
-</ul>
-<p><strong>垃圾回收器的工作流程</strong>：</p>
-<p>​    不管是主垃圾回收器还是副垃圾回收器都遵循以下这套公共的执行流程：</p>
-<p>​    1、<strong>标记空间中活动对象和非活动对象</strong>。所谓活动对象就是还在使用的对象，非活动对象就是可以进行垃圾回收的对象。</p>
-<p>​    2、<strong>回收非活动对象所占据的内存</strong>。其实就是在所有的标记完成之后，统一清理内存中所有被标记为可回收的对象。</p>
-<p>​    3、<strong>内存整理</strong>。频繁回收对象后，内存中就会存在大量不连续空间，我们把这些不连续的内存空间称为<strong>内存碎片</strong>。当出现量不连续的内存碎片后，我们再想分配一个较大的连续空间就会出现内存不足的情况。</p>
-<h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><p>​    副垃圾回收器主要负责新生区的垃圾回收，用<strong>Scavenge 算法</strong>来处理。其原理就是：把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域，新加入的对象都会存放到对象区域，<strong>当对象区域快被写满时</strong>，就需要执行一次垃圾清理操作。</p>
-<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304114240567.png" alt="image-20210304114240567"></p>
-<p>其回收过程如下：</p>
-<p>​    1、对对象区域中的垃圾做标记，活动对象和非活动会对象；</p>
-<p>​    2、标记完成之后，就进入垃圾清理阶段，副垃圾回收器会把这些<strong>仍然存活的对象</strong>复制到空闲区域中，<strong>同时它还会把这些对象有序地排列起来，所以这个复制过程</strong>，也就相当于完成了内存整理操作，复制后空闲区域就没有内存碎片了。</p>
-<p>​    3、完成复制后，对象区域与空闲区域进行角色翻转，也就是原来的对象区域变成空闲区域，原来的空闲区域变成了对象区域。</p>
-<p><strong>对象晋升策略</strong>：由于为了执行效率，新生区的空间通常会被设置的比较小，所以很容易被存满，为此JavaScript引擎引入了晋升策略，即：<strong>经过两次垃圾回收依然还存活的对象，会被移动到老生区中。</strong></p>
-<h4 id="主垃圾回收器"><a href="#主垃圾回收器" class="headerlink" title="主垃圾回收器"></a>主垃圾回收器</h4><p>​    老生区中的对象有两个特点，一个是对象占用空间大，另一个是对象存活时间长。</p>
-<p>​    主垃圾回收器是采用<strong>标记 - 清除（Mark-Sweep）</strong>的算法进行垃圾回收的。</p>
-<p>1、<strong>对垃圾数据做标记</strong>。当调用栈中的ESP指向下一个执行上下文后，上一个执行上下文中引用对象在堆中的数据就会被当做垃圾数据被<strong>标为红色</strong>，而当前正被ESP指向的指向上下文中指针指向的栈中数据会被标为<strong>活动数据</strong>。</p>
-<p>2、<strong>垃圾数据的清除</strong>。使用<strong>Mark-Sweep</strong>算法清除掉被标记为红色的垃圾数据。</p>
-<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115832389.png" alt="image-20210304115832389.png"></p>
-<p>3、<strong>内存整理</strong>。使用<strong>标记 - 整理（Mark-Compact）</strong>对内存碎片进行整理。</p>
-<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115856708.png" alt="image-20210304115856708"></p>
-<h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><p>​    于 JavaScript 是运行在主线程之上的，一旦执行垃圾回收算法，都需要将正在执行的 JavaScript 脚本暂停下来，待垃圾回收完毕后再恢复脚本执行。我们把这种行为叫做<strong>全停顿（Stop-The-World）</strong>。</p>
-<p>​    为了降低老生代的垃圾回收而造成的卡顿，V8 将标记过程分为一个个的子标记过程，同时让垃圾回收标记和 JavaScript 应用逻辑交替进行，直到标记阶段完成，我们把这个算法称为<strong>增量标记（Incremental Marking）算法</strong>。如下图所示：</p>
-<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304120112556.png" alt="image-20210304120112556"></p>
-<p>​    使用增量标记算法，可以把一个完整的垃圾回收任务拆分为很多小的任务，这些小的任务执行时间比较短，可以穿插在其他的 JavaScript 任务中间执行，这样当执行上述动画效果时，就不会让用户因为垃圾回收任务而感受到页面的卡顿了。</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>浏览器工作原理</tag>
-        <tag>前端</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>this的指向问题</title>
-    <url>/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>​    this指针是前端面试过程中最常考的问题之一，也是比较坑的问题之一，为了避免多次被坑先将this指针的相关问题记录如下，主要包括判断this指针的几类常见的方法、改变this指针的几种方法以及一些面试真题。</p>
-<span id="more"></span>
-
-<h4 id="如何判断this的指向"><a href="#如何判断this的指向" class="headerlink" title="如何判断this的指向"></a>如何判断this的指向</h4><p>在使用 this 时，为了避坑，你要谨记以下四点：</p>
-<ol>
-<li>当函数作为对象的方法调用时，函数中的 this 就是该对象；</li>
-<li>当函数被正常调用时，<strong>在严格模式下，this 值是 undefined</strong>，非严格模式下 this 指向的是全局对象 window；</li>
-<li>嵌套函数中的 this 不会继承外层函数的 this 值。</li>
-<li>我们还提了一下箭头函数，因为箭头函数没有自己的执行上下文，所以箭头函数的 this 就是它外层函数的 this。</li>
-<li>当this遇到return时，如果返回值是一个对象，那么this指向的是构造函数的实例但是并没有被返回，如果返回值不是一个对象，那么this还是指向构造函数创建的实例。</li>
-</ol>
-<p>下面从几道例题中去验证：</p>
-<ol>
-<li><p>直接使用的函数this指向window</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> user= <span class="string">&quot;呵呵&quot;</span>，</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.user),</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>),</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br><span class="line"><span class="comment">// undefined</span></span><br><span class="line"><span class="comment">// window</span></span><br></pre></td></tr></table></figure></li>
-<li><p>嵌套函数中的 this 不会继承外层函数的 this 值</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> user = <span class="string">&quot;呵呵&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.user);</span><br><span class="line">    &#125;</span><br><span class="line">    fn();</span><br><span class="line">&#125;</span><br><span class="line">o();</span><br></pre></td></tr></table></figure></li>
-<li><p>当函数作为对象的方法调用时，函数中的 this 就是该对象，且永远指向最后调用它的对象</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//题目一</span></span><br><span class="line"><span class="keyword">var</span> o=&#123;</span><br><span class="line">	a:<span class="number">10</span>,</span><br><span class="line">    b:&#123;</span><br><span class="line">    	a=<span class="number">12</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.b.fn() <span class="comment">//12</span></span><br><span class="line"><span class="comment">//题目二</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">	a:<span class="number">10</span>,</span><br><span class="line">    b:&#123;</span><br><span class="line">    	a:<span class="number">12</span></span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    		<span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> j = o.b.fn;</span><br><span class="line">j(); <span class="comment">// undefined //window</span></span><br></pre></td></tr></table></figure></li>
-<li><p>构造函数中的this指向</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&#x27;呵呵&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Fn()</span><br><span class="line"><span class="built_in">console</span>.log(p.user) <span class="comment">// 呵呵</span></span><br></pre></td></tr></table></figure></li>
-<li><p>当this遇到return时</p>
-<p>如果返回值是一个对象，那么this指向的是构造函数的实例但是并没有被返回，如果返回值不是一个对象，那么this还是指向构造函数创建的实例。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//undefined</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//undefined</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//呵呵</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//呵呵</span></span><br></pre></td></tr></table></figure></li>
-<li><p>箭头函数中的this指向</p>
-<p>箭头函数是ES6中的特性，箭头函数没有执行上下文本所以没有this，它会沿用/捕获外部环境的this。也就是说，箭头函数内部与外部的this是保持一致的。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 题目一 */</span></span><br><span class="line"><span class="built_in">this</span>.a = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> test = &#123;</span><br><span class="line">	a:<span class="number">40</span>,</span><br><span class="line">    init:<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">go</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        	<span class="built_in">this</span>.a = <span class="number">60</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">        go.prototype.a = <span class="number">50</span></span><br><span class="line">        <span class="keyword">return</span> go</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = test.init()</span><br><span class="line">p()</span><br><span class="line"><span class="keyword">new</span> (test.init())()</span><br><span class="line"><span class="comment">/* 题目二 */</span></span><br><span class="line"><span class="built_in">this</span>.a = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> test = &#123;</span><br><span class="line">	a:<span class="number">40</span>,</span><br><span class="line">    init:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">go</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        	<span class="built_in">this</span>.a = <span class="number">60</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">        go.prototype.a = <span class="number">50</span></span><br><span class="line">        <span class="keyword">return</span> go</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = test.init()</span><br><span class="line">p()</span><br><span class="line"><span class="keyword">new</span> (test.init())()</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="如何改变this的指向"><a href="#如何改变this的指向" class="headerlink" title="如何改变this的指向"></a>如何改变this的指向</h4><p><strong>1、call()和apply()</strong></p>
-<p>​    **call():**第一个参数表示要把this指向的新目标，第二个之后的参数其实相当于传参，参数以逗号隔开（性能较apply略好）。</p>
-<p>​    用法：a.call(b,1,2)；表示要把a函数的this指向修改为b的this指向，并运行a函数，传入参数是（1,2）</p>
-<p>​    <strong>apply()：</strong>第一个参数同上，第二个参数接收一个数组，里面也是传参，只是以数组的方式，相当于arguments</p>
-<p>用法：a.apply(b,[1,2])；表示要把a函数的this指向修改为b的this指向，并运行a函数，传进去的参数是(1,2);</p>
-<p>*<strong>注意：即使只有一个参数的话，也要是数组的形式</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//call 的传参和apply的传参</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">arg1,arg2</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.name,arg1,arg2);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name : <span class="string">&#x27;tom&#x27;</span>,</span><br><span class="line">  say : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">say.call(obj,<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>);<span class="comment">//tom one two</span></span><br><span class="line">say.spply(obj,[<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>]);<span class="comment">//tom one two  效果一样</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>2、bind()</strong></p>
-<p>​    作用：bind()方法会创建一个新的函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入bind()方法的第一个参数作为this，传入bind()的第二个及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。</p>
-<p>​    用法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    bar : <span class="number">1</span>,</span><br><span class="line">    eventBind: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="string">&#x27;.someClass&#x27;</span>).on(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">            <span class="comment">/* Act on the event */</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.bar);      <span class="comment">//1</span></span><br><span class="line">        &#125;.bind(<span class="built_in">this</span>));<span class="comment">//这里的this是eventBind的this，即指向的是foo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。</p>
-<p><strong>3、new</strong></p>
-<p>new的运行原理：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Animal(<span class="string">&#x27;cat&#x27;</span>) = &#123;<span class="comment">//类似这样</span></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;<span class="comment">//先定义一个空对象</span></span><br><span class="line">    obj.__proto__ = Animal.prototype;</span><br><span class="line">    <span class="comment">//把 obj 的__proto__ 指向构造函数 Animal 的原型对象 prototype，</span></span><br><span class="line">    <span class="comment">//此时便建立了 obj 对象的原型链：</span></span><br><span class="line">    <span class="comment">//obj-&gt;Animal.prototype-&gt;Object.prototype-&gt;null</span></span><br><span class="line">    <span class="keyword">var</span> result = Animal.call(obj,<span class="string">&quot;cat&quot;</span>);<span class="comment">//改变this指向，从Animal改变到obj上</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> result === <span class="string">&#x27;object&#x27;</span>? result : obj; <span class="comment">//返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&quot;追梦子&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Fn();<span class="comment">//this指向a</span></span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//追梦子</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>4、return</strong></p>
-<p>​    在构造函数的时候，使用return进行返回一个Object的时候，当去new一个实例对象的时候，会将this指向改变为return的Object；</p>
-<p>​     用法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&#x27;追梦子&#x27;</span>;  </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;user&quot;</span> : <span class="string">&quot;111&quot;</span></span><br><span class="line">    &#125;;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//111</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="使用fn-apply-this-arr-和fn-…arr-的区别"><a href="#使用fn-apply-this-arr-和fn-…arr-的区别" class="headerlink" title="使用fn.apply(this,arr)和fn(…arr)的区别"></a>使用fn.apply(this,arr)和fn(…arr)的区别</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">当然，在这道题目中用fn(...arr)也能成功的输出</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">题目描述</span></span><br><span class="line"><span class="comment">	将数组 arr 中的元素作为调用函数 fn 的参数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//示例1</span></span><br><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">greeting, name, punctuation</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> greeting + <span class="string">&#x27;, &#x27;</span> + name + (punctuation || <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="string">&#x27;Hello&#x27;</span>, <span class="string">&#x27;Ellie&#x27;</span>, <span class="string">&#x27;!&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">//代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">argsAsArray</span>(<span class="params">fn, arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="built_in">this</span>, arr);</span><br><span class="line">    <span class="comment">//return fn(...arr)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>答案：<a href="https://segmentfault.com/q/1010000004566233">https://segmentfault.com/q/1010000004566233</a></p>
-<h4 id="面试真题"><a href="#面试真题" class="headerlink" title="面试真题"></a>面试真题</h4><ol>
-<li><p>this的指向（from:字节跳动技术中台一面）</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">	x: <span class="number">1</span>,</span><br><span class="line">    print () &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">this</span>.x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">a.print();  <span class="comment">//1</span></span><br><span class="line"><span class="keyword">let</span> print = a.print()</span><br><span class="line">print();  <span class="comment">//undefined</span></span><br><span class="line"><span class="comment">//问：如何改变this的指向</span></span><br><span class="line"><span class="keyword">let</span> print = a.print.bind(a);</span><br><span class="line">print()</span><br></pre></td></tr></table></figure></li>
-<li></li>
-</ol>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>面试</tag>
-        <tag>ES</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>web端pdf编辑工具</title>
-    <url>/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<p>对于web端pdf编辑能力，本文提供了一种相对完整且轻量的实现方式，如果你也有类似诉求，希望能对你有所帮助～。下面将从业务场景、技术实现角度对“pdf编辑工具”进行介绍。仓库地址：<a href="https://github.com/Laighten/pdf-paint">https://github.com/Laighten/pdf-paint</a></p>
-<span id="more"></span>
-
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>版权是内容行业商业化的基础，也是网易云音乐的核心资产。合同作为版权资产的重要组成部分，需要具有高效且高质量的管理方式，云音乐版权后台把大量原本需在线下完成的纸质合同的生成与审核等过程移至线上进行。在合同生成——审核完成的过程中，运营需要开通查看合同信息以及合同原件的能力。但由于运营直接查看合同原件存在一定风险，特别是对合同金额等敏感信息不方便直接露出。因此需要对pdf格式的合同原件进行脱敏处理（包括自动脱敏和手动脱敏，本文只介绍手动脱敏），即发起人在上传合同原件后，需要对合同原件中的一些敏感信息进行涂改操作，以提供给运营查看。</p>
-<h4 id="功能调研"><a href="#功能调研" class="headerlink" title="功能调研"></a>功能调研</h4><p>前期通过对“web端pdf编辑能力”的已有组件库或方案的调研，发现两款比较主流pdf编辑库：<a href="https://www.npmjs.com/package/jspdf">jsPDF</a>和<a href="https://pdf-lib.js.org/">pdf-lib</a>两个js库可以实现（其它冷门库暂不考虑）。</p>
-<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240225162010639.png" alt="pdf-lib"></p>
-<p>其中，<a href="https://pdf-lib.js.org/">pdf-lib</a>这个组件对pdf的基本编辑能力已经十分完善，可以轻松实现对pdf的预览（包括放大/缩小、翻页、旋转等）、加水印、图片嵌入、涂改等功能。其涂改功能的实现如下：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument, rgb &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">drawSvgPaths</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> svgPath =</span><br><span class="line">    <span class="string">&#x27;M 0,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> pdfDoc = <span class="keyword">await</span> PDFDocument.create()</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> page = pdfDoc.addPage()</span><br><span class="line">  page.moveTo(<span class="number">100</span>, page.getHeight() - <span class="number">5</span>)</span><br><span class="line">  </span><br><span class="line">  page.moveDown(<span class="number">25</span>)</span><br><span class="line">  page.drawSvgPath(svgPath)</span><br><span class="line">  </span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">borderColor</span>: rgb(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>), <span class="attr">borderWidth</span>: <span class="number">5</span> &#125;)</span><br><span class="line">  </span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">color</span>: rgb(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) &#125;)</span><br><span class="line">  </span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">scale</span>: <span class="number">0.5</span> &#125;)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其原理是调用pdf-lib的drawSvgPath方法，将指定颜色的线条覆盖到pdf的指定位置，如果说只是实现一个基础的涂改功能那么这个方法已经够用了。但由于策划希望实现一个像画板一样，可以对涂改过的地方进行随意的擦除，这对于pdf-lib自带的”涂改”功能就比较捉襟见肘了。原因是我们使用drawSvgPath进行涂改，需要先将每条画线的坐标位置记录下来，如果需要擦除的话只能一条一条的回撤，不能像橡皮擦一样的随意擦除（jsPDF同样无法实现）。因此我们需要定制化开发一款可以随意涂改或擦除的pdf工具。</p>
-<h3 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h3><h4 id="技术可行性拆解"><a href="#技术可行性拆解" class="headerlink" title="技术可行性拆解"></a>技术可行性拆解</h4><h4 id="架构概览"><a href="#架构概览" class="headerlink" title="架构概览"></a>架构概览</h4><h3 id="模块简介"><a href="#模块简介" class="headerlink" title="模块简介"></a>模块简介</h3><h4 id="pdf加载与转换"><a href="#pdf加载与转换" class="headerlink" title="pdf加载与转换"></a>pdf加载与转换</h4><h4 id="canvas画布"><a href="#canvas画布" class="headerlink" title="canvas画布"></a>canvas画布</h4><h4 id="保存下载"><a href="#保存下载" class="headerlink" title="保存下载"></a>保存下载</h4><p>避免pdf页面失真</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ChinaVis2019参赛总结</title>
     <url>/2019/07/28/ChinaVis2019%E5%8F%82%E8%B5%9B%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>​    本次ChinaVis挑战赛于7月21-24日在成都举行，由于本人家住成都较近的原因很荣幸能够报名并参加了这次挑战赛会议，期间有各行业的大佬做可视化的前沿发展汇报及最新论文汇报，让我收获颇丰，其详情请关注ChinaVis2019可视化官网。本篇博客主要用来总结本人本次与同学共同参加并完成挑战赛题目的收获与不足，以及参会时记录的挑战赛1的答案详情、听取到的其他获奖作品后的感想，以备自己今后参考所用。</p>
@@ -247,6 +92,185 @@
       <tags>
         <tag>可视化</tag>
         <tag>ChinaVIS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>V8垃圾回收机制</title>
+    <url>/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>​    JavaScript、Java、Python 等语言，产生的垃圾数据是由垃圾回收器来释放的，并不需要手动通过代码来释放。搞清楚内存中的垃圾是如何回收的对理解内存机制和写出高性能的代码具有巨大的帮助。下面将主要介绍V8引擎的垃圾回收机制。</p>
+<span id="more"></span>
+
+<p>JavaScript、Java、Python 等语言，<strong>产生的垃圾数据是由垃圾回收器来释放的</strong>，并不需要手动通过代码来释放。</p>
+<h4 id="调用栈中的数据如何回收"><a href="#调用栈中的数据如何回收" class="headerlink" title="调用栈中的数据如何回收"></a>调用栈中的数据如何回收</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> b = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客邦 &quot;</span>&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">showName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> c = <span class="string">&quot; 极客时间 &quot;</span></span><br><span class="line">      <span class="keyword">var</span> d = &#123;<span class="attr">name</span>:<span class="string">&quot; 极客时间 &quot;</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    showName()</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<p>​    执行到 showName 函数时，那么 JavaScript 引擎会创建 showName 函数的执行上下文，并将 showName 函数的执行上下文压入到调用栈中，最终执行到 showName 函数时，其调用栈就如下图所示。与此同时，还有一个<strong>记录当前执行状态的指针（称为 ESP）</strong>，指向调用栈中 showName 函数的执行上下文，表示当前正在执行 showName 函数。</p>
+<p>​    接着，当 showName 函数执行完成之后，函数执行流程就进入了 foo 函数，那这时就需要销毁 showName 函数的执行上下文了。ESP 这时候就帮上忙了，JavaScript 会将 ESP 下移到 foo 函数的执行上下文，<strong>这个下移操作就是销毁 showName 函数执行上下文的过程</strong>。</p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304112315040.png" alt="image-20210304112315040"></p>
+<p>所以说，当一个函数执行结束之后，<strong>JavaScript 引擎会通过向下移动 ESP 来销毁该函数保存在栈中的执行上下文</strong>。</p>
+<h4 id="堆中的数据是如何回收的"><a href="#堆中的数据是如何回收的" class="headerlink" title="堆中的数据是如何回收的"></a>堆中的数据是如何回收的</h4><p><strong>代际假说（The Generational Hypothesis）</strong>：</p>
+<ul>
+<li>第一个是大部分对象在内存中存在的时间很短，简单来说，就是很多对象一经分配内存，很快就变得不可访问；</li>
+<li>第二个是不死的对象，会活得更久。</li>
+</ul>
+<p><strong>分代收集</strong>：</p>
+<p>​    在 V8 中会把堆分为<strong>新生代</strong>和<strong>老生代</strong>两个区域，<strong>新生代中存放的是生存时间短的对象，老生代中存放的生存时间久的对象</strong>。新生区通常只支持 1～8M 的容量，而老生区支持的容量就大很多了。对于这两块区域，V8 分别使用两个不同的垃圾回收器，以便更高效地实施垃圾回收。</p>
+<ul>
+<li><strong>副垃圾回收器，主要负责新生代的垃圾回收。</strong></li>
+<li><strong>主垃圾回收器，主要负责老生代的垃圾回收。</strong></li>
+</ul>
+<p><strong>垃圾回收器的工作流程</strong>：</p>
+<p>​    不管是主垃圾回收器还是副垃圾回收器都遵循以下这套公共的执行流程：</p>
+<p>​    1、<strong>标记空间中活动对象和非活动对象</strong>。所谓活动对象就是还在使用的对象，非活动对象就是可以进行垃圾回收的对象。</p>
+<p>​    2、<strong>回收非活动对象所占据的内存</strong>。其实就是在所有的标记完成之后，统一清理内存中所有被标记为可回收的对象。</p>
+<p>​    3、<strong>内存整理</strong>。频繁回收对象后，内存中就会存在大量不连续空间，我们把这些不连续的内存空间称为<strong>内存碎片</strong>。当出现量不连续的内存碎片后，我们再想分配一个较大的连续空间就会出现内存不足的情况。</p>
+<h4 id="副垃圾回收器"><a href="#副垃圾回收器" class="headerlink" title="副垃圾回收器"></a>副垃圾回收器</h4><p>​    副垃圾回收器主要负责新生区的垃圾回收，用<strong>Scavenge 算法</strong>来处理。其原理就是：把新生代空间对半划分为两个区域，一半是对象区域，一半是空闲区域，新加入的对象都会存放到对象区域，<strong>当对象区域快被写满时</strong>，就需要执行一次垃圾清理操作。</p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304114240567.png" alt="image-20210304114240567"></p>
+<p>其回收过程如下：</p>
+<p>​    1、对对象区域中的垃圾做标记，活动对象和非活动会对象；</p>
+<p>​    2、标记完成之后，就进入垃圾清理阶段，副垃圾回收器会把这些<strong>仍然存活的对象</strong>复制到空闲区域中，<strong>同时它还会把这些对象有序地排列起来，所以这个复制过程</strong>，也就相当于完成了内存整理操作，复制后空闲区域就没有内存碎片了。</p>
+<p>​    3、完成复制后，对象区域与空闲区域进行角色翻转，也就是原来的对象区域变成空闲区域，原来的空闲区域变成了对象区域。</p>
+<p><strong>对象晋升策略</strong>：由于为了执行效率，新生区的空间通常会被设置的比较小，所以很容易被存满，为此JavaScript引擎引入了晋升策略，即：<strong>经过两次垃圾回收依然还存活的对象，会被移动到老生区中。</strong></p>
+<h4 id="主垃圾回收器"><a href="#主垃圾回收器" class="headerlink" title="主垃圾回收器"></a>主垃圾回收器</h4><p>​    老生区中的对象有两个特点，一个是对象占用空间大，另一个是对象存活时间长。</p>
+<p>​    主垃圾回收器是采用<strong>标记 - 清除（Mark-Sweep）</strong>的算法进行垃圾回收的。</p>
+<p>1、<strong>对垃圾数据做标记</strong>。当调用栈中的ESP指向下一个执行上下文后，上一个执行上下文中引用对象在堆中的数据就会被当做垃圾数据被<strong>标为红色</strong>，而当前正被ESP指向的指向上下文中指针指向的栈中数据会被标为<strong>活动数据</strong>。</p>
+<p>2、<strong>垃圾数据的清除</strong>。使用<strong>Mark-Sweep</strong>算法清除掉被标记为红色的垃圾数据。</p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115832389.png" alt="image-20210304115832389.png"></p>
+<p>3、<strong>内存整理</strong>。使用<strong>标记 - 整理（Mark-Compact）</strong>对内存碎片进行整理。</p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304115856708.png" alt="image-20210304115856708"></p>
+<h4 id="全停顿"><a href="#全停顿" class="headerlink" title="全停顿"></a>全停顿</h4><p>​    于 JavaScript 是运行在主线程之上的，一旦执行垃圾回收算法，都需要将正在执行的 JavaScript 脚本暂停下来，待垃圾回收完毕后再恢复脚本执行。我们把这种行为叫做<strong>全停顿（Stop-The-World）</strong>。</p>
+<p>​    为了降低老生代的垃圾回收而造成的卡顿，V8 将标记过程分为一个个的子标记过程，同时让垃圾回收标记和 JavaScript 应用逻辑交替进行，直到标记阶段完成，我们把这个算法称为<strong>增量标记（Incremental Marking）算法</strong>。如下图所示：</p>
+<p><img src="/2021/04/17/V8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/image-20210304120112556.png" alt="image-20210304120112556"></p>
+<p>​    使用增量标记算法，可以把一个完整的垃圾回收任务拆分为很多小的任务，这些小的任务执行时间比较短，可以穿插在其他的 JavaScript 任务中间执行，这样当执行上述动画效果时，就不会让用户因为垃圾回收任务而感受到页面的卡顿了。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>浏览器工作原理</tag>
+        <tag>前端</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>V8引擎编译器和解析器</title>
+    <url>/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/</url>
+    <content><![CDATA[<p>​    通过阅读李兵老师的《浏览器的原理与实践》感觉对自己学习和理解前端知识大有启发，结合自己的理解对V8引擎的编译器和解释器做了以下归纳和总结。已备自己忘记时查看。</p>
+<span id="more"></span>
+
+<h4 id="编译器和解释器"><a href="#编译器和解释器" class="headerlink" title="编译器和解释器"></a>编译器和解释器</h4><p>​    <strong>编译型语言在程序执行之前，需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行程序时，都可以直接运行该二进制文件，而不需要再次重新编译了。</strong>比如 C/C++、GO 等都是编译型语言。</p>
+<p>​    <strong>解释型语言编写的程序，在每次运行时都需要通过解释器对程序进行动态解释和执行</strong>。比如 Python、JavaScript 等都属于解释型语言。</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105157354.png" alt="image-20210306105157354"></p>
+<p><strong>（1）编译型语言的执行流程：</strong>编译器首先会依次对源代码进行词法分析、语法分析，生成抽象语法树（AST），然后是优化代码，最后再生成处理器能够理解的机器码。如果编译成功，将会生成一个可执行的文件。但如果编译过程发生了语法或者其他的错误，那么编译器就会抛出异常，最后的二进制文件也不会生成成功。</p>
+<p><strong>（2）解释型语言的执行流程：</strong>解释器也会对源代码进行词法分析、语法分析，并生成抽象语法树（AST），不过它会再基于抽象语法树生成字节码，最后再根据字节码来执行程序、输出结果。</p>
+<h4 id="V8-是如何执行一段-JavaScript-代码的"><a href="#V8-是如何执行一段-JavaScript-代码的" class="headerlink" title="V8 是如何执行一段 JavaScript 代码的"></a>V8 是如何执行一段 JavaScript 代码的</h4><p>​    V8 在执行过程中既有<strong>解释器 Ignition</strong>，又有<strong>编译器 TurboFan</strong>。其全局执行流程如下所示：</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105718810.png" alt="image-20210306105718810"></p>
+<h5 id="生成抽象语法树（AST）和执行上下文"><a href="#生成抽象语法树（AST）和执行上下文" class="headerlink" title="生成抽象语法树（AST）和执行上下文"></a>生成抽象语法树（AST）和执行上下文</h5><p>​    首先，将源代码转换成<strong>抽象语法树（AST）</strong>和<strong>执行上下文</strong>。高级语言是开发者可以理解的语言，而对于编译器和解释器来说他们可以理解的就是抽象语法树（AST）。这和渲染引擎将HTML格式的文件转换为自己可以理解的DOM树类似。</p>
+<p>​    AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。<strong>Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。</strong></p>
+<p>​    除了 Babel 外，还有 ESLint 也使用 AST。ESLint 是一个用来检查 JavaScript 编写规范的插件，其检测流程也是需要将源码转换为 AST，然后再利用 AST 来检查代码规范化的问题。</p>
+<p><strong>生成AST的两个阶段：</strong></p>
+<p><strong>第一阶段是分词（tokenize），又称为词法分析</strong>，其作用是将一行行的源码拆解成一个个 token。所谓<strong>token</strong>，指的是语法上不可能再分的、最小的单个字符或字符串。</p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111037818.png" alt="image-20210306111037818"></p>
+<p>​    从图中可以看出，通过<code>var myName = “极客时间”</code>简单地定义了一个变量，其中关键字“var”、标识符“myName” 、赋值运算符“=”、字符串“极客时间”四个都是 token，而且它们代表的属性还不一样。</p>
+<p><strong>第二阶段是解析（parse），又称为语法分析</strong>，其作用是将上一步生成的 token 数据，根据语法规则转为 AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个“语法错误”。</p>
+<p><strong>有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文。</strong></p>
+<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><p>​    有了 AST 和执行上下文后，那接下来的第二步，解释器 Ignition 就登场了，它会根据 AST 生成字节码，并解释执行字节码。</p>
+<p><strong>字节码就是介于 AST 和机器码之间的一种代码。但是与特定类型的机器码无关，字节码需要通过解释器将其转换为机器码后才能执行。</strong></p>
+<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111747379.png" alt="image-20210306111747379"></p>
+<p>​    从图中可以看出，机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用。</p>
+<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><p>​    通常，如果有一段第一次执行的字节码，解释器 Ignition 会逐条解释执行。在执行字节码的过程中，如果发现有热点代码(HotSpot)，比如一段代码被重复执行多次，这种就称为<strong>热点代码</strong>，那么后台的编译器(TurboFan) 就会把该段热点的字节码编译为高效的机器码，然后当再次执行这段被优化的代码时，只需要执行编译后的机器码就可以了，这样就大大提升了代码的执行效率。</p>
+<p>​    其实字节码配合解释器和编译器是最近一段时间很火的技术，比如 Java 和 Python 的虚拟机也都是基于这种技术实现的，我们把这种技术称为<strong>即时编译（JIT）</strong>。</p>
+<h4 id="JavaScript的性能优化"><a href="#JavaScript的性能优化" class="headerlink" title="JavaScript的性能优化"></a>JavaScript的性能优化</h4><p>主要关注以下三点：</p>
+<ol>
+<li>提升单次脚本的执行速度，避免 JavaScript 的长任务霸占主线程，这样可以使得页面快速响应交互；</li>
+<li>避免大的内联脚本，因为在解析 HTML 的过程中，解析和编译也会占用主线程；</li>
+<li>减少 JavaScript 文件的容量，因为更小的文件会提升下载速度，并且占用更低的内存。</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​    （1）解释器和编译器在执行代码时都会先将代码通过词法分析、语法分析生成抽象语法树（AST），不同的是解释型语言会通过解释器将AST转换为字节码并直接逐条执行；而编译器会在AST的基础上先优化代码然后生成机器码进而编译生成二进制文件，执行时直接执行这个二进制文件。</p>
+<p>​    （2）JavaScript的编译流程是：先通过词法分析和语法分析生成AST和可执行上下文，然后通过解释器将AST转换为字节码，并逐条执行。在生成AST时主要分为两步：第一步先通过词法分析生成token，第二步通过语法分析将token转换为AST。</p>
+<p>​    （3）V8在代码的编译过程中采用的JIT（即时编译）技术来实现的。就是在生成字节码后，先使用解释器逐条解释并执行代码，如果遇到热点代码（被多次重复执行的代码），就会把这段字节码通过编译器编译为机器码，当再次遇到改代码是就可以直接执行。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>浏览器工作原理</tag>
+        <tag>前端</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>this的指向问题</title>
+    <url>/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>​    this指针是前端面试过程中最常考的问题之一，也是比较坑的问题之一，为了避免多次被坑先将this指针的相关问题记录如下，主要包括判断this指针的几类常见的方法、改变this指针的几种方法以及一些面试真题。</p>
+<span id="more"></span>
+
+<h4 id="如何判断this的指向"><a href="#如何判断this的指向" class="headerlink" title="如何判断this的指向"></a>如何判断this的指向</h4><p>在使用 this 时，为了避坑，你要谨记以下四点：</p>
+<ol>
+<li>当函数作为对象的方法调用时，函数中的 this 就是该对象；</li>
+<li>当函数被正常调用时，<strong>在严格模式下，this 值是 undefined</strong>，非严格模式下 this 指向的是全局对象 window；</li>
+<li>嵌套函数中的 this 不会继承外层函数的 this 值。</li>
+<li>我们还提了一下箭头函数，因为箭头函数没有自己的执行上下文，所以箭头函数的 this 就是它外层函数的 this。</li>
+<li>当this遇到return时，如果返回值是一个对象，那么this指向的是构造函数的实例但是并没有被返回，如果返回值不是一个对象，那么this还是指向构造函数创建的实例。</li>
+</ol>
+<p>下面从几道例题中去验证：</p>
+<ol>
+<li><p>直接使用的函数this指向window</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> user= <span class="string">&quot;呵呵&quot;</span>，</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.user),</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>),</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br><span class="line"><span class="comment">// undefined</span></span><br><span class="line"><span class="comment">// window</span></span><br></pre></td></tr></table></figure></li>
+<li><p>嵌套函数中的 this 不会继承外层函数的 this 值</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">o</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> user = <span class="string">&quot;呵呵&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.user);</span><br><span class="line">    &#125;</span><br><span class="line">    fn();</span><br><span class="line">&#125;</span><br><span class="line">o();</span><br></pre></td></tr></table></figure></li>
+<li><p>当函数作为对象的方法调用时，函数中的 this 就是该对象，且永远指向最后调用它的对象</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//题目一</span></span><br><span class="line"><span class="keyword">var</span> o=&#123;</span><br><span class="line">	a:<span class="number">10</span>,</span><br><span class="line">    b:&#123;</span><br><span class="line">    	a=<span class="number">12</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.b.fn() <span class="comment">//12</span></span><br><span class="line"><span class="comment">//题目二</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">	a:<span class="number">10</span>,</span><br><span class="line">    b:&#123;</span><br><span class="line">    	a:<span class="number">12</span></span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    		<span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> j = o.b.fn;</span><br><span class="line">j(); <span class="comment">// undefined //window</span></span><br></pre></td></tr></table></figure></li>
+<li><p>构造函数中的this指向</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&#x27;呵呵&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Fn()</span><br><span class="line"><span class="built_in">console</span>.log(p.user) <span class="comment">// 呵呵</span></span><br></pre></td></tr></table></figure></li>
+<li><p>当this遇到return时</p>
+<p>如果返回值是一个对象，那么this指向的是构造函数的实例但是并没有被返回，如果返回值不是一个对象，那么this还是指向构造函数创建的实例。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//undefined</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//undefined</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//呵呵</span></span><br><span class="line">==============================</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.user = <span class="string">&quot;呵呵&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn()</span><br><span class="line"><span class="built_in">console</span>.log(a.user) <span class="comment">//呵呵</span></span><br></pre></td></tr></table></figure></li>
+<li><p>箭头函数中的this指向</p>
+<p>箭头函数是ES6中的特性，箭头函数没有执行上下文本所以没有this，它会沿用/捕获外部环境的this。也就是说，箭头函数内部与外部的this是保持一致的。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 题目一 */</span></span><br><span class="line"><span class="built_in">this</span>.a = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> test = &#123;</span><br><span class="line">	a:<span class="number">40</span>,</span><br><span class="line">    init:<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">go</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        	<span class="built_in">this</span>.a = <span class="number">60</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">        go.prototype.a = <span class="number">50</span></span><br><span class="line">        <span class="keyword">return</span> go</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = test.init()</span><br><span class="line">p()</span><br><span class="line"><span class="keyword">new</span> (test.init())()</span><br><span class="line"><span class="comment">/* 题目二 */</span></span><br><span class="line"><span class="built_in">this</span>.a = <span class="number">20</span></span><br><span class="line"><span class="keyword">var</span> test = &#123;</span><br><span class="line">	a:<span class="number">40</span>,</span><br><span class="line">    init:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">go</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        	<span class="built_in">this</span>.a = <span class="number">60</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.a)</span><br><span class="line">        &#125;</span><br><span class="line">        go.prototype.a = <span class="number">50</span></span><br><span class="line">        <span class="keyword">return</span> go</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = test.init()</span><br><span class="line">p()</span><br><span class="line"><span class="keyword">new</span> (test.init())()</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="如何改变this的指向"><a href="#如何改变this的指向" class="headerlink" title="如何改变this的指向"></a>如何改变this的指向</h4><p><strong>1、call()和apply()</strong></p>
+<p>​    **call():**第一个参数表示要把this指向的新目标，第二个之后的参数其实相当于传参，参数以逗号隔开（性能较apply略好）。</p>
+<p>​    用法：a.call(b,1,2)；表示要把a函数的this指向修改为b的this指向，并运行a函数，传入参数是（1,2）</p>
+<p>​    <strong>apply()：</strong>第一个参数同上，第二个参数接收一个数组，里面也是传参，只是以数组的方式，相当于arguments</p>
+<p>用法：a.apply(b,[1,2])；表示要把a函数的this指向修改为b的this指向，并运行a函数，传进去的参数是(1,2);</p>
+<p>*<strong>注意：即使只有一个参数的话，也要是数组的形式</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//call 的传参和apply的传参</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">arg1,arg2</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>.name,arg1,arg2);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name : <span class="string">&#x27;tom&#x27;</span>,</span><br><span class="line">  say : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">say.call(obj,<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>);<span class="comment">//tom one two</span></span><br><span class="line">say.spply(obj,[<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>]);<span class="comment">//tom one two  效果一样</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2、bind()</strong></p>
+<p>​    作用：bind()方法会创建一个新的函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入bind()方法的第一个参数作为this，传入bind()的第二个及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。</p>
+<p>​    用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    bar : <span class="number">1</span>,</span><br><span class="line">    eventBind: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="string">&#x27;.someClass&#x27;</span>).on(<span class="string">&#x27;click&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">            <span class="comment">/* Act on the event */</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.bar);      <span class="comment">//1</span></span><br><span class="line">        &#125;.bind(<span class="built_in">this</span>));<span class="comment">//这里的this是eventBind的this，即指向的是foo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。</p>
+<p><strong>3、new</strong></p>
+<p>new的运行原理：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Animal(<span class="string">&#x27;cat&#x27;</span>) = &#123;<span class="comment">//类似这样</span></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;<span class="comment">//先定义一个空对象</span></span><br><span class="line">    obj.__proto__ = Animal.prototype;</span><br><span class="line">    <span class="comment">//把 obj 的__proto__ 指向构造函数 Animal 的原型对象 prototype，</span></span><br><span class="line">    <span class="comment">//此时便建立了 obj 对象的原型链：</span></span><br><span class="line">    <span class="comment">//obj-&gt;Animal.prototype-&gt;Object.prototype-&gt;null</span></span><br><span class="line">    <span class="keyword">var</span> result = Animal.call(obj,<span class="string">&quot;cat&quot;</span>);<span class="comment">//改变this指向，从Animal改变到obj上</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> result === <span class="string">&#x27;object&#x27;</span>? result : obj; <span class="comment">//返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&quot;追梦子&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Fn();<span class="comment">//this指向a</span></span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//追梦子</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>4、return</strong></p>
+<p>​    在构造函数的时候，使用return进行返回一个Object的时候，当去new一个实例对象的时候，会将this指向改变为return的Object；</p>
+<p>​     用法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">this</span>.user = <span class="string">&#x27;追梦子&#x27;</span>;  </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;user&quot;</span> : <span class="string">&quot;111&quot;</span></span><br><span class="line">    &#125;;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line"><span class="built_in">console</span>.log(a.user); <span class="comment">//111</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用fn-apply-this-arr-和fn-…arr-的区别"><a href="#使用fn-apply-this-arr-和fn-…arr-的区别" class="headerlink" title="使用fn.apply(this,arr)和fn(…arr)的区别"></a>使用fn.apply(this,arr)和fn(…arr)的区别</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">当然，在这道题目中用fn(...arr)也能成功的输出</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">题目描述</span></span><br><span class="line"><span class="comment">	将数组 arr 中的元素作为调用函数 fn 的参数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//示例1</span></span><br><span class="line"><span class="comment">//输入</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">greeting, name, punctuation</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> greeting + <span class="string">&#x27;, &#x27;</span> + name + (punctuation || <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="string">&#x27;Hello&#x27;</span>, <span class="string">&#x27;Ellie&#x27;</span>, <span class="string">&#x27;!&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">//代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">argsAsArray</span>(<span class="params">fn, arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="built_in">this</span>, arr);</span><br><span class="line">    <span class="comment">//return fn(...arr)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答案：<a href="https://segmentfault.com/q/1010000004566233">https://segmentfault.com/q/1010000004566233</a></p>
+<h4 id="面试真题"><a href="#面试真题" class="headerlink" title="面试真题"></a>面试真题</h4><ol>
+<li><p>this的指向（from:字节跳动技术中台一面）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">	x: <span class="number">1</span>,</span><br><span class="line">    print () &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="built_in">this</span>.x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">a.print();  <span class="comment">//1</span></span><br><span class="line"><span class="keyword">let</span> print = a.print()</span><br><span class="line">print();  <span class="comment">//undefined</span></span><br><span class="line"><span class="comment">//问：如何改变this的指向</span></span><br><span class="line"><span class="keyword">let</span> print = a.print.bind(a);</span><br><span class="line">print()</span><br></pre></td></tr></table></figure></li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>面试</tag>
+        <tag>ES</tag>
       </tags>
   </entry>
   <entry>
@@ -481,6 +505,184 @@
       </tags>
   </entry>
   <entry>
+    <title>分层和合成机制</title>
+    <url>/2021/09/06/%E5%88%86%E5%B1%82%E5%92%8C%E5%90%88%E6%88%90%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>​    每个显示器都有固定的刷新频率，通常是60HZ（即每秒刷新60次），更新的图片都来自于显卡中<strong>前缓冲区</strong>。显卡会合成新的图像，并将其保存到<strong>后缓冲区</strong>，一旦新合成的图像写到后缓冲区，系统就会让<strong>后缓冲区</strong>和<strong>前缓冲区</strong>交换，以此保证显示器读取到新合成的图像。在浏览器中，渲染引擎会通过渲染流水线生成新的图片，并发送到显卡的后缓冲区。由于大多数屏幕的更新频率都是60次/秒，这就意味着<strong>渲染引擎</strong>每秒需要更新60张图片到显卡的后缓存区，一旦渲染引擎生成某些帧（一张图片就是一帧）的时间过久，用户就会感到卡顿。Chrome浏览器引入了<strong>分层</strong>和<strong>合成</strong>机制，以此来解决卡顿或每帧生成时间过久的问题。</p>
+<span id="more"></span>
+
+
+
+<h3 id="如何生成一帧图像"><a href="#如何生成一帧图像" class="headerlink" title="如何生成一帧图像"></a>如何生成一帧图像</h3><p>浏览器渲染流水线中任意一帧生成的方式有：<strong>重排</strong>、<strong>重绘</strong>和<strong>合成</strong>三种。三种方式生成一帧图像的路径是不同的，但通常路径越长，生成图像说花费的时间就越多。</p>
+<p><strong>重排</strong>：需要重新根据CSSOM和DOM来计算布局树，这样生成一幅图片时，会让整个渲染流水线的每个阶段都执行一遍。</p>
+<p><strong>重绘</strong>：需要重新计算绘制信息，并触发绘制操作之后的一系列操作。</p>
+<p><strong>合成</strong>：不需要触发布局和绘制两个阶段，如果采用了GPU，那么合成效率更高。</p>
+<p>所以，渲染引擎生成一帧图像的几种方式按照效率会优先使用合成，若不能满足需求，那么再使用重排或者重绘；</p>
+<h3 id="分层与合成"><a href="#分层与合成" class="headerlink" title="分层与合成"></a>分层与合成</h3><p>​    通常页面的组成是非常复杂的，如果没有采用分层机制，从布局树直接生成目标图片的话一旦页面有很小的变化都会触发重排或者重绘，这种绘制策略会严重影响页面的渲染效率。为了提升每帧的渲染效率，我们可以将一张网页想象成多个图片叠加在一起的，每张图片对应一个图层，比如透明度、边框影阴、是否可旋转等，最后将这些图层叠加在一起后呈现最终的图片。将素材分解为多个图层的操作就称为<strong>分层</strong>，最后将这些图层合并到一起的操作就称为<strong>合成</strong>。</p>
+<p>​    假设一个页面被划分为两个层，当进行到下一帧的渲染时，上面的一帧可能需要实现某些变换，如平移、旋转、缩放、阴影或者 Alpha 渐变，这时候合成器只需要将两个层进行相应的变化操作就可以了，显卡处理这些操作驾轻就熟，所以这个合成过程时间非常短。</p>
+<h4 id="分层与合成-1"><a href="#分层与合成-1" class="headerlink" title="分层与合成"></a>分层与合成</h4><p>​    在Chrome的渲染流水线中，分层体现在生成<strong>布局树</strong>之后，渲染引擎会根据布局树的特点将其转换为<strong>层树</strong>（Layer Tree）。层树的每一个节点都对应着一个图层，下一步的绘制就依赖于层树中的节点。绘制阶段其实并不是真正地绘出图片，而是将<strong>绘制指令</strong>组合成一个列表。有了绘制列表之后，光栅化就是按照绘制列表中的指令生成图片，每一个图层对应一张图片，<strong>合成线程</strong>有了这些图片之后，会将这些图片合成为“一张”图片，并最终将生成的图片发送到后缓冲区。<strong>合成操作是在合成线程上完成的，这也就意味着在执行合成操作时，是不会影响到主线程执行的</strong>。</p>
+<h4 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h4><p>如果说分层是从宏观上提升了渲染效率，那么分块则是从微观层面提升了渲染效率。</p>
+<p>​    通常情况下，页面的内容要比屏幕大的多，如果想要显示一个页面要等所有的图层都生成完了再进行合成的话会产生一些不必要的开销或者图片合成的时间变得更久。因此，<strong>合成线程</strong>会将每个图层分割为大小固定的图块，然后优先绘制靠近视口的图块，但是有时候即使优先绘制优先级高的图块也会因为<strong>纹理上传</strong>的原因耗费不少时间。</p>
+<p>​    为此，Chrome 又采取了一个策略：<strong>在首次合成图块的时候使用一个低分辨率的图片</strong>。比如可以是正常分辨率的一半，分辨率减少一半，纹理就减少了四分之三。在首次显示页面内容的时候，将这个低分辨率的图片显示出来，然后合成器继续绘制正常比例的网页内容，当正常比例的网页内容绘制完成后，再替换掉当前显示的低分辨率内容。</p>
+<h3 id="使用分层技术优化代码"><a href="#使用分层技术优化代码" class="headerlink" title="使用分层技术优化代码"></a>使用分层技术优化代码</h3><p>​    使用will-change来告诉渲染引擎对该元素做一些特效变换。当我们需要对某个元素做几何形状变换、透明度变换或者一些缩放操作，如果使用 JavaScript 来写这些效果，会牵涉到整个渲染流水线，所以 JavaScript 的绘制效率会非常低下。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">	will-change: transform, opacity;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    这段代码就是提前告诉渲染引擎 box 元素将要做几何变换和透明度变换操作，这时候渲染引擎会将该元素单独实现一帧，等这些变换发生时，渲染引擎会通过合成线程直接去处理变换，这些变换并没有涉及到主线程，这样就大大提升了渲染的效率。<strong>这也是 CSS 动画比 JavaScript 动画高效的原因</strong>。</p>
+<p><strong>参考文献</strong>：《浏览器工作原理与实践》-李兵</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>web端pdf编辑工具</title>
+    <url>/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>对于web端pdf编辑能力，本文提供了一种相对完整且轻量的实现方式，如果你也有类似诉求，希望能对你有所帮助～。下面将从业务场景、技术实现角度对“pdf编辑工具”进行介绍。</p>
+<span id="more"></span>
+
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>版权是内容行业商业化的基础，也是网易云音乐的核心资产。合同作为版权资产的重要组成部分，需要具有高效且高质量的管理方式，云音乐版权后台把大量原本需在线下完成的纸质合同的生成与审核等过程移至线上进行。在合同生成——审核完成的过程中，会有不同身份成员需要查看合同信息以及合同原件。但由于部分成员直接查看合同原件存在一定风险，特别是对合同金额等敏感信息不方便直接露出。因此需要先对pdf格式的合同原件进行编辑处理，即发起人在上传合同原件后，需要对合同原件中的一些敏感信息进行涂改操作，以提供给其他审核人员查看。</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240301182106366.png" alt="合同审核流程"></p>
+<h4 id="功能调研"><a href="#功能调研" class="headerlink" title="功能调研"></a>功能调研</h4><p>通过对已有的pdf编辑组件库或方案的调研，发现两款比较主流可对pdf进行编辑的库：<a href="https://www.npmjs.com/package/jspdf">jsPDF</a>和<a href="https://pdf-lib.js.org/">pdf-lib</a>（其它冷门库暂不考虑）。</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240225162010639.png" alt="pdf-lib"></p>
+<p>其中，<a href="https://pdf-lib.js.org/">pdf-lib</a>这个组件对pdf的基本编辑能力已经十分完善，可以轻松实现对pdf的预览（包括放大/缩小、翻页、旋转等）、加水印、图片嵌入、涂改（<a href="https://codesandbox.io/p/sandbox/small-water-mhrhjn?file=/src/Components/ModifyPage.js:49,35-49,46">在线体验</a>）等功能。</p>
+<p>其涂改功能的实现如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument, rgb &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">drawSvgPaths</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> svgPath =</span><br><span class="line">    <span class="string">&#x27;M 0,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> pdfDoc = <span class="keyword">await</span> PDFDocument.create()</span><br><span class="line">  <span class="keyword">const</span> page = pdfDoc.addPage()</span><br><span class="line">  page.moveTo(<span class="number">100</span>, page.getHeight() - <span class="number">5</span>)</span><br><span class="line">  page.moveDown(<span class="number">25</span>)</span><br><span class="line">  page.drawSvgPath(svgPath)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">borderColor</span>: rgb(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>), <span class="attr">borderWidth</span>: <span class="number">5</span> &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">color</span>: rgb(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">scale</span>: <span class="number">0.5</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用pdf-lib的drawSvgPath方法，将指定颜色的线条覆盖到pdf的指定位置，如果说只是实现一个基础的涂改功能那么这个方法已经够用了，但对于定制化的功能来说还不够灵活。原因是使用drawSvgPath进行涂改，需要先将每条画线的坐标位置记录下来，擦除的时只能一条一条的回撤，不能像橡皮擦一样的任意擦除（jsPDF同样无法实现）。</p>
+<p>由于策划希望实现一个像画板一样，可以自由灵活的对涂改过的地方进行擦除的工具，且后续会陆续按需增加定制化的新功能。市面上现有支持pdf编辑的工具（如福昕PDF编辑器、Adobe Acrobat DC、PDF-XChange Editor等）具有诸多问题：</p>
+<ul>
+<li>收费；</li>
+<li>样式难以统一（如字体、表单长度、边框粗细等）；</li>
+<li>pdf可能会被工具获取，存在内容泄漏风险；</li>
+<li>无法满足特定业务的定制化需求；</li>
+<li>…..</li>
+</ul>
+<p>因此，我们需要开发一款”有画板功能”且可灵活拓展的web端pdf编辑工具。</p>
+<h3 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h3><p>通过前期调研发现，web端实现画板通常是使用canvas画布来实现，其自身具有很好的用于绘制的api调用方法。加上对已有web端pdf工具库的了解，考虑先将pdf处理成canvas画布，然后再对画布做一系列的编辑操作。</p>
+<h4 id="技术可行性拆解"><a href="#技术可行性拆解" class="headerlink" title="技术可行性拆解"></a>技术可行性拆解</h4><ol>
+<li><p>在线预览与canvas转换：</p>
+<p>可通过pdf.js将pdf转换为图片/canvas格式，并且可调用其自带的功能实现灵活的预览。</p>
+</li>
+<li><p>pdf的编辑与交互：</p>
+<p>将pdf转换为图片渲染到canvas画布后，就可以利用canvas提供的基础编辑方法实现可视化编辑能力。</p>
+</li>
+<li><p>合并canvas并生成新的pdf文件：</p>
+<p>利用pdf-lib的PDFDocument方法，将绘制好的canvas画布转换为pdf文件。</p>
+</li>
+</ol>
+<h4 id="架构概览"><a href="#架构概览" class="headerlink" title="架构概览"></a>架构概览</h4><p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240303104001472.png" alt="架构概览"></p>
+<h3 id="模块简介"><a href="#模块简介" class="headerlink" title="模块简介"></a>模块简介</h3><h4 id="pdf加载与转换"><a href="#pdf加载与转换" class="headerlink" title="pdf加载与转换"></a>pdf加载与转换</h4><p>使用pdf.js库中的pdf.worker.js方法将pdf文件处理成一个base64格式的图片数组，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> pdf <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> PdfWorker <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist/build/pdf.worker.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useEffect, useRef, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.pdfjsWorker = PdfWorker;</span><br><span class="line">pdf.GlobalWorkerOptions.workerSrc = PdfWorker;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> usePDFData = <span class="function">(<span class="params">options</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> previewUrls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> urls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        urls.current = [];</span><br><span class="line">        setLoading(<span class="literal">true</span>);</span><br><span class="line">        (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">            <span class="keyword">const</span> pdfDocument = <span class="keyword">await</span> pdf.getDocument(options.src).promise;</span><br><span class="line">            <span class="keyword">const</span> task = <span class="keyword">new</span> <span class="built_in">Array</span>(pdfDocument.numPages).fill(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">await</span> <span class="built_in">Promise</span>.all(task.map(<span class="keyword">async</span> (_, i) =&gt; &#123;</span><br><span class="line">                <span class="keyword">const</span> page = <span class="keyword">await</span> pdfDocument.getPage(i + <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">const</span> viewport = page.getViewport(&#123; <span class="attr">scale</span>: options.scale || <span class="number">2</span> &#125;);</span><br><span class="line">                <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                canvas.width = viewport.width;</span><br><span class="line">                canvas.height = viewport.height;</span><br><span class="line">                <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">                <span class="keyword">const</span> renderTask = page.render(&#123;</span><br><span class="line">                    canvasContext: ctx,</span><br><span class="line">                    viewport,</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">await</span> renderTask.promise;</span><br><span class="line">                urls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">                previewUrls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">            &#125;));</span><br><span class="line">            setLoading(<span class="literal">false</span>);</span><br><span class="line">        &#125;)();</span><br><span class="line">    &#125;, [options.src]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        loading,</span><br><span class="line">        urls: urls.current,</span><br><span class="line">        previewUrls: previewUrls.current,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，使用上述方法引入pdfjs-dist库的时候可能会出现由于版本原因导致的webpack报错或pdf文字展示不全的问题。此时，可使用CDN静态链接的方式来引入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">        script.src = src;</span><br><span class="line">        script.onload = resolve;</span><br><span class="line">        script.onerror = reject;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> pdfJsSrc = <span class="string">&#x27;https://d2.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306762218/0edf/8c16/2c06/4555824a5322d689b942fae7f969fe1d.js&#x27;</span>;</span><br><span class="line">        <span class="keyword">const</span> pdfWorkerSrc = <span class="string">&#x27;https://d1.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306765016/e6dd/7e38/f0e7/a1419bdedd44e403179bee0c8c1132df.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">window</span>?.pdfjsLib) &#123;</span><br><span class="line">            loadScript(pdfJsSrc)</span><br><span class="line">                .then(<span class="function">() =&gt;</span> loadScript(pdfWorkerSrc))</span><br><span class="line">                .then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    producePic(pdfWorkerSrc);</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            producePic(pdfWorkerSrc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, [options.src]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="canvas绘画"><a href="#canvas绘画" class="headerlink" title="canvas绘画"></a>canvas绘画</h4><p>将pdf的每一页处理成图片以后，就可以直接渲染到canvas画布上进行后续的一系列操作了。</p>
+<ol>
+<li><p>绘图与擦除功能构建</p>
+<p>采用两层相同大小的canvas画布重叠的方式。上层画布主要用于绘制新内容，下层画布用于展示原始pdf内容，当需要一次还原某页内容时，只需要将上层canvas内容清除即可。选择操作方式（绘图/擦除）后，按下鼠标开始绘制/擦除，抬起鼠标停止绘制/擦除。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect, useState, useRef, useCallback &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> OPERATE_ENUM = &#123;</span><br><span class="line">    MOSAIC: <span class="number">1</span>,  <span class="comment">// 绘图</span></span><br><span class="line">    ERASER: <span class="number">2</span>,  <span class="comment">// 擦除</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> DrawingBoard = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/*鼠标按压事件*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseDown = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        <span class="comment">/* 鼠标按下事件，记录鼠标位置，并绘制，解锁lock，打开mousemove事件 */</span></span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER) &#123;</span><br><span class="line">            <span class="comment">// 橡皮模式</span></span><br><span class="line">          	<span class="comment">// 设置擦除初始数据</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC) &#123;</span><br><span class="line">            <span class="comment">// 绘画模式</span></span><br><span class="line">            <span class="comment">// 设置绘画初始数据</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  <span class="comment">/*鼠标移动事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseMove = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">        <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> _x = (e.clientX - canvas.offsetLeft - containerLeftRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">const</span> _y = (e.clientY - canvas.offsetTop - containerTopRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER &amp;&amp; startEraser.current) &#123;</span><br><span class="line">            <span class="comment">/*橡皮擦擦除函数*/</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC &amp;&amp; startDraw.current) &#123;</span><br><span class="line">            <span class="comment">/*绘制线条函数*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/*鼠标抬起事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseUp = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">/* 重置数据 */</span></span><br><span class="line">        <span class="comment">/* 保存当前绘图 */</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    ...</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasImgRef&#125;</span><br><span class="line">        id=<span class="string">&quot;canvasImg&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasRef&#125;</span><br><span class="line">        onMouseDown=&#123;onMouseDown&#125;</span><br><span class="line">        onMouseMove=&#123;onMouseMove&#125;</span><br><span class="line">        onMouseUp=&#123;onMouseUp&#125;</span><br><span class="line">        id=<span class="string">&quot;canvas&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> DrawingBoard</span><br></pre></td></tr></table></figure></li>
+<li><p>翻页时加载之前绘制的内容</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 在返回页面时，使用之前保存的数据重新渲染 canvas</span></span><br><span class="line">    <span class="keyword">if</span> (canvasList[currentPage]) &#123;</span><br><span class="line">      <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">      <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">      img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        ctx.drawImage(img, <span class="number">0</span>, <span class="number">0</span>, widthE, heightE);</span><br><span class="line">      &#125;;</span><br><span class="line">      img.src = canvasList[currentPage];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [currentPage, canvasList, widthE, heightE]);</span><br></pre></td></tr></table></figure></li>
+<li><p>当放大时，容器会出现滚动条，此时需要监听滚动位置，以确定绘制/擦除时的下笔位置</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 监听滚动条，确定画笔的位置</span></span><br><span class="line"><span class="keyword">const</span> handleScroll = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (e.target) &#123;</span><br><span class="line">        containerLeft = e.target.offsetLeft - e.target.scrollLeft;</span><br><span class="line">        containerTop = e.target.offsetTop - e.target.scrollTop;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">const</span> drawPaint = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;drawPaint&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (canvas) &#123;</span><br><span class="line">        ....</span><br><span class="line">        <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.addEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.removeEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [status, canvasList]);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="保存下载"><a href="#保存下载" class="headerlink" title="保存下载"></a>保存下载</h4><ol>
+<li><p>合并图片</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 加载图片</span></span><br><span class="line">    <span class="keyword">const</span> loadImage = <span class="function">(<span class="params">src</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">            img.onload = <span class="function">() =&gt;</span> resolve(img);</span><br><span class="line">            img.onerror = reject;</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将两张图片合并</span></span><br><span class="line"><span class="keyword">const</span> mergeImage = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!urls.length) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> result = [];</span><br><span class="line">    <span class="keyword">await</span> urls?.map(<span class="function">(<span class="params">image1,index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> image2 = canvasList[index];</span><br><span class="line">        <span class="keyword">if</span> (image2) &#123;</span><br><span class="line">            <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">            <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">            canvas.width = <span class="number">550</span> * <span class="number">4</span></span><br><span class="line">            canvas.height = <span class="number">779</span> * <span class="number">4</span></span><br><span class="line">            <span class="comment">// 确保两张图片都加载完成后绘制</span></span><br><span class="line">            <span class="built_in">Promise</span>.all([</span><br><span class="line">                loadImage(image1),</span><br><span class="line">                loadImage(image2)</span><br><span class="line">            ])</span><br><span class="line">            .then(<span class="function">(<span class="params">[loadedImg1, loadedImg2]</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="comment">// 绘制第一张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg1, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              ctx.globalAlpha = <span class="number">1.0</span>; <span class="comment">// 设置合并透明度</span></span><br><span class="line">              <span class="comment">// 绘制第二张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg2, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              <span class="comment">// 获取合并后的图片的数据 URL</span></span><br><span class="line">              <span class="keyword">const</span> mergedImage = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>);</span><br><span class="line">              result[index] = mergedImage;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result[index] = image1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免pdf在转换和生成的过程中失真，本文通过手动设置canvas大小的方法解决。由于一般的pdf文件都是A4纸大小，转换为px为单位就是：2480 px * 3508 px。为了方便展示在初始化预览时将canvas的大小设置为：2480/4 *  3508/4 的宽高，在合并时将宽高*4还原为之前的大小，这样做可以解决由于转化过程中引起的画面失真问题。</p>
+</li>
+<li><p>使用pdf-lib将合并好的图片转化为pdf，以方便下载或者上传</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> image <span class="keyword">of</span> images) &#123;</span><br><span class="line">    <span class="keyword">const</span> imageBytes = <span class="keyword">await</span> fetch(image).then(<span class="function"><span class="params">res</span> =&gt;</span> res.arrayBuffer());</span><br><span class="line">    <span class="keyword">const</span> img = <span class="keyword">await</span> pdfDoc.embedJpg(imageBytes);</span><br><span class="line">    <span class="keyword">const</span> page = pdfDoc.addPage();</span><br><span class="line">    <span class="keyword">const</span> &#123; width, height &#125; = page.getSize();</span><br><span class="line">    page.drawImage(img, &#123;</span><br><span class="line">        x: <span class="number">0</span>,</span><br><span class="line">        y: <span class="number">0</span>,</span><br><span class="line">        width: width,</span><br><span class="line">        height: height,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save();</span><br><span class="line"><span class="comment">// 下载 PDF 文件</span></span><br><span class="line"><span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([pdfBytes], &#123; <span class="attr">type</span>: <span class="string">&#x27;application/pdf&#x27;</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> link = <span class="built_in">document</span>.createElement(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">link.href = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line">link.download = <span class="string">&#x27;combined_images.pdf&#x27;</span>;</span><br><span class="line">link.click();</span><br><span class="line">setUploading(<span class="literal">false</span>);</span><br><span class="line">    </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h3><ol>
+<li><p>预览</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240303105330033.png" alt="预览"></p>
+</li>
+<li><p>涂改</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240303105538645.png" alt="涂改"></p>
+</li>
+<li><p>橡皮擦擦除</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240303105719922.png" alt="橡皮擦擦除"></p>
+</li>
+<li><p>翻页/旋转/放大/缩小</p>
+<p><img src="/2024/02/16/web%E7%AB%AFpdf%E7%BC%96%E8%BE%91%E5%B7%A5%E5%85%B7/image-20240303110213300.png" alt="翻页/旋转/放大/缩小"></p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为了在web端实现对pdf的编辑能力，本文的主要实现方式是：</p>
+<ol>
+<li>使用pdf.js将pdf文件转换为canvas格式，以便预览和后续放大/缩小、翻页、涂鸦等；</li>
+<li>构建canvas画板能力，通过调用canvas本身api方法实现所需编辑功能；</li>
+<li>完成绘制后，先将canvas画布转换为图片，再调用pdf-lib的PDFDocument方法将图片转换为pdf文件。</li>
+</ol>
+<p>仓库地址：<a href="https://github.com/Laighten/pdf-paint">https://github.com/Laighten/pdf-paint</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>原型与原型链</title>
+    <url>/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    <content><![CDATA[<p>​    帮助理解前端常考知识点原型与原型链，介绍他们的相关概念以及他们是如何指向的。</p>
+<span id="more"></span>
+
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p><strong>显示原型</strong>：prototype</p>
+<ul>
+<li>每个class/函数都有显示原型prototype，它默认指向一个Object空对象（即称为原型对象）</li>
+<li>原型对象中一个属性constructor，它指向函数对象</li>
+</ul>
+<p><strong>隐式原型</strong>：<strong>proto</strong></p>
+<ul>
+<li>每个实例都有隐式原型__proto__</li>
+<li>实例的__proto__指向对应的class/函数的prototype。</li>
+</ul>
+<p><strong>相关概念</strong>：</p>
+<ol>
+<li>Function是所有函数(function)的父亲，所有函数都是它的实例。</li>
+<li>Object也是一个函数，所以Object是Function的实例对象。</li>
+<li>任何对象的原型链顶端最终都指向Object.prototype,Object.prototype再往上已经没有东西了，所以指向null。</li>
+<li>Function比较特殊它的原型指向自己，即Function.<strong>proto</strong> === Function.prototype。</li>
+<li>同时，Function是对象，由(3)可知Function必然有一个地方（即Function.prototype.__proto__）指向Object.prototype。</li>
+</ol>
+<p><strong>先来看一个简化版的原型链图：</strong></p>
+<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/image-20210303222509043.png" alt="image-20210303222509043"></p>
+<p><strong>再来看一个完整版的：</strong></p>
+<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型与原型链"></p>
+<p><font color="red">总之，记住一句话：A是B的实例，则A.__ proto __  === B.prototype；只要A是对象，那么A.prototype.__ proto__ 就指向Object.prototype；prototype中的constructor指向的是自己；</font></p>
+<h4 id="原型链与函数的继承"><a href="#原型链与函数的继承" class="headerlink" title="原型链与函数的继承"></a>原型链与函数的继承</h4><ol>
+<li><p>ES5中的继承</p>
+<p><strong>构造函数继承</strong>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Parent(); <span class="comment">//new一个Parent对象用来对比</span></span><br><span class="line">p.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line">c.age <span class="comment">// 12</span></span><br><span class="line">c.name <span class="comment">//&#x27;parent&#x27;</span></span><br><span class="line">c.say(); <span class="comment">//undifined</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">say是Parent原型链上的方法，Parent对象调用方法时，如果自身不存在就回去原型链上寻找，在原型链上找到了say方法，而Child对象没有继承Parent对象的原型链，所以它在向上寻找时就找不到，输出undifined。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原型链继承：</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c.name); <span class="comment">//输出parent</span></span><br><span class="line">c.say() <span class="comment">//输出say</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">原型链继承是直接让Child构造函数的prototype直接指向Parent对象，这样Parent的东西Child对象可以直接从它的原型链上找到。缺点就是：当创建多个实例时，如果不同实例可能互相存在影响。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>构造函数与原型链组合继承</strong>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>); </span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr);<span class="comment">//[1,2,3,4]</span></span><br><span class="line">c1.arr.push(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4,5]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr); <span class="comment">//[1,2,3,4]</span></span><br></pre></td></tr></table></figure></li>
+<li><p>ES6中的继承</p>
+<p>ES6的继承机制完全不同，实质上是先创建父类的实例对象this（所以必须先调用父类的super()方法，才可使用this关键字，否则报错。），然后再用子类的构造函数修改this实现继承。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Parent2.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">age</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child2(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c2.name); <span class="comment">//输出parent</span></span><br><span class="line">c2.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="built_in">console</span>.log(c.constructor); </span><br><span class="line"><span class="comment">//输出function Child(age) &#123;Parent.call(this);this.age = age;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Parent().constructor); </span><br><span class="line"><span class="comment">//输出Parent() &#123;this.name = &#x27;parent&#x27;;this.arr = [1,2,3,4];&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>面试</tag>
+        <tag>ES</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>可视化使用工具总结</title>
     <url>/2021/04/22/%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>​    可视化使用工具根据其使用的可拓展性（即灵活性）可分为三类：交互式可视化工具、配置式可视化工具、编程式可视化工具。其中他们的可拓展性依次递增，编程式可视化工具可拓展性最好，但同时由于：交互式可视化工具可能仅需要用户掌握软件使用方法；配置式可视化工具需要使用人员具有一定基础编程能力；编程式可视化工具更是需要使用者熟练掌握相应的编程语言。故这三类可视化工具的使用难度也依次递增。其详细信息如下：</p>
@@ -530,125 +732,6 @@
         <tag>可视化</tag>
         <tag>笔记</tag>
         <tag>浙大可视化暑期班2020</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>可视化学术期刊汇总</title>
-    <url>/2021/05/04/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AD%A6%E6%9C%AF%E6%9C%9F%E5%88%8A%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<p>​    整理一些自己知道的可视化学术期刊，信息主要来源于《中国计算机学会推荐国际学术会议和期刊目录(2019 年)》，从分类中摘取出本人所知的可视化期刊。后续将继续完善。</p>
-<span id="more"></span>
-
-<h4 id="A类期刊"><a href="#A类期刊" class="headerlink" title="A类期刊"></a>A类期刊</h4><table>
-<thead>
-<tr>
-<th align="center">序号</th>
-<th align="center">刊物简称</th>
-<th align="center">刊物名称</th>
-<th align="center">出版社</th>
-<th align="center">网址</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">TVCG</td>
-<td align="center">IEEE Transactions on Visualization and Computer Graphics</td>
-<td align="center">IEEE</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/journals/tvcg/">http://dblp.uni-trier.de/db/journals/tvcg/</a></td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">SIGGRAPH</td>
-<td align="center">ACM SIGGRAPH Annual Conference</td>
-<td align="center">ACM</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/conf/siggraph/index.html">http://dblp.uni-trier.de/db/conf/siggraph/index.html</a></td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">IEEE VIS</td>
-<td align="center">IEEE Visualization Conference</td>
-<td align="center">IEEE</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/conf/visualization/index.html">http://dblp.uni-trier.de/db/conf/visualization/index.html</a></td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">TOCHI</td>
-<td align="center">ACM Transactions on Computer-Human Interaction</td>
-<td align="center">ACM</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/journals/tochi/">http://dblp.uni-trier.de/db/journals/tochi/</a></td>
-</tr>
-<tr>
-<td align="center">5</td>
-<td align="center">HCI</td>
-<td align="center">Human Computer Interaction</td>
-<td align="center">Taylor &amp; Francis</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/journals/hhci/">http://dblp.uni-trier.de/db/journals/hhci/</a></td>
-</tr>
-<tr>
-<td align="center">6</td>
-<td align="center">CHI</td>
-<td align="center">ACM Conference on Human Factors in Computing Systems</td>
-<td align="center">ACM</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/conf/chi">http://dblp.uni-trier.de/db/conf/chi</a></td>
-</tr>
-</tbody></table>
-<h4 id="B类期刊"><a href="#B类期刊" class="headerlink" title="B类期刊"></a>B类期刊</h4><table>
-<thead>
-<tr>
-<th align="center">序号</th>
-<th align="center">刊物简称</th>
-<th align="center">刊物名称</th>
-<th align="center">出版社</th>
-<th align="center">网址</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">EuroVis</td>
-<td align="center">Eurographics Conference on Visualization</td>
-<td align="center">ACM</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/conf/vissym/">http://dblp.uni-trier.de/db/conf/vissym/</a></td>
-</tr>
-</tbody></table>
-<h4 id="C类期刊"><a href="#C类期刊" class="headerlink" title="C类期刊"></a>C类期刊</h4><table>
-<thead>
-<tr>
-<th align="center">序号</th>
-<th align="center">刊物简称</th>
-<th align="center">刊物名称</th>
-<th align="center">出版社</th>
-<th align="center">网址</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">JVCIR</td>
-<td align="center">Journal of Visual Communication and Image Representation</td>
-<td align="center">Elsevier</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/journals/jvcir/">http://dblp.uni-trier.de/db/journals/jvcir/</a></td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">PacificVis</td>
-<td align="center">IEEE Pacific Visualization Symposium</td>
-<td align="center">IEEE</td>
-<td align="center"><a href="http://dblp.uni-trier.de/db/conf/apvis/">http://dblp.uni-trier.de/db/conf/apvis/</a></td>
-</tr>
-</tbody></table>
-<h4 id="其他期刊"><a href="#其他期刊" class="headerlink" title="其他期刊"></a>其他期刊</h4><ul>
-<li>ChinaVIS<ul>
-<li>中文《计算机辅助设计与图形学学报》</li>
-<li>英文《Journal of Visualization》</li>
-</ul>
-</li>
-</ul>
-<p><strong>参考文献</strong>：中国计算机学会推荐国际学术会议和期刊目录(2019 年)</p>
-]]></content>
-      <categories>
-        <category>可视化</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
       </tags>
   </entry>
   <entry>
@@ -773,6 +856,125 @@
 <h3 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h3><ul>
 <li><a href="https://github.com/steveharoz/Vis-Acceptance-Rates/blob/master/acceptance%20rates.csv">部分数据来源</a></li>
 </ul>
+]]></content>
+      <categories>
+        <category>可视化</category>
+      </categories>
+      <tags>
+        <tag>可视化</tag>
+        <tag>论文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>可视化学术期刊汇总</title>
+    <url>/2021/05/04/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AD%A6%E6%9C%AF%E6%9C%9F%E5%88%8A%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<p>​    整理一些自己知道的可视化学术期刊，信息主要来源于《中国计算机学会推荐国际学术会议和期刊目录(2019 年)》，从分类中摘取出本人所知的可视化期刊。后续将继续完善。</p>
+<span id="more"></span>
+
+<h4 id="A类期刊"><a href="#A类期刊" class="headerlink" title="A类期刊"></a>A类期刊</h4><table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">刊物简称</th>
+<th align="center">刊物名称</th>
+<th align="center">出版社</th>
+<th align="center">网址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">TVCG</td>
+<td align="center">IEEE Transactions on Visualization and Computer Graphics</td>
+<td align="center">IEEE</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/journals/tvcg/">http://dblp.uni-trier.de/db/journals/tvcg/</a></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">SIGGRAPH</td>
+<td align="center">ACM SIGGRAPH Annual Conference</td>
+<td align="center">ACM</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/conf/siggraph/index.html">http://dblp.uni-trier.de/db/conf/siggraph/index.html</a></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">IEEE VIS</td>
+<td align="center">IEEE Visualization Conference</td>
+<td align="center">IEEE</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/conf/visualization/index.html">http://dblp.uni-trier.de/db/conf/visualization/index.html</a></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">TOCHI</td>
+<td align="center">ACM Transactions on Computer-Human Interaction</td>
+<td align="center">ACM</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/journals/tochi/">http://dblp.uni-trier.de/db/journals/tochi/</a></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">HCI</td>
+<td align="center">Human Computer Interaction</td>
+<td align="center">Taylor &amp; Francis</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/journals/hhci/">http://dblp.uni-trier.de/db/journals/hhci/</a></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">CHI</td>
+<td align="center">ACM Conference on Human Factors in Computing Systems</td>
+<td align="center">ACM</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/conf/chi">http://dblp.uni-trier.de/db/conf/chi</a></td>
+</tr>
+</tbody></table>
+<h4 id="B类期刊"><a href="#B类期刊" class="headerlink" title="B类期刊"></a>B类期刊</h4><table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">刊物简称</th>
+<th align="center">刊物名称</th>
+<th align="center">出版社</th>
+<th align="center">网址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">EuroVis</td>
+<td align="center">Eurographics Conference on Visualization</td>
+<td align="center">ACM</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/conf/vissym/">http://dblp.uni-trier.de/db/conf/vissym/</a></td>
+</tr>
+</tbody></table>
+<h4 id="C类期刊"><a href="#C类期刊" class="headerlink" title="C类期刊"></a>C类期刊</h4><table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">刊物简称</th>
+<th align="center">刊物名称</th>
+<th align="center">出版社</th>
+<th align="center">网址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">JVCIR</td>
+<td align="center">Journal of Visual Communication and Image Representation</td>
+<td align="center">Elsevier</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/journals/jvcir/">http://dblp.uni-trier.de/db/journals/jvcir/</a></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">PacificVis</td>
+<td align="center">IEEE Pacific Visualization Symposium</td>
+<td align="center">IEEE</td>
+<td align="center"><a href="http://dblp.uni-trier.de/db/conf/apvis/">http://dblp.uni-trier.de/db/conf/apvis/</a></td>
+</tr>
+</tbody></table>
+<h4 id="其他期刊"><a href="#其他期刊" class="headerlink" title="其他期刊"></a>其他期刊</h4><ul>
+<li>ChinaVIS<ul>
+<li>中文《计算机辅助设计与图形学学报》</li>
+<li>英文《Journal of Visualization》</li>
+</ul>
+</li>
+</ul>
+<p><strong>参考文献</strong>：中国计算机学会推荐国际学术会议和期刊目录(2019 年)</p>
 ]]></content>
       <categories>
         <category>可视化</category>
@@ -1010,103 +1212,6 @@
       </tags>
   </entry>
   <entry>
-    <title>V8引擎编译器和解析器</title>
-    <url>/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/</url>
-    <content><![CDATA[<p>​    通过阅读李兵老师的《浏览器的原理与实践》感觉对自己学习和理解前端知识大有启发，结合自己的理解对V8引擎的编译器和解释器做了以下归纳和总结。已备自己忘记时查看。</p>
-<span id="more"></span>
-
-<h4 id="编译器和解释器"><a href="#编译器和解释器" class="headerlink" title="编译器和解释器"></a>编译器和解释器</h4><p>​    <strong>编译型语言在程序执行之前，需要经过编译器的编译过程，并且编译之后会直接保留机器能读懂的二进制文件，这样每次运行程序时，都可以直接运行该二进制文件，而不需要再次重新编译了。</strong>比如 C/C++、GO 等都是编译型语言。</p>
-<p>​    <strong>解释型语言编写的程序，在每次运行时都需要通过解释器对程序进行动态解释和执行</strong>。比如 Python、JavaScript 等都属于解释型语言。</p>
-<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105157354.png" alt="image-20210306105157354"></p>
-<p><strong>（1）编译型语言的执行流程：</strong>编译器首先会依次对源代码进行词法分析、语法分析，生成抽象语法树（AST），然后是优化代码，最后再生成处理器能够理解的机器码。如果编译成功，将会生成一个可执行的文件。但如果编译过程发生了语法或者其他的错误，那么编译器就会抛出异常，最后的二进制文件也不会生成成功。</p>
-<p><strong>（2）解释型语言的执行流程：</strong>解释器也会对源代码进行词法分析、语法分析，并生成抽象语法树（AST），不过它会再基于抽象语法树生成字节码，最后再根据字节码来执行程序、输出结果。</p>
-<h4 id="V8-是如何执行一段-JavaScript-代码的"><a href="#V8-是如何执行一段-JavaScript-代码的" class="headerlink" title="V8 是如何执行一段 JavaScript 代码的"></a>V8 是如何执行一段 JavaScript 代码的</h4><p>​    V8 在执行过程中既有<strong>解释器 Ignition</strong>，又有<strong>编译器 TurboFan</strong>。其全局执行流程如下所示：</p>
-<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306105718810.png" alt="image-20210306105718810"></p>
-<h5 id="生成抽象语法树（AST）和执行上下文"><a href="#生成抽象语法树（AST）和执行上下文" class="headerlink" title="生成抽象语法树（AST）和执行上下文"></a>生成抽象语法树（AST）和执行上下文</h5><p>​    首先，将源代码转换成<strong>抽象语法树（AST）</strong>和<strong>执行上下文</strong>。高级语言是开发者可以理解的语言，而对于编译器和解释器来说他们可以理解的就是抽象语法树（AST）。这和渲染引擎将HTML格式的文件转换为自己可以理解的DOM树类似。</p>
-<p>​    AST 是非常重要的一种数据结构，在很多项目中有着广泛的应用。其中最著名的一个项目是 Babel。Babel 是一个被广泛使用的代码转码器，可以将 ES6 代码转为 ES5 代码，这意味着你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持 ES6。<strong>Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。</strong></p>
-<p>​    除了 Babel 外，还有 ESLint 也使用 AST。ESLint 是一个用来检查 JavaScript 编写规范的插件，其检测流程也是需要将源码转换为 AST，然后再利用 AST 来检查代码规范化的问题。</p>
-<p><strong>生成AST的两个阶段：</strong></p>
-<p><strong>第一阶段是分词（tokenize），又称为词法分析</strong>，其作用是将一行行的源码拆解成一个个 token。所谓<strong>token</strong>，指的是语法上不可能再分的、最小的单个字符或字符串。</p>
-<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111037818.png" alt="image-20210306111037818"></p>
-<p>​    从图中可以看出，通过<code>var myName = “极客时间”</code>简单地定义了一个变量，其中关键字“var”、标识符“myName” 、赋值运算符“=”、字符串“极客时间”四个都是 token，而且它们代表的属性还不一样。</p>
-<p><strong>第二阶段是解析（parse），又称为语法分析</strong>，其作用是将上一步生成的 token 数据，根据语法规则转为 AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个“语法错误”。</p>
-<p><strong>有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文。</strong></p>
-<h5 id="生成字节码"><a href="#生成字节码" class="headerlink" title="生成字节码"></a>生成字节码</h5><p>​    有了 AST 和执行上下文后，那接下来的第二步，解释器 Ignition 就登场了，它会根据 AST 生成字节码，并解释执行字节码。</p>
-<p><strong>字节码就是介于 AST 和机器码之间的一种代码。但是与特定类型的机器码无关，字节码需要通过解释器将其转换为机器码后才能执行。</strong></p>
-<p><img src="/2021/04/22/V8%E5%BC%95%E6%93%8E%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C%E8%A7%A3%E6%9E%90%E5%99%A8/image-20210306111747379.png" alt="image-20210306111747379"></p>
-<p>​    从图中可以看出，机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用。</p>
-<h5 id="执行代码"><a href="#执行代码" class="headerlink" title="执行代码"></a>执行代码</h5><p>​    通常，如果有一段第一次执行的字节码，解释器 Ignition 会逐条解释执行。在执行字节码的过程中，如果发现有热点代码(HotSpot)，比如一段代码被重复执行多次，这种就称为<strong>热点代码</strong>，那么后台的编译器(TurboFan) 就会把该段热点的字节码编译为高效的机器码，然后当再次执行这段被优化的代码时，只需要执行编译后的机器码就可以了，这样就大大提升了代码的执行效率。</p>
-<p>​    其实字节码配合解释器和编译器是最近一段时间很火的技术，比如 Java 和 Python 的虚拟机也都是基于这种技术实现的，我们把这种技术称为<strong>即时编译（JIT）</strong>。</p>
-<h4 id="JavaScript的性能优化"><a href="#JavaScript的性能优化" class="headerlink" title="JavaScript的性能优化"></a>JavaScript的性能优化</h4><p>主要关注以下三点：</p>
-<ol>
-<li>提升单次脚本的执行速度，避免 JavaScript 的长任务霸占主线程，这样可以使得页面快速响应交互；</li>
-<li>避免大的内联脚本，因为在解析 HTML 的过程中，解析和编译也会占用主线程；</li>
-<li>减少 JavaScript 文件的容量，因为更小的文件会提升下载速度，并且占用更低的内存。</li>
-</ol>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​    （1）解释器和编译器在执行代码时都会先将代码通过词法分析、语法分析生成抽象语法树（AST），不同的是解释型语言会通过解释器将AST转换为字节码并直接逐条执行；而编译器会在AST的基础上先优化代码然后生成机器码进而编译生成二进制文件，执行时直接执行这个二进制文件。</p>
-<p>​    （2）JavaScript的编译流程是：先通过词法分析和语法分析生成AST和可执行上下文，然后通过解释器将AST转换为字节码，并逐条执行。在生成AST时主要分为两步：第一步先通过词法分析生成token，第二步通过语法分析将token转换为AST。</p>
-<p>​    （3）V8在代码的编译过程中采用的JIT（即时编译）技术来实现的。就是在生成字节码后，先使用解释器逐条解释并执行代码，如果遇到热点代码（被多次重复执行的代码），就会把这段字节码通过编译器编译为机器码，当再次遇到改代码是就可以直接执行。</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>浏览器工作原理</tag>
-        <tag>前端</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分层和合成机制</title>
-    <url>/2021/09/06/%E5%88%86%E5%B1%82%E5%92%8C%E5%90%88%E6%88%90%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<p>​    每个显示器都有固定的刷新频率，通常是60HZ（即每秒刷新60次），更新的图片都来自于显卡中<strong>前缓冲区</strong>。显卡会合成新的图像，并将其保存到<strong>后缓冲区</strong>，一旦新合成的图像写到后缓冲区，系统就会让<strong>后缓冲区</strong>和<strong>前缓冲区</strong>交换，以此保证显示器读取到新合成的图像。在浏览器中，渲染引擎会通过渲染流水线生成新的图片，并发送到显卡的后缓冲区。由于大多数屏幕的更新频率都是60次/秒，这就意味着<strong>渲染引擎</strong>每秒需要更新60张图片到显卡的后缓存区，一旦渲染引擎生成某些帧（一张图片就是一帧）的时间过久，用户就会感到卡顿。Chrome浏览器引入了<strong>分层</strong>和<strong>合成</strong>机制，以此来解决卡顿或每帧生成时间过久的问题。</p>
-<span id="more"></span>
-
-
-
-<h3 id="如何生成一帧图像"><a href="#如何生成一帧图像" class="headerlink" title="如何生成一帧图像"></a>如何生成一帧图像</h3><p>浏览器渲染流水线中任意一帧生成的方式有：<strong>重排</strong>、<strong>重绘</strong>和<strong>合成</strong>三种。三种方式生成一帧图像的路径是不同的，但通常路径越长，生成图像说花费的时间就越多。</p>
-<p><strong>重排</strong>：需要重新根据CSSOM和DOM来计算布局树，这样生成一幅图片时，会让整个渲染流水线的每个阶段都执行一遍。</p>
-<p><strong>重绘</strong>：需要重新计算绘制信息，并触发绘制操作之后的一系列操作。</p>
-<p><strong>合成</strong>：不需要触发布局和绘制两个阶段，如果采用了GPU，那么合成效率更高。</p>
-<p>所以，渲染引擎生成一帧图像的几种方式按照效率会优先使用合成，若不能满足需求，那么再使用重排或者重绘；</p>
-<h3 id="分层与合成"><a href="#分层与合成" class="headerlink" title="分层与合成"></a>分层与合成</h3><p>​    通常页面的组成是非常复杂的，如果没有采用分层机制，从布局树直接生成目标图片的话一旦页面有很小的变化都会触发重排或者重绘，这种绘制策略会严重影响页面的渲染效率。为了提升每帧的渲染效率，我们可以将一张网页想象成多个图片叠加在一起的，每张图片对应一个图层，比如透明度、边框影阴、是否可旋转等，最后将这些图层叠加在一起后呈现最终的图片。将素材分解为多个图层的操作就称为<strong>分层</strong>，最后将这些图层合并到一起的操作就称为<strong>合成</strong>。</p>
-<p>​    假设一个页面被划分为两个层，当进行到下一帧的渲染时，上面的一帧可能需要实现某些变换，如平移、旋转、缩放、阴影或者 Alpha 渐变，这时候合成器只需要将两个层进行相应的变化操作就可以了，显卡处理这些操作驾轻就熟，所以这个合成过程时间非常短。</p>
-<h4 id="分层与合成-1"><a href="#分层与合成-1" class="headerlink" title="分层与合成"></a>分层与合成</h4><p>​    在Chrome的渲染流水线中，分层体现在生成<strong>布局树</strong>之后，渲染引擎会根据布局树的特点将其转换为<strong>层树</strong>（Layer Tree）。层树的每一个节点都对应着一个图层，下一步的绘制就依赖于层树中的节点。绘制阶段其实并不是真正地绘出图片，而是将<strong>绘制指令</strong>组合成一个列表。有了绘制列表之后，光栅化就是按照绘制列表中的指令生成图片，每一个图层对应一张图片，<strong>合成线程</strong>有了这些图片之后，会将这些图片合成为“一张”图片，并最终将生成的图片发送到后缓冲区。<strong>合成操作是在合成线程上完成的，这也就意味着在执行合成操作时，是不会影响到主线程执行的</strong>。</p>
-<h4 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h4><p>如果说分层是从宏观上提升了渲染效率，那么分块则是从微观层面提升了渲染效率。</p>
-<p>​    通常情况下，页面的内容要比屏幕大的多，如果想要显示一个页面要等所有的图层都生成完了再进行合成的话会产生一些不必要的开销或者图片合成的时间变得更久。因此，<strong>合成线程</strong>会将每个图层分割为大小固定的图块，然后优先绘制靠近视口的图块，但是有时候即使优先绘制优先级高的图块也会因为<strong>纹理上传</strong>的原因耗费不少时间。</p>
-<p>​    为此，Chrome 又采取了一个策略：<strong>在首次合成图块的时候使用一个低分辨率的图片</strong>。比如可以是正常分辨率的一半，分辨率减少一半，纹理就减少了四分之三。在首次显示页面内容的时候，将这个低分辨率的图片显示出来，然后合成器继续绘制正常比例的网页内容，当正常比例的网页内容绘制完成后，再替换掉当前显示的低分辨率内容。</p>
-<h3 id="使用分层技术优化代码"><a href="#使用分层技术优化代码" class="headerlink" title="使用分层技术优化代码"></a>使用分层技术优化代码</h3><p>​    使用will-change来告诉渲染引擎对该元素做一些特效变换。当我们需要对某个元素做几何形状变换、透明度变换或者一些缩放操作，如果使用 JavaScript 来写这些效果，会牵涉到整个渲染流水线，所以 JavaScript 的绘制效率会非常低下。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">	will-change: transform, opacity;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​    这段代码就是提前告诉渲染引擎 box 元素将要做几何变换和透明度变换操作，这时候渲染引擎会将该元素单独实现一帧，等这些变换发生时，渲染引擎会通过合成线程直接去处理变换，这些变换并没有涉及到主线程，这样就大大提升了渲染的效率。<strong>这也是 CSS 动画比 JavaScript 动画高效的原因</strong>。</p>
-<p><strong>参考文献</strong>：《浏览器工作原理与实践》-李兵</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文阅读-2020-12-21</title>
-    <url>/2020/12/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2020-12-21/</url>
-    <content><![CDATA[<blockquote>
-<p>A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning Processes.</p>
-</blockquote>
-<p>整理中….</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>迁移学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>搞定前端手写题</title>
     <url>/2021/08/26/%E6%90%9E%E5%AE%9A%E5%89%8D%E7%AB%AF%E6%89%8B%E5%86%99%E9%A2%98/</url>
     <content><![CDATA[<p>​    本篇文章用于总结自己在前端面试的过程中所遇到的手撕题和前端常考的算法题，其主要包括题目与Javascript实现的解法。一部分题目的代码由自己编写实现，还有一部分题目的代码来源互联网，所有代码都经过自己的运行验证，请放心食用。后续还会持续更新。。。</p>
@@ -1307,17 +1412,20 @@
       </tags>
   </entry>
   <entry>
-    <title>请求劫持插件</title>
-    <url>/2024/02/07/%E8%AF%B7%E6%B1%82%E5%8A%AB%E6%8C%81%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<p>待补充….</p>
-<span id="more"></span>
-]]></content>
+    <title>论文阅读-2020-12-21</title>
+    <url>/2020/12/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-2020-12-21/</url>
+    <content><![CDATA[<blockquote>
+<p>A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning Processes.</p>
+</blockquote>
+<p>整理中….</p>
+<span id="more"></span>]]></content>
       <categories>
-        <category>前端</category>
+        <category>论文</category>
       </categories>
       <tags>
-        <tag>前端</tag>
-        <tag>工具</tag>
+        <tag>可视化</tag>
+        <tag>论文</tag>
+        <tag>迁移学习</tag>
       </tags>
   </entry>
   <entry>
@@ -1383,175 +1491,17 @@
       </tags>
   </entry>
   <entry>
-    <title>高维数据可视化</title>
-    <url>/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</url>
-    <content><![CDATA[<p>​    高维数据可视化记录了学习《2020浙大可视化暑期班》的相关笔记。主要内容包括对数据维度的介绍、高维数据可视化的方法等。</p>
+    <title>请求劫持插件</title>
+    <url>/2024/02/07/%E8%AF%B7%E6%B1%82%E5%8A%AB%E6%8C%81%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<p>待补充….</p>
 <span id="more"></span>
-
-<h3 id="数据维度-Data-Dimension"><a href="#数据维度-Data-Dimension" class="headerlink" title="数据维度(Data Dimension)"></a>数据维度(Data Dimension)</h3><h4 id="一维-1-D"><a href="#一维-1-D" class="headerlink" title="一维(1-D)"></a>一维(1-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053725112.png" alt="1620053725112"></p>
-<h4 id="二维-2-D"><a href="#二维-2-D" class="headerlink" title="二维(2-D)"></a>二维(2-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053817171.png" alt="1620053817171"></p>
-<h4 id="三维-3-D"><a href="#三维-3-D" class="headerlink" title="三维(3-D)"></a>三维(3-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053851999.png" alt="1620053851999"></p>
-<p>对于这种可视化的方法，它并不是一种非常好或者非常妥当的一种方法，作为可视化的专业人员会非常反对使用这种三维的数据可视化。在实际的使用或应用中，会极少的使用这种三维的散点图。因为它让我们用户去认识、感知和读出它的数据的效率是极低的。它会给人们带来非常大的偏差甚至误导， 主要有两点原因：</p>
-<ol>
-<li>由于它是一个三维的空间，所以我们从不同的视角上看过去，能够观察到这种数据的分布或模式是非常的不同的，这就给做数据分析带了极大的不可预测性和不确定性。</li>
-<li>由于在三维的空间，所以不可避免的有数据的遮挡的问题。</li>
-</ol>
-<p>所以，如无必要尽量避免使用这种三维的可视化，除非数据本身是具有这种三维属性的。如飞机的起降数据、基于流场的可视化数据等。</p>
-<h4 id="高维-High-Dimension"><a href="#高维-High-Dimension" class="headerlink" title="高维(High Dimension)"></a>高维(High Dimension)</h4><ul>
-<li><p>对于高维数据如何实现可视化？</p>
-<ol>
-<li><p>通过增加视觉通道，如样式、颜色、大小等，以表达更多的属性信息</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053883695.png" alt="1620053883695"></p>
-</li>
-<li><p>多视图协调关联的方法(Multiple coordinated view:present some attributes of objects in a view)</p>
-<p>​    这种方法主要是通过在每一个视图上，分别展现相同数据集的某几个数据的维度，我们可以通过增加视图的方法来支持呈现更多的属性的可视化。下图是一个多视图协调关联的例子：</p>
-</li>
-</ol>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053909829.png" alt="1620053909829"></p>
-<p>   存在的问题：有关研究/心里学表明：太多的视图很容易会造成视觉的混淆，降低分析的效率。所以在进行多视图关联时，我们在视图之间关联的选择上也是要经过慎重的考虑的。因为不同的视图之间有可能会产生相互的干扰，设置不和谐不同意。</p>
-<p>以上两种方法是最常见的两种处理高维数据可视化的方法，在接下来的一小节中进行重点介绍。</p>
-</li>
-</ul>
-<h3 id="高维数据可视化-High-Dimensional-Data-Visualization"><a href="#高维数据可视化-High-Dimensional-Data-Visualization" class="headerlink" title="高维数据可视化(High-Dimensional Data Visualization)"></a>高维数据可视化(High-Dimensional Data Visualization)</h3><p>下面介绍的是几类比较经典的高维数据可视化的方法，以下高维数据可视化的方法可简单分为三大类型：数据的变换、数据的呈现、数据的交互。</p>
-<h4 id="数据的变换"><a href="#数据的变换" class="headerlink" title="数据的变换"></a>数据的变换</h4><ul>
-<li><p>降维(Dimensionality Reduction)</p>
-<p>使用各种线性的或者非线性的变换，把高维的数据通过降维或者投影的方式，从高维的空间变换到低维的空间，从而降低数据的复杂度。原因是由于高维的数据中很有可能会存在大量的冗余，这种大量的冗余很有可能隐藏了重要关系的相关性，隐藏了重要的数据规律。所以通过降维不仅仅可以消除数据的冗余，减少被处理数据的数量，而且可以方便的在低维空间上将数据呈现。因此，该方法广泛的应用于数据可视化、数据挖掘和模式识别等领域。</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053940127.png" alt="1620053940127"></p>
-<ol>
-<li><p>线性的方法</p>
-<ul>
-<li><p>Principal Comonent Analysis (PCA)</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053965131.png" alt="1620053965131"></p>
-<ol>
-<li><p>如上图所示，对于具有两个属性的数据（一行代表一个属性），首先将每个数据减去它的一个均值。</p>
-</li>
-<li><p>将变化后的数据放到一个坐标系上。</p>
-</li>
-<li><p>在二维的平面当中去选择一个方向，将这五个点都投影到这个方向所在的直线上，用投影后的值来表示原始的记录。</p>
-<p>如何去选择这个方向？我们希望降维后的值要尽可能的分散，而不是聚在一起</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053994363.png" alt="1620053994363"></p>
-<p>选择一个方向，这个方向使得投影后的方差值最大。但是当维度多了之后就会出现维度的相关性，所以我们通过两个字段的协方差来表示相关性。</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054023121.png" alt="1620054023121"></p>
-</li>
-</ol>
-</li>
-<li><p>Multidimensional Scaling (MDS) 多尺度投影</p>
-<p>通过输入一个原始数据集的矩阵，这个数据集是两两数据之间的相似程度。</p>
-</li>
-</ul>
-</li>
-<li><p>非线性的方法</p>
-<ul>
-<li>ISOMAP</li>
-<li>Local Linear Embedding(LLE)</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="数据的呈现"><a href="#数据的呈现" class="headerlink" title="数据的呈现"></a>数据的呈现</h4><p>通过一些巧妙的数据可视化的布局方法，忠实、直观、生动的展现高维数据。</p>
-<ul>
-<li><p>散点图矩阵(Scatter-plot Matrix)</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054048474.png" alt="1620054048474"></p>
-<p>存在的问题：当我们有很多的维度的时候，仅仅用肉眼去发现其中的规律或者模式往往比较困难，为了解决这种问题，有人就使用了一些智能的算法去自动的发现在散点图里面，哪一些散点图是更有意义的。</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054081364.png" alt="1620054081364"></p>
-</li>
-<li><p>平行坐标轴(Parallel Coordinates)</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054111193.png" alt="1620054111193"></p>
-<p>存在的问题：当我们的数据很多时，往往会形成以下图案，我们从中发现不了它里面有什么关联（如左图），我们可以给每一个折线加一个透明度（如右图）。</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054137614.png" alt="1620054137614"></p>
-</li>
-<li><p>基于图标的方式(Glyph-based Methods)</p>
-<ol>
-<li><p>Star Plots(雷达图) </p>
-<blockquote>
-<p>可看做平行坐标轴的一个变种</p>
-</blockquote>
-</li>
-<li><p>Chernoff Faces(脸谱图）</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054163274.png" alt="1620054163274"></p>
-</li>
-<li><p>Text+Glyph(将图标嵌入文本之中)</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054188553.png" alt="1620054188553"></p>
-</li>
-</ol>
-</li>
-<li><p>Small Multiples(小图标法)</p>
-<p>用一系列的排列非常整齐的图表来做多维数据的可视化，从而方便我们进行对比，其案例主要如下：</p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054214467.png" alt="1620054214467"></p>
-<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054242206.png" alt="1620054242206"></p>
-</li>
-</ul>
-<h4 id="数据的交互"><a href="#数据的交互" class="headerlink" title="数据的交互"></a>数据的交互</h4><p>通过有效的人机交互的技术，帮助人们交互式的探索和分析高维的数据。</p>
-<ul>
-<li>Iteraction:”Dust &amp; Magnet”<ul>
-<li>使用一个个类似于灰尘的点来代表数据点（Dust-Data points）</li>
-<li>用磁铁来代表数据属性的过滤器（Magnet-Attribute Filters）</li>
-<li>通过不断的抖动磁铁，就会把与这个磁铁相关的属性的灰尘往该磁铁的方向吸引</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>可视化</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>笔记</tag>
-        <tag>浙大可视化暑期班2020</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>原型与原型链</title>
-    <url>/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
-    <content><![CDATA[<p>​    帮助理解前端常考知识点原型与原型链，介绍他们的相关概念以及他们是如何指向的。</p>
-<span id="more"></span>
-
-<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p><strong>显示原型</strong>：prototype</p>
-<ul>
-<li>每个class/函数都有显示原型prototype，它默认指向一个Object空对象（即称为原型对象）</li>
-<li>原型对象中一个属性constructor，它指向函数对象</li>
-</ul>
-<p><strong>隐式原型</strong>：<strong>proto</strong></p>
-<ul>
-<li>每个实例都有隐式原型__proto__</li>
-<li>实例的__proto__指向对应的class/函数的prototype。</li>
-</ul>
-<p><strong>相关概念</strong>：</p>
-<ol>
-<li>Function是所有函数(function)的父亲，所有函数都是它的实例。</li>
-<li>Object也是一个函数，所以Object是Function的实例对象。</li>
-<li>任何对象的原型链顶端最终都指向Object.prototype,Object.prototype再往上已经没有东西了，所以指向null。</li>
-<li>Function比较特殊它的原型指向自己，即Function.<strong>proto</strong> === Function.prototype。</li>
-<li>同时，Function是对象，由(3)可知Function必然有一个地方（即Function.prototype.__proto__）指向Object.prototype。</li>
-</ol>
-<p><strong>先来看一个简化版的原型链图：</strong></p>
-<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/image-20210303222509043.png" alt="image-20210303222509043"></p>
-<p><strong>再来看一个完整版的：</strong></p>
-<p><img src="/2021/04/17/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型与原型链"></p>
-<p><font color="red">总之，记住一句话：A是B的实例，则A.__ proto __  === B.prototype；只要A是对象，那么A.prototype.__ proto__ 就指向Object.prototype；prototype中的constructor指向的是自己；</font></p>
-<h4 id="原型链与函数的继承"><a href="#原型链与函数的继承" class="headerlink" title="原型链与函数的继承"></a>原型链与函数的继承</h4><ol>
-<li><p>ES5中的继承</p>
-<p><strong>构造函数继承</strong>：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Parent(); <span class="comment">//new一个Parent对象用来对比</span></span><br><span class="line">p.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line">c.age <span class="comment">// 12</span></span><br><span class="line">c.name <span class="comment">//&#x27;parent&#x27;</span></span><br><span class="line">c.say(); <span class="comment">//undifined</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">say是Parent原型链上的方法，Parent对象调用方法时，如果自身不存在就回去原型链上寻找，在原型链上找到了say方法，而Child对象没有继承Parent对象的原型链，所以它在向上寻找时就找不到，输出undifined。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>原型链继承：</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c.name); <span class="comment">//输出parent</span></span><br><span class="line">c.say() <span class="comment">//输出say</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">原型链继承是直接让Child构造函数的prototype直接指向Parent对象，这样Parent的东西Child对象可以直接从它的原型链上找到。缺点就是：当创建多个实例时，如果不同实例可能互相存在影响。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>构造函数与原型链组合继承</strong>：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>); </span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr);<span class="comment">//[1,2,3,4]</span></span><br><span class="line">c1.arr.push(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c1.arr); <span class="comment">//[1,2,3,4,5]</span></span><br><span class="line"><span class="built_in">console</span>.log(c2.arr); <span class="comment">//[1,2,3,4]</span></span><br></pre></td></tr></table></figure></li>
-<li><p>ES6中的继承</p>
-<p>ES6的继承机制完全不同，实质上是先创建父类的实例对象this（所以必须先调用父类的super()方法，才可使用this关键字，否则报错。），然后再用子类的构造函数修改this实现继承。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&#x27;parent&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Parent2.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;say&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">age</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> Child2(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">console</span>.log(c2.name); <span class="comment">//输出parent</span></span><br><span class="line">c2.say(); <span class="comment">//输出say</span></span><br><span class="line"><span class="built_in">console</span>.log(c.constructor); </span><br><span class="line"><span class="comment">//输出function Child(age) &#123;Parent.call(this);this.age = age;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Parent().constructor); </span><br><span class="line"><span class="comment">//输出Parent() &#123;this.name = &#x27;parent&#x27;;this.arr = [1,2,3,4];&#125;</span></span><br></pre></td></tr></table></figure></li>
-</ol>
 ]]></content>
       <categories>
         <category>前端</category>
       </categories>
       <tags>
         <tag>前端</tag>
-        <tag>面试</tag>
-        <tag>ES</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1721,6 +1671,125 @@
       <tags>
         <tag>论文</tag>
         <tag>迁移学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高维数据可视化</title>
+    <url>/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</url>
+    <content><![CDATA[<p>​    高维数据可视化记录了学习《2020浙大可视化暑期班》的相关笔记。主要内容包括对数据维度的介绍、高维数据可视化的方法等。</p>
+<span id="more"></span>
+
+<h3 id="数据维度-Data-Dimension"><a href="#数据维度-Data-Dimension" class="headerlink" title="数据维度(Data Dimension)"></a>数据维度(Data Dimension)</h3><h4 id="一维-1-D"><a href="#一维-1-D" class="headerlink" title="一维(1-D)"></a>一维(1-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053725112.png" alt="1620053725112"></p>
+<h4 id="二维-2-D"><a href="#二维-2-D" class="headerlink" title="二维(2-D)"></a>二维(2-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053817171.png" alt="1620053817171"></p>
+<h4 id="三维-3-D"><a href="#三维-3-D" class="headerlink" title="三维(3-D)"></a>三维(3-D)</h4><p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053851999.png" alt="1620053851999"></p>
+<p>对于这种可视化的方法，它并不是一种非常好或者非常妥当的一种方法，作为可视化的专业人员会非常反对使用这种三维的数据可视化。在实际的使用或应用中，会极少的使用这种三维的散点图。因为它让我们用户去认识、感知和读出它的数据的效率是极低的。它会给人们带来非常大的偏差甚至误导， 主要有两点原因：</p>
+<ol>
+<li>由于它是一个三维的空间，所以我们从不同的视角上看过去，能够观察到这种数据的分布或模式是非常的不同的，这就给做数据分析带了极大的不可预测性和不确定性。</li>
+<li>由于在三维的空间，所以不可避免的有数据的遮挡的问题。</li>
+</ol>
+<p>所以，如无必要尽量避免使用这种三维的可视化，除非数据本身是具有这种三维属性的。如飞机的起降数据、基于流场的可视化数据等。</p>
+<h4 id="高维-High-Dimension"><a href="#高维-High-Dimension" class="headerlink" title="高维(High Dimension)"></a>高维(High Dimension)</h4><ul>
+<li><p>对于高维数据如何实现可视化？</p>
+<ol>
+<li><p>通过增加视觉通道，如样式、颜色、大小等，以表达更多的属性信息</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053883695.png" alt="1620053883695"></p>
+</li>
+<li><p>多视图协调关联的方法(Multiple coordinated view:present some attributes of objects in a view)</p>
+<p>​    这种方法主要是通过在每一个视图上，分别展现相同数据集的某几个数据的维度，我们可以通过增加视图的方法来支持呈现更多的属性的可视化。下图是一个多视图协调关联的例子：</p>
+</li>
+</ol>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053909829.png" alt="1620053909829"></p>
+<p>   存在的问题：有关研究/心里学表明：太多的视图很容易会造成视觉的混淆，降低分析的效率。所以在进行多视图关联时，我们在视图之间关联的选择上也是要经过慎重的考虑的。因为不同的视图之间有可能会产生相互的干扰，设置不和谐不同意。</p>
+<p>以上两种方法是最常见的两种处理高维数据可视化的方法，在接下来的一小节中进行重点介绍。</p>
+</li>
+</ul>
+<h3 id="高维数据可视化-High-Dimensional-Data-Visualization"><a href="#高维数据可视化-High-Dimensional-Data-Visualization" class="headerlink" title="高维数据可视化(High-Dimensional Data Visualization)"></a>高维数据可视化(High-Dimensional Data Visualization)</h3><p>下面介绍的是几类比较经典的高维数据可视化的方法，以下高维数据可视化的方法可简单分为三大类型：数据的变换、数据的呈现、数据的交互。</p>
+<h4 id="数据的变换"><a href="#数据的变换" class="headerlink" title="数据的变换"></a>数据的变换</h4><ul>
+<li><p>降维(Dimensionality Reduction)</p>
+<p>使用各种线性的或者非线性的变换，把高维的数据通过降维或者投影的方式，从高维的空间变换到低维的空间，从而降低数据的复杂度。原因是由于高维的数据中很有可能会存在大量的冗余，这种大量的冗余很有可能隐藏了重要关系的相关性，隐藏了重要的数据规律。所以通过降维不仅仅可以消除数据的冗余，减少被处理数据的数量，而且可以方便的在低维空间上将数据呈现。因此，该方法广泛的应用于数据可视化、数据挖掘和模式识别等领域。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053940127.png" alt="1620053940127"></p>
+<ol>
+<li><p>线性的方法</p>
+<ul>
+<li><p>Principal Comonent Analysis (PCA)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053965131.png" alt="1620053965131"></p>
+<ol>
+<li><p>如上图所示，对于具有两个属性的数据（一行代表一个属性），首先将每个数据减去它的一个均值。</p>
+</li>
+<li><p>将变化后的数据放到一个坐标系上。</p>
+</li>
+<li><p>在二维的平面当中去选择一个方向，将这五个点都投影到这个方向所在的直线上，用投影后的值来表示原始的记录。</p>
+<p>如何去选择这个方向？我们希望降维后的值要尽可能的分散，而不是聚在一起</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620053994363.png" alt="1620053994363"></p>
+<p>选择一个方向，这个方向使得投影后的方差值最大。但是当维度多了之后就会出现维度的相关性，所以我们通过两个字段的协方差来表示相关性。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054023121.png" alt="1620054023121"></p>
+</li>
+</ol>
+</li>
+<li><p>Multidimensional Scaling (MDS) 多尺度投影</p>
+<p>通过输入一个原始数据集的矩阵，这个数据集是两两数据之间的相似程度。</p>
+</li>
+</ul>
+</li>
+<li><p>非线性的方法</p>
+<ul>
+<li>ISOMAP</li>
+<li>Local Linear Embedding(LLE)</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="数据的呈现"><a href="#数据的呈现" class="headerlink" title="数据的呈现"></a>数据的呈现</h4><p>通过一些巧妙的数据可视化的布局方法，忠实、直观、生动的展现高维数据。</p>
+<ul>
+<li><p>散点图矩阵(Scatter-plot Matrix)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054048474.png" alt="1620054048474"></p>
+<p>存在的问题：当我们有很多的维度的时候，仅仅用肉眼去发现其中的规律或者模式往往比较困难，为了解决这种问题，有人就使用了一些智能的算法去自动的发现在散点图里面，哪一些散点图是更有意义的。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054081364.png" alt="1620054081364"></p>
+</li>
+<li><p>平行坐标轴(Parallel Coordinates)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054111193.png" alt="1620054111193"></p>
+<p>存在的问题：当我们的数据很多时，往往会形成以下图案，我们从中发现不了它里面有什么关联（如左图），我们可以给每一个折线加一个透明度（如右图）。</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054137614.png" alt="1620054137614"></p>
+</li>
+<li><p>基于图标的方式(Glyph-based Methods)</p>
+<ol>
+<li><p>Star Plots(雷达图) </p>
+<blockquote>
+<p>可看做平行坐标轴的一个变种</p>
+</blockquote>
+</li>
+<li><p>Chernoff Faces(脸谱图）</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054163274.png" alt="1620054163274"></p>
+</li>
+<li><p>Text+Glyph(将图标嵌入文本之中)</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054188553.png" alt="1620054188553"></p>
+</li>
+</ol>
+</li>
+<li><p>Small Multiples(小图标法)</p>
+<p>用一系列的排列非常整齐的图表来做多维数据的可视化，从而方便我们进行对比，其案例主要如下：</p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054214467.png" alt="1620054214467"></p>
+<p><img src="/2021/05/03/%E9%AB%98%E7%BB%B4%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/1620054242206.png" alt="1620054242206"></p>
+</li>
+</ul>
+<h4 id="数据的交互"><a href="#数据的交互" class="headerlink" title="数据的交互"></a>数据的交互</h4><p>通过有效的人机交互的技术，帮助人们交互式的探索和分析高维的数据。</p>
+<ul>
+<li>Iteraction:”Dust &amp; Magnet”<ul>
+<li>使用一个个类似于灰尘的点来代表数据点（Dust-Data points）</li>
+<li>用磁铁来代表数据属性的过滤器（Magnet-Attribute Filters）</li>
+<li>通过不断的抖动磁铁，就会把与这个磁铁相关的属性的灰尘往该磁铁的方向吸引</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>可视化</category>
+      </categories>
+      <tags>
+        <tag>可视化</tag>
+        <tag>笔记</tag>
+        <tag>浙大可视化暑期班2020</tag>
       </tags>
   </entry>
 </search>
