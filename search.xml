@@ -784,23 +784,6 @@
       </tags>
   </entry>
   <entry>
-    <title>论文阅读-2020-12-21</title>
-    <url>/2020/12/21/paper_read_2020-12-21/</url>
-    <content><![CDATA[<blockquote>
-<p>A Visual Analytics Framework for Explaining and Diagnosing Transfer Learning Processes.</p>
-</blockquote>
-<p>整理中….</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>迁移学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>论文阅读-2021-04-23</title>
     <url>/2021/04/23/paper_read_2021-04-23/</url>
     <content><![CDATA[<blockquote>
@@ -970,68 +953,6 @@
       </tags>
   </entry>
   <entry>
-    <title>论文阅读-2021-07-13</title>
-    <url>/2021/07/13/paper_read_2021-07-13/</url>
-    <content><![CDATA[<blockquote>
-<p>SUMMIT: Scaling Deep Learning Interpretability by Visualizing Activation and Attribution Summarizations.</p>
-</blockquote>
-<p>​    SUMMIT是一种较为新颖的用于总结和解释深度神经网络的方案。该方案主要通过聚合深度学习模型中的“ 重要神经元” 和 “神经元影响” 来创建归因图，进而通过可视化探索揭示深度学习模型中的关键神经元之间的关联和子结构。该方案将大型复杂的神经网络模型提炼成紧凑的交互式可视化系统，对大型数据模型也具有效性。本文还开源的他们可视化系统以及神经网络模型的训练代码，其网站如下：Visualization: <a href="https://github.com/fredhohman/summit">https://github.com/fredhohman/summit</a>. ；Code: <a href="https://github.com/fredhohman/summit-notebooks">https://github.com/fredhohman/summit-notebooks</a>. ；Data: <a href="https://github.com/fredhohman/summit-data">https://github.com/fredhohman/summit-data</a>. </p>
-<p>整理中…..</p>
-<span id="more"></span>
-
-<p><img src="/2021/07/13/paper_read_2021-07-13/1626225700820.png" alt="1626225700820"></p>
-<h3 id="论文及作者"><a href="#论文及作者" class="headerlink" title="论文及作者"></a>论文及作者</h3><p>​    该论文来源于2019年TVCG作者是Fred Hohman, Haekyu Park,等人。乔治亚理工大学、麻省理工、加州理工美国并列的三大理工大学。</p>
-<h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ol>
-<li>通过聚合激活来发现重要神经元；</li>
-<li>通过聚合神经元影响来识神经元之间的关系；</li>
-<li>Attribution graph：用于显示那些对模型有贡献的神经元关系和子结构；</li>
-</ol>
-<h3 id="聚合激活"><a href="#聚合激活" class="headerlink" title="聚合激活"></a>聚合激活</h3><h3 id="聚合影响"><a href="#聚合影响" class="headerlink" title="聚合影响"></a>聚合影响</h3><h3 id="生成归因图"><a href="#生成归因图" class="headerlink" title="生成归因图"></a>生成归因图</h3><h3 id="可视化探索"><a href="#可视化探索" class="headerlink" title="可视化探索"></a>可视化探索</h3><h3 id="引用论文"><a href="#引用论文" class="headerlink" title="引用论文"></a>引用论文</h3><ol>
-<li><p>现有用于解释图像神经网络预测的工作通常集中于解释单个图像或神经元的预测，如论文[40，41，49，53]。</p>
-</li>
-<li><p>使用交互式可视化来解释现代机器学习技术的复杂内部工作，论文[25，39，52]。</p>
-</li>
-<li><p>当模型表现不佳时，开发人员需要去了解他们的原因来修复他们。论文[24]、[46]介绍了此类方法或途径。</p>
-<ul>
-<li><p>[24] M. Kahng, P. Y. Andrews, A. Kalro, and D. H. P. Chau. <strong>Activis: Visual exploration of industry-scale deep neural network models</strong>. IEEE Transactions on Visualization and Computer Graphics, 24(1):88–97, 2018.</p>
-</li>
-<li><p>[46] Ribeiro M T ,  Singh S ,  Guestrin C . <strong>“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</strong>[J]. ACM, 2016.</p>
-</li>
-</ul>
-</li>
-<li><p>了解整个类在模型中是如何表示的，这对于信任模型的预测和解读模型所学到的知识非常重要。因为这些表示被用于不同的任务，如迁移学习[43，59]。</p>
-<ul>
-<li>[59] A. R. Zamir, A. Sax, W. Shen, L. J. Guibas, J. Malik, and S. Savarese. <strong>Taskonomy: Disentangling task transfer learning.</strong> In <em>Proceedings of the</em> IEEE Conference on Computer Vision and Pattern Recognition, pp. 3712–3722, 2018.</li>
-</ul>
-</li>
-<li><p>一种称为特征可视化的技术不是只考虑激活的大小，而是通过算法生成合成图像，最大化特定神经元 。论文包括[7, 11, 37, 38, 40, 50]。这些特征可视化针对单个神经元进行了优化，因此用户可以开始破译单个神经元可能学到的特征。</p>
-</li>
-<li><p>视觉分析系统 Blocks 显示类混淆模式遵循类的层次结构 [5]。Activation Atlases，大规模降维，显示许多平均激活 [7]。两种可视化都揭示了神经网络的有趣特性。</p>
-</li>
-<li><p>早期的可视化分析方法之一 CNNVis 为模型诊断和细化导出神经元连接，但没有扩展到具有许多类的大型数据集 [32]。</p>
-</li>
-<li><p>在对抗性机器学习的背景下，AEVis 使用反向传播来识别网络中良性和受攻击实例的数据路径发散的位置 [31]。</p>
-</li>
-<li><p>Building Blocks，建议使用矩阵分解将一层内的神经元集组合在一起，并跨层派生出“兼容”的神经元组[41]。</p>
-</li>
-<li><p>帮助不同的用户群体使用各种交互式和可视化技术来解释模型 [22]。</p>
-</li>
-<li><p>预测可视化分析通过可视化预测实例的分布、计算特征重要性以及直接检查模型和实例错误以支持调试，支持专家对机器学习模型进行性能分析 [2, 21, 34, 45, 58]。 </p>
-</li>
-<li><p>由于现代社会机器学习的普遍性和公众的普遍兴趣，使用直接操作向非专家解释模型的交互式可视化也受到关注 [19, 25, 52]。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文</category>
-      </categories>
-      <tags>
-        <tag>可视化</tag>
-        <tag>论文</tag>
-        <tag>迁移学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>V8引擎编译器和解析器</title>
     <url>/2021/04/22/parsers_and_editors_v8/</url>
     <content><![CDATA[<p>​    通过阅读李兵老师的《浏览器的原理与实践》感觉对自己学习和理解前端知识大有启发，结合自己的理解对V8引擎的编译器和解释器做了以下归纳和总结。已备自己忘记时查看。</p>
@@ -1154,20 +1075,6 @@
       </tags>
   </entry>
   <entry>
-    <title>请求劫持插件</title>
-    <url>/2024/02/07/request_hijacking/</url>
-    <content><![CDATA[<p>待补充….</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>可视化学术期刊汇总</title>
     <url>/2021/05/04/visual_journal_summary/</url>
     <content><![CDATA[<p>​    整理一些自己知道的可视化学术期刊，信息主要来源于《中国计算机学会推荐国际学术会议和期刊目录(2019 年)》，从分类中摘取出本人所知的可视化期刊。后续将继续完善。</p>
@@ -1284,6 +1191,58 @@
       <tags>
         <tag>可视化</tag>
         <tag>论文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>可视化使用工具总结</title>
+    <url>/2021/04/22/visualization_related_tools/</url>
+    <content><![CDATA[<p>​    可视化使用工具根据其使用的可拓展性（即灵活性）可分为三类：交互式可视化工具、配置式可视化工具、编程式可视化工具。其中他们的可拓展性依次递增，编程式可视化工具可拓展性最好，但同时由于：交互式可视化工具可能仅需要用户掌握软件使用方法；配置式可视化工具需要使用人员具有一定基础编程能力；编程式可视化工具更是需要使用者熟练掌握相应的编程语言。故这三类可视化工具的使用难度也依次递增。其详细信息如下：</p>
+<span id="more"></span>
+
+<p><img src="/2021/04/22/visualization_related_tools/image-20210406100636328.png" alt="image-20210406100636328"></p>
+<h4 id="交互式可视化工具"><a href="#交互式可视化工具" class="headerlink" title="交互式可视化工具"></a>交互式可视化工具</h4><p>以Power BI &amp; Tableau为例，一般为商业性软件，可方便的绘制图表</p>
+<p><img src="/2021/04/22/visualization_related_tools/image-20210406100808525.png" alt="image-20210406100808525"></p>
+<p>  tableau:商业智能软件，适用于商业报表、数据分析等场景。可以提供简单的图表的创建。</p>
+<p>  将分析和构建可视化图表的过程分为了以下五步:</p>
+<p>  连接数据源——&gt;构建可视化视图———&gt;创建工作表——–&gt;构建仪表盘——–&gt;数据故事</p>
+<p>   一般交互式可视化工具它适用于如用户缺少编程基础、数据是简单的数据、任务需求比较简单和直接，只需要对数据集进行一个简单的了解这类应用场景，以下是一些适用于不同场景的交互式可视化工具：</p>
+<p><img src="/2021/04/22/visualization_related_tools/image-20210406101035688.png" alt="image-20210406101035688"></p>
+<h4 id="配置式可视化工具"><a href="#配置式可视化工具" class="headerlink" title="配置式可视化工具"></a>配置式可视化工具</h4><p>​      例如：Vega Lite、Echarts、Plotly,一般是通过用户传入特定的配置选项来完成既定的可视化形式。其中配置式一般是指用json对象来完成可视化的配置。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  Vega-Lite：在2016年的Infovis上，华盛顿大学的交互实验室在发表的一篇文章中定义了一种交互式的可视化语法Vega Lite。</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;data&quot;</span>:&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;data/cars.json&quot;</span>&#125;,</span><br><span class="line">    <span class="string">&quot;mark&quot;</span>:<span class="string">&quot;circle&quot;</span>,</span><br><span class="line">    <span class="string">&quot;select&quot;</span>：&#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>:&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;point&quot;</span>,<span class="string">&quot;on&quot;</span>:<span class="string">&quot;mouseover&quot;</span>&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;encoding&quot;</span>:&#123;</span><br><span class="line">         <span class="string">&quot;x&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;horsepower&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;y&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;Miles_per_Gallon&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;color&quot;</span>:[</span><br><span class="line">                &#123;<span class="string">&quot;if&quot;</span>:<span class="string">&quot;id&quot;</span>,<span class="string">&quot;value&quot;</span>:<span class="string">&quot;orange&quot;</span>&#125;</span><br><span class="line">                &#123;<span class="string">&quot;value&quot;</span>:<span class="string">&quot;steeblue&quot;</span>&#125;</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+
+<p>​    到目前为止，Vega-Lite已支持条形图、散点图、河流图、折线图、地图等多种图形，网址：<a href="https://vega.github.io/vega-lite/">https://vega.github.io/vega-lite/</a>.</p>
+<p>echarts :由百度开发的基于js的图表库，可解决一些简单的可是分析需求。（详情请查询echarts官网配置项手册）</p>
+<p>与Vega-Lite的不同之处在于，除了一般的二维平面可视化，他还提供了三维的可视化版本称为Echarts GL。</p>
+<p>总结：相比于交互式可视化工具，配置式可视化工具适用于稍加复杂的场景，一般要求：</p>
+<ol>
+<li>用户：对编程有所了解。</li>
+<li>数据：简单。 </li>
+<li>任务/需求：中等复杂度，交互任务较多。往往可结合编程可视化工具来完成更加复杂的任务。</li>
+</ol>
+<p>除上述配置式可视化工具，现有的配置式可视化工具还有：由蚂蚁金服推出的国产可视化工具ANTV；由Uber官方推出的DECK.GL主要是面向城市数据、地理空间数据、三维可视化；PLOT.LY类似于echarts也是利用配置项来配制出具有交互的可视化图表，主要提供了面向python和R语言的可视化相关组件库，所以受众十分广；P4专门用于高性能可视化的一款工具，利用GPU的硬件进行加速，所以他能进行大规模的数据可视化，可以适用不同复杂的可视化场景。</p>
+<h4 id="编程式可视化工具"><a href="#编程式可视化工具" class="headerlink" title="编程式可视化工具"></a>编程式可视化工具</h4><p>Processing：特性：</p>
+<ol>
+<li>基于Java和JVM，跨平台。</li>
+<li>语言简单易上手，配套开发工具。</li>
+<li>集成了OpenGL,利用硬件加速。</li>
+<li>用户社区的卓越贡献。2001年诞生于麻省理工的媒体实验室，诞生之初的主要目的是通过激励性的可视化反馈来帮助非程序员的入门编程的学习。在其社区的推动下逐渐演变成了一个媒体媒体表达的一个语言 。</li>
+</ol>
+<p>D3：在2011年斯坦福大学发表的论文中提出的Data-Driven Documents，是目前使用率较高的编程式可视化工具。相对于Processing，D3更贴近于可视化的编程，在D3他们的工作里面提出了一种数据驱动的文档的理念。它把数据和可视化元素绑定起来。当有新的元素进入的时候/有旧的元素退出的时候可视化元素就会进行相应的更新来保持数据和展现的一致。</p>
+<p> 编程式可视化工具总结:适用于更加复杂的可视化场景，其要求：</p>
+<ol>
+<li>用户：编程能力强。</li>
+<li>任务/需求：难度高，复杂。</li>
+<li>数据：复杂。其他适用于不同场景编程式可视化工具：p5*JS、VTK基于OpenGL、PixiJS、Tulip。</li>
+</ol>
+<h4 id="参考资料：浙江大学2020年暑期可视化课程"><a href="#参考资料：浙江大学2020年暑期可视化课程" class="headerlink" title="参考资料：浙江大学2020年暑期可视化课程"></a><strong>参考资料：</strong>浙江大学2020年暑期可视化课程</h4>]]></content>
+      <categories>
+        <category>可视化</category>
+      </categories>
+      <tags>
+        <tag>可视化</tag>
+        <tag>笔记</tag>
+        <tag>浙大可视化暑期班2020</tag>
       </tags>
   </entry>
   <entry>
@@ -1418,55 +1377,95 @@
       </tags>
   </entry>
   <entry>
-    <title>可视化使用工具总结</title>
-    <url>/2021/04/22/visualization_related_tools/</url>
-    <content><![CDATA[<p>​    可视化使用工具根据其使用的可拓展性（即灵活性）可分为三类：交互式可视化工具、配置式可视化工具、编程式可视化工具。其中他们的可拓展性依次递增，编程式可视化工具可拓展性最好，但同时由于：交互式可视化工具可能仅需要用户掌握软件使用方法；配置式可视化工具需要使用人员具有一定基础编程能力；编程式可视化工具更是需要使用者熟练掌握相应的编程语言。故这三类可视化工具的使用难度也依次递增。其详细信息如下：</p>
+    <title>web端pdf编辑工具</title>
+    <url>/2024/02/16/web_pdf_editor/</url>
+    <content><![CDATA[<p>对于web端pdf编辑能力，本文提供了一种相对完整且轻量的实现方式，如果你也有类似诉求，希望能对你有所帮助～。下面将从业务场景、技术实现角度对“pdf编辑工具”进行介绍。</p>
 <span id="more"></span>
 
-<p><img src="/2021/04/22/visualization_related_tools/image-20210406100636328.png" alt="image-20210406100636328"></p>
-<h4 id="交互式可视化工具"><a href="#交互式可视化工具" class="headerlink" title="交互式可视化工具"></a>交互式可视化工具</h4><p>以Power BI &amp; Tableau为例，一般为商业性软件，可方便的绘制图表</p>
-<p><img src="/2021/04/22/visualization_related_tools/image-20210406100808525.png" alt="image-20210406100808525"></p>
-<p>  tableau:商业智能软件，适用于商业报表、数据分析等场景。可以提供简单的图表的创建。</p>
-<p>  将分析和构建可视化图表的过程分为了以下五步:</p>
-<p>  连接数据源——&gt;构建可视化视图———&gt;创建工作表——–&gt;构建仪表盘——–&gt;数据故事</p>
-<p>   一般交互式可视化工具它适用于如用户缺少编程基础、数据是简单的数据、任务需求比较简单和直接，只需要对数据集进行一个简单的了解这类应用场景，以下是一些适用于不同场景的交互式可视化工具：</p>
-<p><img src="/2021/04/22/visualization_related_tools/image-20210406101035688.png" alt="image-20210406101035688"></p>
-<h4 id="配置式可视化工具"><a href="#配置式可视化工具" class="headerlink" title="配置式可视化工具"></a>配置式可视化工具</h4><p>​      例如：Vega Lite、Echarts、Plotly,一般是通过用户传入特定的配置选项来完成既定的可视化形式。其中配置式一般是指用json对象来完成可视化的配置。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  Vega-Lite：在2016年的Infovis上，华盛顿大学的交互实验室在发表的一篇文章中定义了一种交互式的可视化语法Vega Lite。</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;data&quot;</span>:&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;data/cars.json&quot;</span>&#125;,</span><br><span class="line">    <span class="string">&quot;mark&quot;</span>:<span class="string">&quot;circle&quot;</span>,</span><br><span class="line">    <span class="string">&quot;select&quot;</span>：&#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>:&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;point&quot;</span>,<span class="string">&quot;on&quot;</span>:<span class="string">&quot;mouseover&quot;</span>&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;encoding&quot;</span>:&#123;</span><br><span class="line">         <span class="string">&quot;x&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;horsepower&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;y&quot;</span>:&#123;<span class="string">&quot;field&quot;</span>:<span class="string">&quot;Miles_per_Gallon&quot;</span>,<span class="string">&quot;type&quot;</span>:<span class="string">&quot;quantitative&quot;</span>&#125;,</span><br><span class="line">         <span class="string">&quot;color&quot;</span>:[</span><br><span class="line">                &#123;<span class="string">&quot;if&quot;</span>:<span class="string">&quot;id&quot;</span>,<span class="string">&quot;value&quot;</span>:<span class="string">&quot;orange&quot;</span>&#125;</span><br><span class="line">                &#123;<span class="string">&quot;value&quot;</span>:<span class="string">&quot;steeblue&quot;</span>&#125;</span><br><span class="line">            ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>版权是内容行业商业化的基础，也是网易云音乐的核心资产。合同作为版权资产的重要组成部分，需要具有高效且高质量的管理方式，云音乐版权后台把大量原本需在线下完成的纸质合同的生成与审核等过程移至线上进行。在合同生成——审核完成的过程中，会有不同身份成员需要查看合同信息以及合同原件。但由于部分成员直接查看合同原件存在一定风险，特别是对合同金额等敏感信息不方便直接露出。因此需要先对pdf格式的合同原件进行编辑处理，即发起人在上传合同原件后，需要对合同原件中的一些敏感信息进行涂改操作，以提供给其他审核人员查看。</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240301182106366.png" alt="合同审核流程"></p>
+<h4 id="功能调研"><a href="#功能调研" class="headerlink" title="功能调研"></a>功能调研</h4><p>通过对已有的pdf编辑组件库或方案的调研，发现两款比较主流可对pdf进行编辑的库：<a href="https://www.npmjs.com/package/jspdf">jsPDF</a>和<a href="https://pdf-lib.js.org/">pdf-lib</a>（其它冷门库暂不考虑）。</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240225162010639.png" alt="pdf-lib"></p>
+<p>其中，<a href="https://pdf-lib.js.org/">pdf-lib</a>这个组件对pdf的基本编辑能力已经十分完善，可以轻松实现对pdf的预览（包括放大/缩小、翻页、旋转等）、加水印、图片嵌入、涂改（<a href="https://codesandbox.io/p/sandbox/small-water-mhrhjn?file=/src/Components/ModifyPage.js:49,35-49,46">在线体验</a>）等功能。</p>
+<p>其涂改功能的实现如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument, rgb &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">drawSvgPaths</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> svgPath =</span><br><span class="line">    <span class="string">&#x27;M 0,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> pdfDoc = <span class="keyword">await</span> PDFDocument.create()</span><br><span class="line">  <span class="keyword">const</span> page = pdfDoc.addPage()</span><br><span class="line">  page.moveTo(<span class="number">100</span>, page.getHeight() - <span class="number">5</span>)</span><br><span class="line">  page.moveDown(<span class="number">25</span>)</span><br><span class="line">  page.drawSvgPath(svgPath)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">borderColor</span>: rgb(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>), <span class="attr">borderWidth</span>: <span class="number">5</span> &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">color</span>: rgb(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">scale</span>: <span class="number">0.5</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>调用pdf-lib的drawSvgPath方法，将指定颜色的线条覆盖到pdf的指定位置，如果说只是实现一个基础的涂改功能那么这个方法已经够用了，但对于定制化的功能来说还不够灵活。原因是使用drawSvgPath进行涂改，需要先将每条画线的坐标位置记录下来，擦除的时只能一条一条的回撤，不能像橡皮擦一样的任意擦除（jsPDF同样无法实现）。</p>
+<p>由于策划希望实现一个像画板一样，可以自由灵活的对涂改过的地方进行擦除的工具，且后续会陆续按需增加定制化的新功能。市面上现有支持pdf编辑的工具（如福昕PDF编辑器、Adobe Acrobat DC、PDF-XChange Editor等）具有诸多问题：</p>
+<ul>
+<li>收费；</li>
+<li>样式难以统一（如字体、表单长度、边框粗细等）；</li>
+<li>pdf可能会被工具获取，存在内容泄漏风险；</li>
+<li>无法满足特定业务的定制化需求；</li>
+<li>…..</li>
+</ul>
+<p>因此，我们需要开发一款”有画板功能”且可灵活拓展的web端pdf编辑工具。</p>
+<h3 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h3><p>通过前期调研发现，web端实现画板通常是使用canvas画布来实现，其自身具有很好的用于绘制的api调用方法。加上对已有web端pdf工具库的了解，考虑先将pdf处理成canvas画布，然后再对画布做一系列的编辑操作。</p>
+<h4 id="技术可行性拆解"><a href="#技术可行性拆解" class="headerlink" title="技术可行性拆解"></a>技术可行性拆解</h4><ol>
+<li><p>在线预览与canvas转换：</p>
+<p>可通过pdf.js将pdf转换为图片/canvas格式，并且可调用其自带的功能实现灵活的预览。</p>
+</li>
+<li><p>pdf的编辑与交互：</p>
+<p>将pdf转换为图片渲染到canvas画布后，就可以利用canvas提供的基础编辑方法实现可视化编辑能力。</p>
+</li>
+<li><p>合并canvas并生成新的pdf文件：</p>
+<p>利用pdf-lib的PDFDocument方法，将绘制好的canvas画布转换为pdf文件。</p>
+</li>
+</ol>
+<h4 id="架构概览"><a href="#架构概览" class="headerlink" title="架构概览"></a>架构概览</h4><p><img src="/2024/02/16/web_pdf_editor/image-20240303104001472.png" alt="架构概览"></p>
+<h3 id="模块简介"><a href="#模块简介" class="headerlink" title="模块简介"></a>模块简介</h3><h4 id="pdf加载与转换"><a href="#pdf加载与转换" class="headerlink" title="pdf加载与转换"></a>pdf加载与转换</h4><p>使用pdf.js库中的pdf.worker.js方法将pdf文件处理成一个base64格式的图片数组，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> pdf <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> PdfWorker <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist/build/pdf.worker.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useEffect, useRef, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.pdfjsWorker = PdfWorker;</span><br><span class="line">pdf.GlobalWorkerOptions.workerSrc = PdfWorker;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> usePDFData = <span class="function">(<span class="params">options</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> previewUrls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> urls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        urls.current = [];</span><br><span class="line">        setLoading(<span class="literal">true</span>);</span><br><span class="line">        (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">            <span class="keyword">const</span> pdfDocument = <span class="keyword">await</span> pdf.getDocument(options.src).promise;</span><br><span class="line">            <span class="keyword">const</span> task = <span class="keyword">new</span> <span class="built_in">Array</span>(pdfDocument.numPages).fill(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">await</span> <span class="built_in">Promise</span>.all(task.map(<span class="keyword">async</span> (_, i) =&gt; &#123;</span><br><span class="line">                <span class="keyword">const</span> page = <span class="keyword">await</span> pdfDocument.getPage(i + <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">const</span> viewport = page.getViewport(&#123; <span class="attr">scale</span>: options.scale || <span class="number">2</span> &#125;);</span><br><span class="line">                <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                canvas.width = viewport.width;</span><br><span class="line">                canvas.height = viewport.height;</span><br><span class="line">                <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">                <span class="keyword">const</span> renderTask = page.render(&#123;</span><br><span class="line">                    canvasContext: ctx,</span><br><span class="line">                    viewport,</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">await</span> renderTask.promise;</span><br><span class="line">                urls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">                previewUrls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">            &#125;));</span><br><span class="line">            setLoading(<span class="literal">false</span>);</span><br><span class="line">        &#125;)();</span><br><span class="line">    &#125;, [options.src]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        loading,</span><br><span class="line">        urls: urls.current,</span><br><span class="line">        previewUrls: previewUrls.current,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>​    到目前为止，Vega-Lite已支持条形图、散点图、河流图、折线图、地图等多种图形，网址：<a href="https://vega.github.io/vega-lite/">https://vega.github.io/vega-lite/</a>.</p>
-<p>echarts :由百度开发的基于js的图表库，可解决一些简单的可是分析需求。（详情请查询echarts官网配置项手册）</p>
-<p>与Vega-Lite的不同之处在于，除了一般的二维平面可视化，他还提供了三维的可视化版本称为Echarts GL。</p>
-<p>总结：相比于交互式可视化工具，配置式可视化工具适用于稍加复杂的场景，一般要求：</p>
+<p>需要注意的是，使用上述方法引入pdfjs-dist库的时候可能会出现由于版本原因导致的webpack报错或pdf文字展示不全的问题。此时，可使用CDN静态链接的方式来引入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">        script.src = src;</span><br><span class="line">        script.onload = resolve;</span><br><span class="line">        script.onerror = reject;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> pdfJsSrc = <span class="string">&#x27;https://d2.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306762218/0edf/8c16/2c06/4555824a5322d689b942fae7f969fe1d.js&#x27;</span>;</span><br><span class="line">        <span class="keyword">const</span> pdfWorkerSrc = <span class="string">&#x27;https://d1.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306765016/e6dd/7e38/f0e7/a1419bdedd44e403179bee0c8c1132df.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">window</span>?.pdfjsLib) &#123;</span><br><span class="line">            loadScript(pdfJsSrc)</span><br><span class="line">                .then(<span class="function">() =&gt;</span> loadScript(pdfWorkerSrc))</span><br><span class="line">                .then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    producePic(pdfWorkerSrc);</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            producePic(pdfWorkerSrc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, [options.src]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="canvas绘画"><a href="#canvas绘画" class="headerlink" title="canvas绘画"></a>canvas绘画</h4><p>将pdf的每一页处理成图片以后，就可以直接渲染到canvas画布上进行后续的一系列操作了。</p>
 <ol>
-<li>用户：对编程有所了解。</li>
-<li>数据：简单。 </li>
-<li>任务/需求：中等复杂度，交互任务较多。往往可结合编程可视化工具来完成更加复杂的任务。</li>
+<li><p>绘图与擦除功能构建</p>
+<p>采用两层相同大小的canvas画布重叠的方式。上层画布主要用于绘制新内容，下层画布用于展示原始pdf内容，当需要一次还原某页内容时，只需要将上层canvas内容清除即可。选择操作方式（绘图/擦除）后，按下鼠标开始绘制/擦除，抬起鼠标停止绘制/擦除。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect, useState, useRef, useCallback &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> OPERATE_ENUM = &#123;</span><br><span class="line">    MOSAIC: <span class="number">1</span>,  <span class="comment">// 绘图</span></span><br><span class="line">    ERASER: <span class="number">2</span>,  <span class="comment">// 擦除</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> DrawingBoard = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/*鼠标按压事件*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseDown = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        <span class="comment">/* 鼠标按下事件，记录鼠标位置，并绘制，解锁lock，打开mousemove事件 */</span></span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER) &#123;</span><br><span class="line">            <span class="comment">// 橡皮模式</span></span><br><span class="line">          	<span class="comment">// 设置擦除初始数据</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC) &#123;</span><br><span class="line">            <span class="comment">// 绘画模式</span></span><br><span class="line">            <span class="comment">// 设置绘画初始数据</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  <span class="comment">/*鼠标移动事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseMove = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">        <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> _x = (e.clientX - canvas.offsetLeft - containerLeftRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">const</span> _y = (e.clientY - canvas.offsetTop - containerTopRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER &amp;&amp; startEraser.current) &#123;</span><br><span class="line">            <span class="comment">/*橡皮擦擦除函数*/</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC &amp;&amp; startDraw.current) &#123;</span><br><span class="line">            <span class="comment">/*绘制线条函数*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/*鼠标抬起事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseUp = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">/* 重置数据 */</span></span><br><span class="line">        <span class="comment">/* 保存当前绘图 */</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    ...</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasImgRef&#125;</span><br><span class="line">        id=<span class="string">&quot;canvasImg&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasRef&#125;</span><br><span class="line">        onMouseDown=&#123;onMouseDown&#125;</span><br><span class="line">        onMouseMove=&#123;onMouseMove&#125;</span><br><span class="line">        onMouseUp=&#123;onMouseUp&#125;</span><br><span class="line">        id=<span class="string">&quot;canvas&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> DrawingBoard</span><br></pre></td></tr></table></figure></li>
+<li><p>翻页时加载之前绘制的内容</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 在返回页面时，使用之前保存的数据重新渲染 canvas</span></span><br><span class="line">    <span class="keyword">if</span> (canvasList[currentPage]) &#123;</span><br><span class="line">      <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">      <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">      img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        ctx.drawImage(img, <span class="number">0</span>, <span class="number">0</span>, widthE, heightE);</span><br><span class="line">      &#125;;</span><br><span class="line">      img.src = canvasList[currentPage];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [currentPage, canvasList, widthE, heightE]);</span><br></pre></td></tr></table></figure></li>
+<li><p>当放大时，容器会出现滚动条，此时需要监听滚动位置，以确定绘制/擦除时的下笔位置</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 监听滚动条，确定画笔的位置</span></span><br><span class="line"><span class="keyword">const</span> handleScroll = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (e.target) &#123;</span><br><span class="line">        containerLeft = e.target.offsetLeft - e.target.scrollLeft;</span><br><span class="line">        containerTop = e.target.offsetTop - e.target.scrollTop;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">const</span> drawPaint = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;drawPaint&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (canvas) &#123;</span><br><span class="line">        ....</span><br><span class="line">        <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.addEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.removeEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [status, canvasList]);</span><br></pre></td></tr></table></figure></li>
 </ol>
-<p>除上述配置式可视化工具，现有的配置式可视化工具还有：由蚂蚁金服推出的国产可视化工具ANTV；由Uber官方推出的DECK.GL主要是面向城市数据、地理空间数据、三维可视化；PLOT.LY类似于echarts也是利用配置项来配制出具有交互的可视化图表，主要提供了面向python和R语言的可视化相关组件库，所以受众十分广；P4专门用于高性能可视化的一款工具，利用GPU的硬件进行加速，所以他能进行大规模的数据可视化，可以适用不同复杂的可视化场景。</p>
-<h4 id="编程式可视化工具"><a href="#编程式可视化工具" class="headerlink" title="编程式可视化工具"></a>编程式可视化工具</h4><p>Processing：特性：</p>
+<h4 id="保存下载"><a href="#保存下载" class="headerlink" title="保存下载"></a>保存下载</h4><ol>
+<li><p>合并图片</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 加载图片</span></span><br><span class="line">    <span class="keyword">const</span> loadImage = <span class="function">(<span class="params">src</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">            img.onload = <span class="function">() =&gt;</span> resolve(img);</span><br><span class="line">            img.onerror = reject;</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将两张图片合并</span></span><br><span class="line"><span class="keyword">const</span> mergeImage = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!urls.length) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> result = [];</span><br><span class="line">    <span class="keyword">await</span> urls?.map(<span class="function">(<span class="params">image1,index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> image2 = canvasList[index];</span><br><span class="line">        <span class="keyword">if</span> (image2) &#123;</span><br><span class="line">            <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">            <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">            canvas.width = <span class="number">550</span> * <span class="number">4</span></span><br><span class="line">            canvas.height = <span class="number">779</span> * <span class="number">4</span></span><br><span class="line">            <span class="comment">// 确保两张图片都加载完成后绘制</span></span><br><span class="line">            <span class="built_in">Promise</span>.all([</span><br><span class="line">                loadImage(image1),</span><br><span class="line">                loadImage(image2)</span><br><span class="line">            ])</span><br><span class="line">            .then(<span class="function">(<span class="params">[loadedImg1, loadedImg2]</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="comment">// 绘制第一张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg1, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              ctx.globalAlpha = <span class="number">1.0</span>; <span class="comment">// 设置合并透明度</span></span><br><span class="line">              <span class="comment">// 绘制第二张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg2, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              <span class="comment">// 获取合并后的图片的数据 URL</span></span><br><span class="line">              <span class="keyword">const</span> mergedImage = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>);</span><br><span class="line">              result[index] = mergedImage;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result[index] = image1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免pdf在转换和生成的过程中失真，本文通过手动设置canvas大小的方法解决。由于一般的pdf文件都是A4纸大小，转换为px为单位就是：2480 px * 3508 px。为了方便展示在初始化预览时将canvas的大小设置为：2480/4 *  3508/4 的宽高，在合并时将宽高*4还原为之前的大小，这样做可以解决由于转化过程中引起的画面失真问题。</p>
+</li>
+<li><p>使用pdf-lib将合并好的图片转化为pdf，以方便下载或者上传</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> image <span class="keyword">of</span> images) &#123;</span><br><span class="line">    <span class="keyword">const</span> imageBytes = <span class="keyword">await</span> fetch(image).then(<span class="function"><span class="params">res</span> =&gt;</span> res.arrayBuffer());</span><br><span class="line">    <span class="keyword">const</span> img = <span class="keyword">await</span> pdfDoc.embedJpg(imageBytes);</span><br><span class="line">    <span class="keyword">const</span> page = pdfDoc.addPage();</span><br><span class="line">    <span class="keyword">const</span> &#123; width, height &#125; = page.getSize();</span><br><span class="line">    page.drawImage(img, &#123;</span><br><span class="line">        x: <span class="number">0</span>,</span><br><span class="line">        y: <span class="number">0</span>,</span><br><span class="line">        width: width,</span><br><span class="line">        height: height,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save();</span><br><span class="line"><span class="comment">// 下载 PDF 文件</span></span><br><span class="line"><span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([pdfBytes], &#123; <span class="attr">type</span>: <span class="string">&#x27;application/pdf&#x27;</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> link = <span class="built_in">document</span>.createElement(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">link.href = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line">link.download = <span class="string">&#x27;combined_images.pdf&#x27;</span>;</span><br><span class="line">link.click();</span><br><span class="line">setUploading(<span class="literal">false</span>);</span><br><span class="line">    </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h3><ol>
+<li><p>预览</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240303105330033.png" alt="预览"></p>
+</li>
+<li><p>涂改</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240303105538645.png" alt="涂改"></p>
+</li>
+<li><p>橡皮擦擦除</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240303105719922.png" alt="橡皮擦擦除"></p>
+</li>
+<li><p>翻页/旋转/放大/缩小</p>
+<p><img src="/2024/02/16/web_pdf_editor/image-20240303110213300.png" alt="翻页/旋转/放大/缩小"></p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为了在web端实现对pdf的编辑能力，本文的主要实现方式是：</p>
 <ol>
-<li>基于Java和JVM，跨平台。</li>
-<li>语言简单易上手，配套开发工具。</li>
-<li>集成了OpenGL,利用硬件加速。</li>
-<li>用户社区的卓越贡献。2001年诞生于麻省理工的媒体实验室，诞生之初的主要目的是通过激励性的可视化反馈来帮助非程序员的入门编程的学习。在其社区的推动下逐渐演变成了一个媒体媒体表达的一个语言 。</li>
+<li>使用pdf.js将pdf文件转换为canvas格式，以便预览和后续放大/缩小、翻页、涂鸦等；</li>
+<li>构建canvas画板能力，通过调用canvas本身api方法实现所需编辑功能；</li>
+<li>完成绘制后，先将canvas画布转换为图片，再调用pdf-lib的PDFDocument方法将图片转换为pdf文件。</li>
 </ol>
-<p>D3：在2011年斯坦福大学发表的论文中提出的Data-Driven Documents，是目前使用率较高的编程式可视化工具。相对于Processing，D3更贴近于可视化的编程，在D3他们的工作里面提出了一种数据驱动的文档的理念。它把数据和可视化元素绑定起来。当有新的元素进入的时候/有旧的元素退出的时候可视化元素就会进行相应的更新来保持数据和展现的一致。</p>
-<p> 编程式可视化工具总结:适用于更加复杂的可视化场景，其要求：</p>
-<ol>
-<li>用户：编程能力强。</li>
-<li>任务/需求：难度高，复杂。</li>
-<li>数据：复杂。其他适用于不同场景编程式可视化工具：p5*JS、VTK基于OpenGL、PixiJS、Tulip。</li>
-</ol>
-<h4 id="参考资料：浙江大学2020年暑期可视化课程"><a href="#参考资料：浙江大学2020年暑期可视化课程" class="headerlink" title="参考资料：浙江大学2020年暑期可视化课程"></a><strong>参考资料：</strong>浙江大学2020年暑期可视化课程</h4>]]></content>
+<p>仓库地址：<a href="https://github.com/Laighten/pdf-paint">https://github.com/Laighten/pdf-paint</a></p>
+]]></content>
       <categories>
-        <category>可视化</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>可视化</tag>
-        <tag>笔记</tag>
-        <tag>浙大可视化暑期班2020</tag>
+        <tag>前端</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1698,98 +1697,6 @@
         <tag>前端</tag>
         <tag>面试</tag>
         <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>web端pdf编辑工具</title>
-    <url>/2024/02/16/web_pdf_editor/</url>
-    <content><![CDATA[<p>对于web端pdf编辑能力，本文提供了一种相对完整且轻量的实现方式，如果你也有类似诉求，希望能对你有所帮助～。下面将从业务场景、技术实现角度对“pdf编辑工具”进行介绍。</p>
-<span id="more"></span>
-
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>版权是内容行业商业化的基础，也是网易云音乐的核心资产。合同作为版权资产的重要组成部分，需要具有高效且高质量的管理方式，云音乐版权后台把大量原本需在线下完成的纸质合同的生成与审核等过程移至线上进行。在合同生成——审核完成的过程中，会有不同身份成员需要查看合同信息以及合同原件。但由于部分成员直接查看合同原件存在一定风险，特别是对合同金额等敏感信息不方便直接露出。因此需要先对pdf格式的合同原件进行编辑处理，即发起人在上传合同原件后，需要对合同原件中的一些敏感信息进行涂改操作，以提供给其他审核人员查看。</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240301182106366.png" alt="合同审核流程"></p>
-<h4 id="功能调研"><a href="#功能调研" class="headerlink" title="功能调研"></a>功能调研</h4><p>通过对已有的pdf编辑组件库或方案的调研，发现两款比较主流可对pdf进行编辑的库：<a href="https://www.npmjs.com/package/jspdf">jsPDF</a>和<a href="https://pdf-lib.js.org/">pdf-lib</a>（其它冷门库暂不考虑）。</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240225162010639.png" alt="pdf-lib"></p>
-<p>其中，<a href="https://pdf-lib.js.org/">pdf-lib</a>这个组件对pdf的基本编辑能力已经十分完善，可以轻松实现对pdf的预览（包括放大/缩小、翻页、旋转等）、加水印、图片嵌入、涂改（<a href="https://codesandbox.io/p/sandbox/small-water-mhrhjn?file=/src/Components/ModifyPage.js:49,35-49,46">在线体验</a>）等功能。</p>
-<p>其涂改功能的实现如下：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument, rgb &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">drawSvgPaths</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> svgPath =</span><br><span class="line">    <span class="string">&#x27;M 0,20 L 100,160 Q 130,200 150,120 C 190,-40 200,200 300,150 L 400,90&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> pdfDoc = <span class="keyword">await</span> PDFDocument.create()</span><br><span class="line">  <span class="keyword">const</span> page = pdfDoc.addPage()</span><br><span class="line">  page.moveTo(<span class="number">100</span>, page.getHeight() - <span class="number">5</span>)</span><br><span class="line">  page.moveDown(<span class="number">25</span>)</span><br><span class="line">  page.drawSvgPath(svgPath)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">borderColor</span>: rgb(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>), <span class="attr">borderWidth</span>: <span class="number">5</span> &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">color</span>: rgb(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) &#125;)</span><br><span class="line">  page.moveDown(<span class="number">200</span>)</span><br><span class="line">  page.drawSvgPath(svgPath, &#123; <span class="attr">scale</span>: <span class="number">0.5</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>调用pdf-lib的drawSvgPath方法，将指定颜色的线条覆盖到pdf的指定位置，如果说只是实现一个基础的涂改功能那么这个方法已经够用了，但对于定制化的功能来说还不够灵活。原因是使用drawSvgPath进行涂改，需要先将每条画线的坐标位置记录下来，擦除的时只能一条一条的回撤，不能像橡皮擦一样的任意擦除（jsPDF同样无法实现）。</p>
-<p>由于策划希望实现一个像画板一样，可以自由灵活的对涂改过的地方进行擦除的工具，且后续会陆续按需增加定制化的新功能。市面上现有支持pdf编辑的工具（如福昕PDF编辑器、Adobe Acrobat DC、PDF-XChange Editor等）具有诸多问题：</p>
-<ul>
-<li>收费；</li>
-<li>样式难以统一（如字体、表单长度、边框粗细等）；</li>
-<li>pdf可能会被工具获取，存在内容泄漏风险；</li>
-<li>无法满足特定业务的定制化需求；</li>
-<li>…..</li>
-</ul>
-<p>因此，我们需要开发一款”有画板功能”且可灵活拓展的web端pdf编辑工具。</p>
-<h3 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h3><p>通过前期调研发现，web端实现画板通常是使用canvas画布来实现，其自身具有很好的用于绘制的api调用方法。加上对已有web端pdf工具库的了解，考虑先将pdf处理成canvas画布，然后再对画布做一系列的编辑操作。</p>
-<h4 id="技术可行性拆解"><a href="#技术可行性拆解" class="headerlink" title="技术可行性拆解"></a>技术可行性拆解</h4><ol>
-<li><p>在线预览与canvas转换：</p>
-<p>可通过pdf.js将pdf转换为图片/canvas格式，并且可调用其自带的功能实现灵活的预览。</p>
-</li>
-<li><p>pdf的编辑与交互：</p>
-<p>将pdf转换为图片渲染到canvas画布后，就可以利用canvas提供的基础编辑方法实现可视化编辑能力。</p>
-</li>
-<li><p>合并canvas并生成新的pdf文件：</p>
-<p>利用pdf-lib的PDFDocument方法，将绘制好的canvas画布转换为pdf文件。</p>
-</li>
-</ol>
-<h4 id="架构概览"><a href="#架构概览" class="headerlink" title="架构概览"></a>架构概览</h4><p><img src="/2024/02/16/web_pdf_editor/image-20240303104001472.png" alt="架构概览"></p>
-<h3 id="模块简介"><a href="#模块简介" class="headerlink" title="模块简介"></a>模块简介</h3><h4 id="pdf加载与转换"><a href="#pdf加载与转换" class="headerlink" title="pdf加载与转换"></a>pdf加载与转换</h4><p>使用pdf.js库中的pdf.worker.js方法将pdf文件处理成一个base64格式的图片数组，代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> pdf <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> PdfWorker <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist/build/pdf.worker.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useEffect, useRef, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.pdfjsWorker = PdfWorker;</span><br><span class="line">pdf.GlobalWorkerOptions.workerSrc = PdfWorker;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> usePDFData = <span class="function">(<span class="params">options</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> previewUrls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> urls = useRef([]);</span><br><span class="line">    <span class="keyword">const</span> [loading, setLoading] = useState(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        urls.current = [];</span><br><span class="line">        setLoading(<span class="literal">true</span>);</span><br><span class="line">        (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">            <span class="keyword">const</span> pdfDocument = <span class="keyword">await</span> pdf.getDocument(options.src).promise;</span><br><span class="line">            <span class="keyword">const</span> task = <span class="keyword">new</span> <span class="built_in">Array</span>(pdfDocument.numPages).fill(<span class="literal">null</span>);</span><br><span class="line">            <span class="keyword">await</span> <span class="built_in">Promise</span>.all(task.map(<span class="keyword">async</span> (_, i) =&gt; &#123;</span><br><span class="line">                <span class="keyword">const</span> page = <span class="keyword">await</span> pdfDocument.getPage(i + <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">const</span> viewport = page.getViewport(&#123; <span class="attr">scale</span>: options.scale || <span class="number">2</span> &#125;);</span><br><span class="line">                <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                canvas.width = viewport.width;</span><br><span class="line">                canvas.height = viewport.height;</span><br><span class="line">                <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">                <span class="keyword">const</span> renderTask = page.render(&#123;</span><br><span class="line">                    canvasContext: ctx,</span><br><span class="line">                    viewport,</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">await</span> renderTask.promise;</span><br><span class="line">                urls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">                previewUrls.current[i] = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>, <span class="number">1.0</span>);</span><br><span class="line">            &#125;));</span><br><span class="line">            setLoading(<span class="literal">false</span>);</span><br><span class="line">        &#125;)();</span><br><span class="line">    &#125;, [options.src]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        loading,</span><br><span class="line">        urls: urls.current,</span><br><span class="line">        previewUrls: previewUrls.current,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，使用上述方法引入pdfjs-dist库的时候可能会出现由于版本原因导致的webpack报错或pdf文字展示不全的问题。此时，可使用CDN静态链接的方式来引入：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">        script.src = src;</span><br><span class="line">        script.onload = resolve;</span><br><span class="line">        script.onerror = reject;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> pdfJsSrc = <span class="string">&#x27;https://d2.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306762218/0edf/8c16/2c06/4555824a5322d689b942fae7f969fe1d.js&#x27;</span>;</span><br><span class="line">        <span class="keyword">const</span> pdfWorkerSrc = <span class="string">&#x27;https://d1.music.126.net/dmusic/obj/w5zCg8OAw6HDjzjDgMK_/32306765016/e6dd/7e38/f0e7/a1419bdedd44e403179bee0c8c1132df.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">window</span>?.pdfjsLib) &#123;</span><br><span class="line">            loadScript(pdfJsSrc)</span><br><span class="line">                .then(<span class="function">() =&gt;</span> loadScript(pdfWorkerSrc))</span><br><span class="line">                .then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    producePic(pdfWorkerSrc);</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            producePic(pdfWorkerSrc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, [options.src]);</span><br></pre></td></tr></table></figure>
-
-<h4 id="canvas绘画"><a href="#canvas绘画" class="headerlink" title="canvas绘画"></a>canvas绘画</h4><p>将pdf的每一页处理成图片以后，就可以直接渲染到canvas画布上进行后续的一系列操作了。</p>
-<ol>
-<li><p>绘图与擦除功能构建</p>
-<p>采用两层相同大小的canvas画布重叠的方式。上层画布主要用于绘制新内容，下层画布用于展示原始pdf内容，当需要一次还原某页内容时，只需要将上层canvas内容清除即可。选择操作方式（绘图/擦除）后，按下鼠标开始绘制/擦除，抬起鼠标停止绘制/擦除。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect, useState, useRef, useCallback &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> OPERATE_ENUM = &#123;</span><br><span class="line">    MOSAIC: <span class="number">1</span>,  <span class="comment">// 绘图</span></span><br><span class="line">    ERASER: <span class="number">2</span>,  <span class="comment">// 擦除</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> DrawingBoard = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/*鼠标按压事件*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseDown = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        <span class="comment">/* 鼠标按下事件，记录鼠标位置，并绘制，解锁lock，打开mousemove事件 */</span></span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER) &#123;</span><br><span class="line">            <span class="comment">// 橡皮模式</span></span><br><span class="line">          	<span class="comment">// 设置擦除初始数据</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC) &#123;</span><br><span class="line">            <span class="comment">// 绘画模式</span></span><br><span class="line">            <span class="comment">// 设置绘画初始数据</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  <span class="comment">/*鼠标移动事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseMove = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">        <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> _x = (e.clientX - canvas.offsetLeft - containerLeftRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">const</span> _y = (e.clientY - canvas.offsetTop - containerTopRef.current) * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (status === OPERATE_ENUM.ERASER &amp;&amp; startEraser.current) &#123;</span><br><span class="line">            <span class="comment">/*橡皮擦擦除函数*/</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === OPERATE_ENUM.MOSAIC &amp;&amp; startDraw.current) &#123;</span><br><span class="line">            <span class="comment">/*绘制线条函数*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/*鼠标抬起事件监听*/</span></span><br><span class="line">  <span class="keyword">const</span> onMouseUp = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">/* 重置数据 */</span></span><br><span class="line">        <span class="comment">/* 保存当前绘图 */</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    ...</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasImgRef&#125;</span><br><span class="line">        id=<span class="string">&quot;canvasImg&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">    &lt;canvas</span><br><span class="line">        ref=&#123;canvasRef&#125;</span><br><span class="line">        onMouseDown=&#123;onMouseDown&#125;</span><br><span class="line">        onMouseMove=&#123;onMouseMove&#125;</span><br><span class="line">        onMouseUp=&#123;onMouseUp&#125;</span><br><span class="line">        id=<span class="string">&quot;canvas&quot;</span>&gt;</span><br><span class="line">        您的浏览器不支持 canvas 标签</span><br><span class="line">    &lt;/canvas&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> DrawingBoard</span><br></pre></td></tr></table></figure></li>
-<li><p>翻页时加载之前绘制的内容</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 在返回页面时，使用之前保存的数据重新渲染 canvas</span></span><br><span class="line">    <span class="keyword">if</span> (canvasList[currentPage]) &#123;</span><br><span class="line">      <span class="keyword">const</span> canvas = canvasRef.current;</span><br><span class="line">      <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">      img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        ctx.drawImage(img, <span class="number">0</span>, <span class="number">0</span>, widthE, heightE);</span><br><span class="line">      &#125;;</span><br><span class="line">      img.src = canvasList[currentPage];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [currentPage, canvasList, widthE, heightE]);</span><br></pre></td></tr></table></figure></li>
-<li><p>当放大时，容器会出现滚动条，此时需要监听滚动位置，以确定绘制/擦除时的下笔位置</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 监听滚动条，确定画笔的位置</span></span><br><span class="line"><span class="keyword">const</span> handleScroll = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (e.target) &#123;</span><br><span class="line">        containerLeft = e.target.offsetLeft - e.target.scrollLeft;</span><br><span class="line">        containerTop = e.target.offsetTop - e.target.scrollTop;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">const</span> drawPaint = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;drawPaint&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (canvas) &#123;</span><br><span class="line">        ....</span><br><span class="line">        <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.addEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (drawPaint) &#123;</span><br><span class="line">            drawPaint.removeEventListener(<span class="string">&#x27;scroll&#x27;</span>, handleScroll);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [status, canvasList]);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="保存下载"><a href="#保存下载" class="headerlink" title="保存下载"></a>保存下载</h4><ol>
-<li><p>合并图片</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 加载图片</span></span><br><span class="line">    <span class="keyword">const</span> loadImage = <span class="function">(<span class="params">src</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">            img.onload = <span class="function">() =&gt;</span> resolve(img);</span><br><span class="line">            img.onerror = reject;</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将两张图片合并</span></span><br><span class="line"><span class="keyword">const</span> mergeImage = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!urls.length) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> result = [];</span><br><span class="line">    <span class="keyword">await</span> urls?.map(<span class="function">(<span class="params">image1,index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> image2 = canvasList[index];</span><br><span class="line">        <span class="keyword">if</span> (image2) &#123;</span><br><span class="line">            <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">            <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">            canvas.width = <span class="number">550</span> * <span class="number">4</span></span><br><span class="line">            canvas.height = <span class="number">779</span> * <span class="number">4</span></span><br><span class="line">            <span class="comment">// 确保两张图片都加载完成后绘制</span></span><br><span class="line">            <span class="built_in">Promise</span>.all([</span><br><span class="line">                loadImage(image1),</span><br><span class="line">                loadImage(image2)</span><br><span class="line">            ])</span><br><span class="line">            .then(<span class="function">(<span class="params">[loadedImg1, loadedImg2]</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="comment">// 绘制第一张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg1, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              ctx.globalAlpha = <span class="number">1.0</span>; <span class="comment">// 设置合并透明度</span></span><br><span class="line">              <span class="comment">// 绘制第二张图片</span></span><br><span class="line">              ctx.drawImage(loadedImg2, <span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height); </span><br><span class="line">              <span class="comment">// 获取合并后的图片的数据 URL</span></span><br><span class="line">              <span class="keyword">const</span> mergedImage = canvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>);</span><br><span class="line">              result[index] = mergedImage;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result[index] = image1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了避免pdf在转换和生成的过程中失真，本文通过手动设置canvas大小的方法解决。由于一般的pdf文件都是A4纸大小，转换为px为单位就是：2480 px * 3508 px。为了方便展示在初始化预览时将canvas的大小设置为：2480/4 *  3508/4 的宽高，在合并时将宽高*4还原为之前的大小，这样做可以解决由于转化过程中引起的画面失真问题。</p>
-</li>
-<li><p>使用pdf-lib将合并好的图片转化为pdf，以方便下载或者上传</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; PDFDocument &#125; <span class="keyword">from</span> <span class="string">&#x27;pdf-lib&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> image <span class="keyword">of</span> images) &#123;</span><br><span class="line">    <span class="keyword">const</span> imageBytes = <span class="keyword">await</span> fetch(image).then(<span class="function"><span class="params">res</span> =&gt;</span> res.arrayBuffer());</span><br><span class="line">    <span class="keyword">const</span> img = <span class="keyword">await</span> pdfDoc.embedJpg(imageBytes);</span><br><span class="line">    <span class="keyword">const</span> page = pdfDoc.addPage();</span><br><span class="line">    <span class="keyword">const</span> &#123; width, height &#125; = page.getSize();</span><br><span class="line">    page.drawImage(img, &#123;</span><br><span class="line">        x: <span class="number">0</span>,</span><br><span class="line">        y: <span class="number">0</span>,</span><br><span class="line">        width: width,</span><br><span class="line">        height: height,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> pdfBytes = <span class="keyword">await</span> pdfDoc.save();</span><br><span class="line"><span class="comment">// 下载 PDF 文件</span></span><br><span class="line"><span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([pdfBytes], &#123; <span class="attr">type</span>: <span class="string">&#x27;application/pdf&#x27;</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> link = <span class="built_in">document</span>.createElement(<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">link.href = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line">link.download = <span class="string">&#x27;combined_images.pdf&#x27;</span>;</span><br><span class="line">link.click();</span><br><span class="line">setUploading(<span class="literal">false</span>);</span><br><span class="line">    </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h3><ol>
-<li><p>预览</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240303105330033.png" alt="预览"></p>
-</li>
-<li><p>涂改</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240303105538645.png" alt="涂改"></p>
-</li>
-<li><p>橡皮擦擦除</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240303105719922.png" alt="橡皮擦擦除"></p>
-</li>
-<li><p>翻页/旋转/放大/缩小</p>
-<p><img src="/2024/02/16/web_pdf_editor/image-20240303110213300.png" alt="翻页/旋转/放大/缩小"></p>
-</li>
-</ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为了在web端实现对pdf的编辑能力，本文的主要实现方式是：</p>
-<ol>
-<li>使用pdf.js将pdf文件转换为canvas格式，以便预览和后续放大/缩小、翻页、涂鸦等；</li>
-<li>构建canvas画板能力，通过调用canvas本身api方法实现所需编辑功能；</li>
-<li>完成绘制后，先将canvas画布转换为图片，再调用pdf-lib的PDFDocument方法将图片转换为pdf文件。</li>
-</ol>
-<p>仓库地址：<a href="https://github.com/Laighten/pdf-paint">https://github.com/Laighten/pdf-paint</a></p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>工具</tag>
       </tags>
   </entry>
 </search>
