@@ -359,8 +359,8 @@
   
   <entry>
     <title>this的指向问题</title>
-    <link href="http://example.com/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/"/>
-    <id>http://example.com/2021/04/18/this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98/</id>
+    <link href="http://example.com/2021/04/18/problemOfPointToThis/"/>
+    <id>http://example.com/2021/04/18/problemOfPointToThis/</id>
     <published>2021-04-18T05:01:28.000Z</published>
     <updated>2024-05-02T05:12:08.158Z</updated>
     
